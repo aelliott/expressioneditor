@@ -430,12 +430,28 @@ void MainWindow::showRegexHelp()
 
 void MainWindow::showAppHelp()
 {
-    // UI help, tips, where to get more help
+    QMessageBox msgBox(this);
+    msgBox.setWindowTitle(tr("Expression Editor Manual"));
+    msgBox.setText(tr("<h2>Documentation</h2>"
+                      "<p>Documentation is available at http://wiki.github.com/aelliott/expressioneditor"));
+    msgBox.setIconPixmap(QPixmap(":/images/expressioneditor.png"));
+    msgBox.exec();
 }
 
 void MainWindow::showAboutApp()
 {
-    // About this application
+    QMessageBox msgBox(this);
+    msgBox.setWindowTitle(tr("About Expression Editor"));
+    msgBox.setText(tr("<h2>Expression Editor (pre alpha)</h2>"
+                      "<p>Expression Editor is a Regular Expression (regexp) editor "
+                      "which provides text-based and GUI-based editing tools and "
+                      "a testing element to ensure validity.</p>"
+                      "<p>The editor supports several regexp formats including "
+                      "perl-compatible, extended and Qt4's internal format.<br></p>"
+                      "<p>Expression Editor was written by Alex Elliot "
+                      "&lt;alex@alex-elliott.co.uk&gt;"));
+    msgBox.setIconPixmap(QPixmap(":/images/expressioneditor.png"));
+    msgBox.exec();
 }
 
 void MainWindow::exportToImage()
