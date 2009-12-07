@@ -36,21 +36,39 @@ SpecialCharGraphicsItem::SpecialCharGraphicsItem(QString text, QGraphicsItem *pa
 void SpecialCharGraphicsItem::setContents(QString text)
 {
     if(!text.isEmpty())
-    {
-        if(text == ".")
-            contents->setHtml("Matches<br>any character");
-        if(text == "^")
-            contents->setHtml("Line<br>start");
-        if(text == "$")
-            contents->setHtml("Line<br>end");
-        if(text == "\\d")
-            contents->setHtml("Digit<br>character");
-        if(text == "\\b")
-            contents->setHtml("Word<br>boundary");
-        if(text == "\\w")
-            contents->setHtml("Word<br>character");
-    }
-    else contents->setHtml(text);
+        contents->setHtml(parseString(text));
+    else
+        contents->setHtml(text);
+}
+
+QString SpecialCharGraphicsItem::parseString(QString text)
+{
+    if(text == ".")
+        return "Matches<br>any character";
+    if(text == "^")
+        return "Line<br>start";
+    if(text == "$")
+        return "Line<br>end";
+    if(text == "\\d")
+        return "Digit<br>character";
+    if(text == "\\b")
+        return "Word<br>boundary";
+    if(text == "\\w")
+        return "Word<br>character";
+    if(text == "\\s")
+        return "Whitespace<br>character";
+    if(text == "\\D")
+        return "Non-digit<br>character";
+    if(text == "\\B")
+        return "Non-word<br>boundary";
+    if(text == "\\W")
+        return "Non-word<br>character";
+    if(text == "\\S")
+        return "Non-whitespace<br>character";
+    if(text == "\\n")
+        return "Line<br>break";
+    if(text == "\\t")
+        return "Tab<br>character";
 }
 
 QRectF SpecialCharGraphicsItem::boundingRect() const

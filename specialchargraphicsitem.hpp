@@ -31,6 +31,7 @@ public:
     SpecialCharGraphicsItem(QGraphicsItem *parent = 0);
     SpecialCharGraphicsItem(QString text, QGraphicsItem *parent = 0);
     void setContents(QString text);
+    static QString parseString(QString text);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);

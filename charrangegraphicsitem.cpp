@@ -76,7 +76,12 @@ void CharRangeGraphicsItem::parseContents(QString string)
         if(!workDone && charPattern.indexIn(string, offset) == offset)
         {
             if(charPattern.cap(0).length() == 2)
-                characters << QString(charPattern.cap(0).at(1));
+            {
+                if(QRegExp("\\.|\\^|\\$|\\\\[bBwWdDsSnt]").exactMatch(charPattern.cap(0)))
+                    elements.push_back(SpecialCharGraphicsItem::parseString(charPattern.cap(0)).replace("<br>"," "));
+                else
+                    characters << QString(charPattern.cap(0).at(1));
+            }
             else
                 characters << charPattern.cap(0);
             offset += charPattern.cap(0).length();

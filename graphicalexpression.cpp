@@ -75,7 +75,7 @@ QGraphicsItem* GraphicalExpression::parseSection(QString expression, int &offset
 
     QRegExp character("[^[\\\\$.|?*+()^{}]|\\\\[[\\\\$.|?*+()^{}]");
     QRegExp repeats("\\{\\d+(,(\\d+)?)?\\}|\\+|\\?|\\*");
-    QRegExp special("\\.|\\^|\\$|\\\\b|\\\\w|\\\\d");
+    QRegExp special("\\.|\\^|\\$|\\\\[bBwWdDsSnt]");
 
     bool workDone = true;
     while(workDone)
