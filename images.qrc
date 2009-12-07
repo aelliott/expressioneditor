@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/images">
+        <file alias="document-new.png">images/document-new.png</file>
+        <file alias="document-open-recent.png">images/document-open-recent.png</file>
+        <file alias="document-open.png">images/document-open.png</file>
+        <file alias="document-save-as.png">images/document-save-as.png</file>
+        <file alias="document-save.png">images/document-save.png</file>
+        <file alias="application-exit.png">images/application-exit.png</file>
+        <file alias="expressioneditor.png">images/kwordquiz.png</file>
+        <file alias="text.png">images/text.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,8 @@
+<!DOCTYPE expression>
+<root>
+ <expression><![CDATA[([a-zA-Z][a-zA-Z0-9_-]+)@([a-zA-Z][a-zA-Z0-9_-]+\.([a-z]{2,7}|[a-z]{2,3}\.[a-z]{2,3}))]]></expression>
+ <tests>
+  <test><![CDATA[alex@alex-elliott.co.uk]]></test>
+  <test><![CDATA[edwin@binaryvision.net]]></test>
+ </tests>
+</root>

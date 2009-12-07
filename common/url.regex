@@ -1,0 +1,8 @@
+<!DOCTYPE expression>
+<root>
+ <expression><![CDATA[https?://(([\w-]+\.)?([\w-]+\.([a-z]{2,7}|[a-z]{2,3}\.[a-z]{2,3})))/]]></expression>
+ <tests>
+  <test><![CDATA[http://www.google.com/]]></test>
+  <test><![CDATA[http://alex-elliott.co.uk/]]></test>
+ </tests>
+</root>
