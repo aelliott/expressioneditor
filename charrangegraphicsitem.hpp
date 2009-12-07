@@ -26,6 +26,7 @@
 #include <QPainter>
 #include <QGraphicsSceneHoverEvent>
 #include <QGraphicsTextItem>
+#include "specialchargraphicsitem.hpp"
 
 class CharRangeGraphicsItem : public QGraphicsItem
 {
