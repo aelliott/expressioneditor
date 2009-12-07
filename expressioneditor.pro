@@ -31,3 +31,5 @@ HEADERS += mainwindow.hpp \
     specialchargraphicsitem.hpp
 RESOURCES += images.qrc
 QT += xml
+OTHER_FILES += README.txt \
+    gpl.txt

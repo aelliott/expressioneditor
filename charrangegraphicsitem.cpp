@@ -47,14 +47,52 @@ void CharRangeGraphicsItem::parseContents(QString string)
     QStringList characters;
     QVector<QString> elements;
 
+    QString charRegex = "((\\\\x[0-9a-fA-F]{2}|\\\\.|[^]\\\\]))";
+    QRegExp charPattern(charRegex);
+    QRegExp rangePattern(charRegex+"\\-"+charRegex);
+
     // Parsing logic
     //TODO: Actually parse the string ;)
-    characters << string;
+    bool negated = false;
+    int offset = 0;
+    if(string.startsWith("^"))
+    {
+        negated = true;
+        ++offset;
+    }
+
+    bool workDone = true;
+    while(workDone)
+    {
+        workDone = false;
+
+        if(rangePattern.indexIn(string, offset) == offset)
+        {
+            elements.push_back(rangePattern.cap(0));
+            offset += rangePattern.cap(0).length();
+            workDone = true;
+        }
+
+        if(!workDone && charPattern.indexIn(string, offset) == offset)
+        {
+            if(charPattern.cap(0).length() == 2)
+                characters << QString(charPattern.cap(0).at(1));
+            else
+                characters << charPattern.cap(0);
+            offset += charPattern.cap(0).length();
+            workDone = true;
+        }
+    }
 
     // Add characters to elements
-    elements.push_front(characters.join(", "));
+    if(characters.size() > 0)
+        elements.push_front(characters.join(", "));
 
-    QString htmlContents = QObject::tr("Any one of: ");
+    QString htmlContents;
+    if(negated)
+        htmlContents = QObject::tr("All characters except: ");
+    else
+        htmlContents = QObject::tr("Any one of: ");
     for(int i = 0; i < elements.size(); ++i)
         htmlContents += QString("<br> - ") + elements.at(i);
 
