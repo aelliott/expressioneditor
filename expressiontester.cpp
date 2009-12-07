@@ -111,15 +111,14 @@ void ExpressionTester::updateRow(int row)
     table->setItem(row, 2, index);
 
     // Get any captured strings
-    rx->exactMatch(table->item(row, 0)->text());
+    rx->indexIn(table->item(row, 0)->text(), 0);
     QTableWidgetItem *captured = new QTableWidgetItem;
     captured->setFlags(Qt::ItemIsSelectable);
-    QStringList caps = rx->capturedTexts();
-    if(caps.count() > 0)
+    QString texts;
+    if(rx->captureCount() > 0)
     {
-        QString texts;
-        for(int i = 0; i < caps.count(); ++i)
-            texts += QString("[") + QVariant(i).toString() + "] \"" + caps.at(i) + "\"\n";
+        for(int i = 0; i <= rx->captureCount(); ++i)
+            texts += QString("[") + QVariant(i).toString() + "] \"" + rx->cap(i) + "\"\n";
         captured->setText(texts);
     }
     else
@@ -138,7 +137,7 @@ void ExpressionTester::addTestString(QString testString)
         if(table->item(i, 0)->text().isEmpty())
         {
             table->setItem(i, 0, newTestString);
-            updateRow(i);
+            updateTestCase(i, 0);
             return;
         }
     }
