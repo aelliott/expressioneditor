@@ -37,7 +37,7 @@ the source tree's common/ directory into ~/.expressioneditor/common/
 
 [2.2] WINDOWS
 
-Since there is currently no Windows installed for Expression Editor you
+Since there is currently no Windows installer for Expression Editor you
 will need to compile it as in Linux, there are several methods for this
 but I recommend you fetch the Qt4.6+ SDK and open expressioneditor.pro
 in QtCreator, and then select build.
