@@ -216,7 +216,7 @@ void MainWindow::createMenuBar()
     formatMenu = editMenu->addMenu(tr("Expression Format"));
 
     // [Edit -> Format] Perl Style Action:
-    perlStyleAction = new QAction(tr("Perl Style"), this);
+    perlStyleAction = new QAction(tr("Perl Compatible"), this);
     perlStyleAction->setCheckable(true);
     formatMenu->addAction(perlStyleAction);
 
@@ -227,7 +227,7 @@ void MainWindow::createMenuBar()
     formatMenu->addAction(qt4StyleAction);
 
     // [Edit -> Format] Emacs Style Action:
-    emacsStyleAction = new QAction(tr("Emacs Style"), this);
+    emacsStyleAction = new QAction(tr("Extended"), this);
     emacsStyleAction->setCheckable(true);
     formatMenu->addAction(emacsStyleAction);
 
