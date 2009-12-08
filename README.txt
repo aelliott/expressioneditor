@@ -51,7 +51,7 @@ $ make
 $ ./expressioneditor
 
 Or if you are using the Qt4.6+ SDK then you can open expressioneditor.pro
-in QtCreator, and then select build.
+in QtCreator, and then select "Run" (ctrl+r).
 
 After the initial run a settings directory will have been created in
 ~/.expressioneditor/ to complete installation copy across the files in
@@ -62,7 +62,7 @@ the source tree's common/ directory into ~/.expressioneditor/common/
 Since there is currently no Windows installer for Expression Editor you
 will need to compile it as in Linux, there are several methods for this
 but I recommend you fetch the Qt4.6+ SDK and open expressioneditor.pro
-in QtCreator, and then select build.
+in QtCreator, and then select "Run" (ctrl+r).
 
 After the initial run a settings directory will have been created in
 C:/Documents and Settings/Username/expressioneditor to complete
@@ -71,6 +71,11 @@ to the common/ directory in the settings directory.
 
 [2.3] MAC OSX
 
-As yet there have been no tests of Expression Editor running on OSX, but
-following the instructions for the Qt SDK should give a good chance of it
-working.
+Expression Editor will also compile and run on OSX, since again there is
+no binary to distribute you will need to compile it.  As with the other
+platforms you can do this with the Qt4.6+ SDK by opening
+expressioneditor.pro and then selecting "Run" (ctrl+r).
+
+After the initial run a settings directory will have been created in
+$HOME/.expressioneditor/ to complete installation copy across the files in
+the source tree's common/ directory into ~/.expressioneditor/common/
