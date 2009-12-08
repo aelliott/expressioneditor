@@ -6,9 +6,10 @@ Expression Editor README:
 1. Introduction
 2. Installation
 2.0 Requirements and Hints
-2.1 Linux
-2.2 Windows
-2.3 Mac OSX
+2.1 Getting the Source
+2.2 Linux
+2.3 Windows
+2.4 Mac OSX
 
 [1] INTRODUCTION
 
@@ -41,7 +42,32 @@ And I will look into the problem, hopefully finding the cause for the
 failed compile.  The tree should be buildable at all times, so a failed
 compile is a definite bug.
 
-[2.1] LINUX
+[2.1] GETTING THE SOURCE
+
+The source is available through Expression Editor's git repository at:
+
+http://github.com/aelliott/expressioneditor
+
+On Linux and OSX you can fetch this via git in the command line, make
+sure you have git (in Linux via your distribution's package management
+and in OSX from the downloads page at http://git-scm.com/) you can then
+fetch the source in a src/ directory by doing:
+
+$ cd ~
+$ mkdir src && cd src
+$ git clone git://github.com/aelliott/expressioneditor.git
+$ cd expressioneditor
+
+Once you have the source, you can keep it up to date using git like this:
+
+$ cd ~/src/expressioneditor # or if you put it elsewhere use that path
+$ git pull
+
+To fetch the source on Windows you can either compile a git client from
+source in cygwin or you can use msysgit both of which are linked from
+the http://git-scm.com/ download page.
+
+[2.2] LINUX
 
 If you have Qt4.6 installed (you can check with "qmake --version") then
 you can just execute:
@@ -57,7 +83,7 @@ After the initial run a settings directory will have been created in
 ~/.expressioneditor/ to complete installation copy across the files in
 the source tree's common/ directory into ~/.expressioneditor/common/
 
-[2.2] WINDOWS
+[2.3] WINDOWS
 
 Since there is currently no Windows installer for Expression Editor you
 will need to compile it as in Linux, there are several methods for this
@@ -69,7 +95,7 @@ C:/Documents and Settings/Username/expressioneditor to complete
 installation copy across the files in the source tree's common/ directory
 to the common/ directory in the settings directory.
 
-[2.3] MAC OSX
+[2.4] MAC OSX
 
 Expression Editor will also compile and run on OSX, since again there is
 no binary to distribute you will need to compile it.  As with the other
