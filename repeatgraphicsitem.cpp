@@ -39,6 +39,8 @@ RepeatGraphicsItem::RepeatGraphicsItem(RepeatGraphicsItem::Type type, int minimu
         case RepeatGraphicsItem::SpecifiedRange:
             if(maximum == -1)
                 title = "Repeated At Least " + QVariant(minimum).toString() + " Times";
+            else if(minimum == -1)
+                title = "Repeated At Most " + QVariant(maximum).toString() + " Times";
             else
                 title = "Repeated Between " + QVariant(minimum).toString() + " And " + QVariant(maximum).toString() + " Times";
             break;

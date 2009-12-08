@@ -74,7 +74,7 @@ QGraphicsItem* GraphicalExpression::parseSection(QString expression, int &offset
     GroupingGraphicsItem *group = new GroupingGraphicsItem;
 
     QRegExp character("[^[\\\\$.|?*+()^{}]|\\\\[[\\\\$.|?*+()^{}]");
-    QRegExp repeats("\\{\\d+(,(\\d+)?)?\\}|\\+|\\?|\\*");
+    QRegExp repeats("\\{(\\d+)?,?(\\d+)?\\}|\\+|\\?|\\*");
     QRegExp special("\\.|\\^|\\$|\\\\[bBwWdDsSnt]");
 
     bool workDone = true;
@@ -173,12 +173,15 @@ QGraphicsItem* GraphicalExpression::parseSection(QString expression, int &offset
 RepeatGraphicsItem* GraphicalExpression::parseRepeat(QString repeatString, QGraphicsItem *repeatItem)
 {
     RepeatGraphicsItem *repeat;
-    QRegExp range("\\{(\\d+)(,(\\d+)?)?\\}");
+    QRegExp range("\\{(\\d+)?,?(\\d+)?\\}");
     if(range.exactMatch(repeatString))
     {
-        if(!range.cap(3).isEmpty())
-            repeat = new RepeatGraphicsItem(RepeatGraphicsItem::SpecifiedRange, range.cap(1).toInt(), range.cap(3).toInt());
-        else if(!range.cap(2).isEmpty())
+        if(!range.cap(2).isEmpty())
+            if(range.cap(1).isEmpty() && repeatString.contains(","))
+                repeat = new RepeatGraphicsItem(RepeatGraphicsItem::SpecifiedRange, -1, range.cap(2).toInt());
+            else
+                repeat = new RepeatGraphicsItem(RepeatGraphicsItem::SpecifiedRange, range.cap(1).toInt(), range.cap(2).toInt());
+        else if(repeatString.contains(","))
             repeat = new RepeatGraphicsItem(RepeatGraphicsItem::SpecifiedRange, range.cap(1).toInt());
         else
             repeat = new RepeatGraphicsItem(RepeatGraphicsItem::ExactValue, range.cap(1).toInt());
@@ -205,7 +208,7 @@ GroupingGraphicsItem* GraphicalExpression::parseCapture(QString expression, int 
         ++offset;
     }
 
-    QRegExp repeats("\\{\\d+(,(\\d+)?)?\\}|\\+|\\?|\\*");
+    QRegExp repeats("\\{(\\d+)?,?(\\d+)?\\}|\\+|\\?|\\*");
     if(repeats.indexIn(expression, offset) == offset)
     {
         group->addChildItem(parseRepeat(repeats.cap(0), tmp));

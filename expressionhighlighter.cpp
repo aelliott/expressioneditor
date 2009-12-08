@@ -185,7 +185,7 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
         {
             if(QString(text.at(startOffset)) == "{")
             {
-                QRegExp rx("\\{\\d+,(\\d+)?\\}|\\{\\d+\\}");
+                QRegExp rx("\\{(\\d+)?,?(\\d+)?\\}");
                 if(text.indexOf(rx, startOffset-1) == startOffset)
                 {
                     setFormat(startOffset, 1, repeatFormat);
