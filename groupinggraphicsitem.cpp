@@ -23,6 +23,7 @@
 GroupingGraphicsItem::GroupingGraphicsItem(bool capturing, QGraphicsItem *parent) : QGraphicsItem(parent)
 {
     isCapturing = capturing;
+    updateData();
 }
 
 QRectF GroupingGraphicsItem::boundingRect() const
@@ -60,9 +61,32 @@ void GroupingGraphicsItem::addChildItem(QGraphicsItem *item)
         childItems().at(i)->setPos(offset, verticalOffset);
         offset += childItems().at(i)->boundingRect().width();
     }
+    updateData();
 }
 
 void GroupingGraphicsItem::setCapturingName(QString name)
 {
     capturingName = name;
+    updateData();
+}
+
+/**
+ * Private methods
+ */
+void GroupingGraphicsItem::updateData()
+{
+    QString expression;
+    QStringList elements;
+    for(int i = 0; i < childItems().size(); ++i)
+        elements << childItems().at(i)->data(expressionData).toString();
+    if(isCapturing)
+    {
+        if(!capturingName.isEmpty())
+            expression = QString("(?<") + capturingName + ">" + elements.join("") + ")";
+        else
+            expression = QString("(") + elements.join("") + ")";
+    }
+    else
+        expression = elements.join("");
+    setData(expressionData, QVariant(expression));
 }

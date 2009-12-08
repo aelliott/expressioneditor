@@ -34,6 +34,8 @@ public:
     void setCapturingName(QString name);
 
 private:
+    void updateData();
+    static const int expressionData = 0;
     static const int itemSpacing = 8;
     bool isCapturing;
     QString capturingName;

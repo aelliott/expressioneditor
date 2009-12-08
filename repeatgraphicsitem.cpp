@@ -49,6 +49,7 @@ RepeatGraphicsItem::RepeatGraphicsItem(RepeatGraphicsItem::Type type, int minimu
     setType = type;
     setMinimum = minimum;
     setMaximum = maximum;
+    updateData();
 
     setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
     setAcceptHoverEvents(true);
@@ -64,6 +65,7 @@ void RepeatGraphicsItem::setChildItem(QGraphicsItem *item)
     double verticalOffset = qApp->fontMetrics().height() + 1.5*verticalPadding;
     double horizontalOffset = (boundingRect().width()/2)-(item->boundingRect().width()/2);
     item->setPos(horizontalOffset, verticalOffset);
+    updateData();
 }
 
 QRectF RepeatGraphicsItem::boundingRect() const
@@ -104,4 +106,40 @@ void RepeatGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     event->accept();
     backgroundColour = QColor(255, 230, 230);
     update();
+}
+
+/**
+ * Private methods
+ */
+void RepeatGraphicsItem::updateData()
+{
+    QString expression = "";
+    if(childItems().size() > 0)
+        expression = childItems().at(0)->data(expressionData).toString();
+
+    switch(setType)
+    {
+    case RepeatGraphicsItem::ZeroOrOne:
+        expression += "?";
+        break;
+    case RepeatGraphicsItem::ZeroOrMore:
+        expression += "*";
+        break;
+    case RepeatGraphicsItem::OneOrMore:
+        expression += "+";
+        break;
+    case RepeatGraphicsItem::ExactValue:
+        expression += "{" + QVariant(setMinimum).toString() + "}";
+        break;
+    case RepeatGraphicsItem::SpecifiedRange:
+        if(setMaximum == -1)
+            expression += "{" + QVariant(setMinimum).toString() + ",}";
+        else if(setMinimum == -1)
+            expression += "{," + QVariant(setMaximum).toString() + "}";
+        else
+            expression += "{" + QVariant(setMinimum).toString() + "," + QVariant(setMaximum).toString() + "}";
+        break;
+    }
+
+    setData(expressionData, QVariant(expression));
 }

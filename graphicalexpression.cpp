@@ -197,26 +197,26 @@ RepeatGraphicsItem* GraphicalExpression::parseRepeat(QString repeatString, QGrap
     return repeat;
 }
 
-GroupingGraphicsItem* GraphicalExpression::parseCapture(QString expression, int &offset)
+QGraphicsItem* GraphicalExpression::parseCapture(QString expression, int &offset)
 {
     GroupingGraphicsItem *group = new GroupingGraphicsItem(true);
     ++offset;
     QGraphicsItem *tmp = parseSection(expression, offset);
 
     if(QRegExp("\\)").indexIn(expression, offset) == offset)
-    {
         ++offset;
-    }
+
+    group->addChildItem(tmp);
 
     QRegExp repeats("\\{(\\d+)?,?(\\d+)?\\}|\\+|\\?|\\*");
     if(repeats.indexIn(expression, offset) == offset)
     {
-        group->addChildItem(parseRepeat(repeats.cap(0), tmp));
+        RepeatGraphicsItem *repeat = parseRepeat(repeats.cap(0), group);
         offset += repeats.cap(0).length();
+        return repeat;
     }
     else
-        group->addChildItem(tmp);
-    return group;
+        return group;
 }
 
 AlternativesGraphicsItem* GraphicalExpression::parseAlternatives(QString expression, int &offset, QGraphicsItem *firstItem)
@@ -233,10 +233,15 @@ AlternativesGraphicsItem* GraphicalExpression::parseAlternatives(QString express
     return alternatives;
 }
 
-/**
- * Public slots
- */
 void GraphicalExpression::updateExpression(QString expression)
 {
     parseExpression(expression);
+}
+
+QString GraphicalExpression::getExpression() const
+{
+    QStringList expression;
+    for(int i = 0; i < childItems().size(); ++i)
+        expression << childItems().at(i)->data(expressionData).toString();
+    return expression.join("");
 }

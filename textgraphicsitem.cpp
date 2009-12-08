@@ -37,6 +37,7 @@ void TextGraphicsItem::setText(QString text)
 {
     textString = text;
     textItem = new QGraphicsSimpleTextItem(textString);
+    updateData();
 }
 
 void TextGraphicsItem::appendText(QString append)
@@ -73,4 +74,17 @@ void TextGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     event->accept();
     backgroundColour = QColor(220,255,220);
     update();
+}
+
+/**
+ * Private methods
+ */
+void TextGraphicsItem::updateData()
+{
+    QStringList specialchars;
+    specialchars << "\\" << "[" << "]" << "(" << ")" << "*" << "^" << "$" << "." << "|" << "?" << "+" << "{" << "}";
+    QString pattern = QString("(\\") + specialchars.join("|\\") + ")";
+    QString expression = textString;
+    expression.replace(QRegExp(pattern), "\\\\1");
+    setData(expressionData, QVariant(expression));
 }

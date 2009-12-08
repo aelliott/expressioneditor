@@ -38,8 +38,11 @@ public:
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
 private:
+    void updateData();
+    QString plainContents;
     QGraphicsTextItem *contents;
     QColor backgroundColour;
+    static const int expressionData = 0;
     static const int horizontalPadding = 10;
     static const int verticalPadding = 6;
 };

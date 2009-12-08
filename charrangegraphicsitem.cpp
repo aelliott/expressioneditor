@@ -102,6 +102,8 @@ void CharRangeGraphicsItem::parseContents(QString string)
         htmlContents += QString("<br> - ") + elements.at(i);
 
     contentsItem->setHtml(htmlContents);
+
+    updateData();
 }
 
 QRectF CharRangeGraphicsItem::boundingRect() const
@@ -136,4 +138,13 @@ void CharRangeGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     event->accept();
     backgroundColour = QColor(240, 240, 255);
     update();
+}
+
+/**
+ * Private methods
+ */
+void CharRangeGraphicsItem::updateData()
+{
+    QString expression = QString("[") + contents + "]";
+    setData(expressionData, QVariant(expression));
 }

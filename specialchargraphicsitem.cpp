@@ -35,10 +35,13 @@ SpecialCharGraphicsItem::SpecialCharGraphicsItem(QString text, QGraphicsItem *pa
 
 void SpecialCharGraphicsItem::setContents(QString text)
 {
+    plainContents = text;
     if(!text.isEmpty())
         contents->setHtml(parseString(text));
     else
         contents->setHtml(text);
+
+    updateData();
 }
 
 QString SpecialCharGraphicsItem::parseString(QString text)
@@ -69,6 +72,8 @@ QString SpecialCharGraphicsItem::parseString(QString text)
         return "Line<br>break";
     if(text == "\\t")
         return "Tab<br>character";
+
+    return "";
 }
 
 QRectF SpecialCharGraphicsItem::boundingRect() const
@@ -99,4 +104,12 @@ void SpecialCharGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     event->accept();
     backgroundColour = QColor(255, 220, 255);
     update();
+}
+
+/**
+ * Private methods
+ */
+void SpecialCharGraphicsItem::updateData()
+{
+    setData(expressionData, QVariant(plainContents));
 }

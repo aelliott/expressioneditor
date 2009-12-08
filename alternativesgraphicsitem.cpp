@@ -25,6 +25,7 @@ AlternativesGraphicsItem::AlternativesGraphicsItem(QGraphicsItem *parent) : QGra
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setAcceptHoverEvents(true);
     backgroundColour = QColor(255, 255, 210);
+    updateData();
 }
 
 QRectF AlternativesGraphicsItem::boundingRect() const
@@ -80,6 +81,8 @@ void AlternativesGraphicsItem::addChildItem(QGraphicsItem *item)
         childItems().at(i)->setPos((width/2)-(childItems().at(i)->boundingRect().width()/2), verticalOffset);
         verticalOffset += childItems().at(i)->boundingRect().height() + 2*verticalPadding;
     }
+
+    updateData();
 }
 
 void AlternativesGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
@@ -94,4 +97,15 @@ void AlternativesGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     event->accept();
     backgroundColour = QColor(255, 255, 210);
     update();
+}
+
+/**
+ * Private methods
+ */
+void AlternativesGraphicsItem::updateData()
+{
+    QStringList expression;
+    for(int i = 0; i < childItems().size(); ++i)
+        expression << childItems().at(i)->data(expressionData).toString();
+    setData(expressionData, QVariant(expression.join("|")));
 }

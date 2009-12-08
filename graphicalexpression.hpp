@@ -38,6 +38,7 @@ public:
     GraphicalExpression();
     GraphicalExpression(QString expression);
     void updateExpression(QString expression);
+    QString getExpression() const;
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void addChildItem(QGraphicsItem *item);
@@ -46,8 +47,9 @@ private:
     void parseExpression(QString expression);
     QGraphicsItem* parseSection(QString expression, int &offset, bool inAlternatives = false);
     RepeatGraphicsItem* parseRepeat(QString repeatString, QGraphicsItem* repeatItem);
-    GroupingGraphicsItem* parseCapture(QString expression, int &offset);
+    QGraphicsItem* parseCapture(QString expression, int &offset);
     AlternativesGraphicsItem* parseAlternatives(QString expression, int &offset, QGraphicsItem* firstItem);
+    static const int expressionData = 0;
     static const int itemSpacing = 8;
 };
 
