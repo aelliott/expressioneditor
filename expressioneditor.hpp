@@ -21,6 +21,7 @@
 #ifndef EXPRESSIONEDITOR_HPP
 #define EXPRESSIONEDITOR_HPP
 
+#include <QApplication>
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>

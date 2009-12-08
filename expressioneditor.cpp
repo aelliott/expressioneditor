@@ -71,6 +71,11 @@ QStringList ExpressionEditor::getTestStrings()
  */
 void ExpressionEditor::updateExpression()
 {
+    if(qApp->fontMetrics().width(getExpression())+20 > expressionInput->width())
+        expressionInput->setFixedHeight(28+qApp->fontMetrics().height()*2);
+    else
+        expressionInput->setFixedHeight(28);
+
     if(getExpression() != tester->getExpression())
         updateExpression(getExpression());
 }
