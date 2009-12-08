@@ -71,10 +71,13 @@ QStringList ExpressionEditor::getTestStrings()
  */
 void ExpressionEditor::updateExpression()
 {
+    int height = 28;
     if(qApp->fontMetrics().width(getExpression())+20 > expressionInput->width())
-        expressionInput->setFixedHeight(28+qApp->fontMetrics().height()*2);
-    else
-        expressionInput->setFixedHeight(28);
+        height += qApp->fontMetrics().height()*2;
+    if(getExpression().contains("\n"))
+        height += qApp->fontMetrics().height()*getExpression().count("\n");
+
+    expressionInput->setFixedHeight(height);
 
     if(getExpression() != tester->getExpression())
         updateExpression(getExpression());
