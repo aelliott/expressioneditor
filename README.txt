@@ -5,6 +5,7 @@ Expression Editor README:
 0. Contents
 1. Introduction
 2. Installation
+2.0 Requirements and Hints
 2.1 Linux
 2.2 Windows
 2.3 Mac OSX
@@ -16,8 +17,29 @@ currently in a pre-alpha state.
 
 [2] INSTALLATION
 
-At the moment there is no real build process, Expression Editor requires
-Qt4.6+ or the Qt4.6+ SDK.
+[2.0] REQUIREMENTS AND HINTS
+
+At the moment there is no automated build process, so Expression Editor
+requires the development libraries of Qt4.6+ or the Qt4.6+ SDK (which
+contains the required libraries and QtCreator a C++/Qt IDE).  It also
+requires a build toolchain (compiler, linker, etc).
+
+On windows this should be fine if you install the SDK, on Linux many
+distros include the build essentials in the default packages, but there
+are also many that do not include them by default and you will have to
+fetch them via your distributions package management system.  On OSX
+I believe you will need Xcode or Xcode tools to get the build tools for
+QtCreator to compile the application.
+
+If the compile fails for some reason, first try "Build > Clean all" in
+QtCreator or "make clean" in a terminal and try the build again.  If it
+still won't compile then register a bug at the following URL:
+
+http://github.com/aelliott/expressioneditor/issues
+
+And I will look into the problem, hopefully finding the cause for the
+failed compile.  The tree should be buildable at all times, so a failed
+compile is a definite bug.
 
 [2.1] LINUX
 
