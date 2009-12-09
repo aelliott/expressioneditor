@@ -49,17 +49,13 @@ void GraphicalWorkspace::updateExpression(QString newExpression)
         editingStarted = true;
     }
     else
-    {
-        if(newExpression == expression)
-            return;
         scene->removeItem(visualisation);
-    }
     expression = newExpression;
     visualisation = new GraphicalExpression(newExpression);
     scene->addItem(visualisation);
-    QRectF sceneArea = scene->itemsBoundingRect();
-    sceneArea.adjust(-10, -10, 20, 20);
-    setSceneRect(sceneArea);
+//    QRectF sceneArea = scene->itemsBoundingRect();
+//    sceneArea.adjust(-10, -10, 20, 20);
+//    setSceneRect(sceneArea);
 }
 
 QPixmap GraphicalWorkspace::exportToImage()
