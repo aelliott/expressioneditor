@@ -72,6 +72,7 @@ private:
     QLabel *currentOutputLabel;
     QLineEdit *currentOutputInput;
     QDialogButtonBox *buttonBox;
+    bool setup;
     RepeatGraphicsItem::Type type;
     int minimum;
     int maximum;

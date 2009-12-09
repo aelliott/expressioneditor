@@ -22,6 +22,7 @@
 
 RepeatEditDialog::RepeatEditDialog(RepeatGraphicsItem::Type currentType, int currentMinimum, int currentMaximum, QWidget *parent) : QDialog(parent)
 {
+    setup = false;
     type = currentType;
     minimum = currentMinimum;
     maximum = currentMaximum;
@@ -104,6 +105,7 @@ RepeatEditDialog::RepeatEditDialog(RepeatGraphicsItem::Type currentType, int cur
     setLayout(groupBoxLayout);
 
     updateDialog();
+    setup = true;
 }
 
 void RepeatEditDialog::updateDialog()
@@ -156,10 +158,10 @@ void RepeatEditDialog::updateDialog()
             else
             {
                 specifiedRangeRadio->setChecked(true);
-                specifiedRangeMinInput->setDisabled(false);
-                specifiedRangeMinInput->setValue(minimum);
                 specifiedRangeMaxInput->setDisabled(false);
                 specifiedRangeMaxInput->setValue(maximum);
+                specifiedRangeMinInput->setDisabled(false);
+                specifiedRangeMinInput->setValue(minimum);
                 value = QString("{") + QVariant(minimum).toString() + "," + QVariant(maximum).toString() + "}";
                 currentOutputInput->setText(value);
             }
@@ -226,10 +228,13 @@ void RepeatEditDialog::updateSpecifiedMaximum()
 
 void RepeatEditDialog::updateSpecifiedRange()
 {
-    type = RepeatGraphicsItem::SpecifiedRange;
-    if(specifiedRangeMinInput->value() > specifiedRangeMaxInput->value())
-        specifiedRangeMaxInput->setValue(specifiedRangeMinInput->value());
-    minimum = specifiedRangeMinInput->value();
-    maximum = specifiedRangeMaxInput->value();
-    updateDialog();
+    if(setup)
+    {
+        type = RepeatGraphicsItem::SpecifiedRange;
+        if(specifiedRangeMinInput->value() > specifiedRangeMaxInput->value())
+            specifiedRangeMaxInput->setValue(specifiedRangeMinInput->value());
+        minimum = specifiedRangeMinInput->value();
+        maximum = specifiedRangeMaxInput->value();
+        updateDialog();
+    }
 }
