@@ -76,6 +76,19 @@ void TextGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     update();
 }
 
+void TextGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    event->accept();
+    TextEditDialog dialog(textString);
+    int response = dialog.exec();
+
+    if(response == QDialog::Rejected)
+        return;
+
+    setText(dialog.getText());
+    update();
+}
+
 /**
  * Private methods
  */

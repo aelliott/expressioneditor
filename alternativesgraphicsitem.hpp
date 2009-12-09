@@ -25,6 +25,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsSceneHoverEvent>
 #include <QPainter>
+#include <QDebug>
 
 class AlternativesGraphicsItem : public QGraphicsObject
 {

@@ -168,17 +168,17 @@ void RepeatEditDialog::updateDialog()
     }
 }
 
-RepeatGraphicsItem::Type RepeatEditDialog::getType()
+RepeatGraphicsItem::Type RepeatEditDialog::getType() const
 {
     return type;
 }
 
-int RepeatEditDialog::getMinimum()
+int RepeatEditDialog::getMinimum() const
 {
     return minimum;
 }
 
-int RepeatEditDialog::getMaximum()
+int RepeatEditDialog::getMaximum() const
 {
     return maximum;
 }

@@ -39,9 +39,9 @@ class RepeatEditDialog : public QDialog
 public:
     explicit RepeatEditDialog(RepeatGraphicsItem::Type currentType, int currentMinimum, int currentMaximum, QWidget *parent = 0);
     void updateDialog();
-    RepeatGraphicsItem::Type getType();
-    int getMinimum();
-    int getMaximum();
+    RepeatGraphicsItem::Type getType() const;
+    int getMinimum() const;
+    int getMaximum() const;
 
 public slots:
     void updateZeroOrOne();

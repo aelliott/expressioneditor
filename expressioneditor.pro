@@ -14,7 +14,8 @@ SOURCES += main.cpp \
     charrangegraphicsitem.cpp \
     repeatgraphicsitem.cpp \
     specialchargraphicsitem.cpp \
-    repeateditdialog.cpp
+    repeateditdialog.cpp \
+    texteditdialog.cpp
 HEADERS += mainwindow.hpp \
     welcome.hpp \
     expressioneditor.hpp \
@@ -30,7 +31,8 @@ HEADERS += mainwindow.hpp \
     charrangegraphicsitem.hpp \
     repeatgraphicsitem.hpp \
     specialchargraphicsitem.hpp \
-    repeateditdialog.hpp
+    repeateditdialog.hpp \
+    texteditdialog.hpp
 RESOURCES += images.qrc
 QT += xml
 OTHER_FILES += README.txt \

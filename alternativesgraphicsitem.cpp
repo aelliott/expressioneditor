@@ -62,12 +62,25 @@ void AlternativesGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphi
     painter->drawText(horizontalPadding, lineHeight, QObject::tr("Alternatives"));
 
     lineHeight += verticalPadding;
-    for(int i = 0; i < childItems().size()-1; ++i)
+    double width = boundingRect().width();
+    double verticalOffset = 2*verticalPadding+(qApp->fontMetrics().height()/2);
+
+    for(int i = 0; i < childItems().size(); ++i)
     {
-        lineHeight += childItems().at(i)->boundingRect().height();
-        lineHeight += verticalPadding;
-        painter->drawLine(horizontalPadding, lineHeight, boundingRect().width()-horizontalPadding, lineHeight);
-        lineHeight += verticalPadding;
+        QRectF rect = childItems().at(i)->boundingRect();
+
+        // Draw lines
+        if(i != childItems().size()-1)
+        {
+            lineHeight += rect.height();
+            lineHeight += verticalPadding;
+            painter->drawLine(horizontalPadding, lineHeight, width-horizontalPadding, lineHeight);
+            lineHeight += verticalPadding;
+        }
+
+        // Lay out items
+        childItems().at(i)->setPos((width/2)-(rect.width()/2), verticalOffset);
+        verticalOffset += rect.height() + 2*verticalPadding;
     }
 }
 
@@ -75,13 +88,6 @@ void AlternativesGraphicsItem::addChildItem(QGraphicsObject *item)
 {
     item->setParentItem(this);
     connect(item, SIGNAL(dataChanged()), this, SLOT(updateData()));
-    double width = boundingRect().width();
-    double verticalOffset = 2*verticalPadding+(qApp->fontMetrics().height()/2);
-    for(int i = 0; i < childItems().size(); ++i)
-    {
-        childItems().at(i)->setPos((width/2)-(childItems().at(i)->boundingRect().width()/2), verticalOffset);
-        verticalOffset += childItems().at(i)->boundingRect().height() + 2*verticalPadding;
-    }
 
     updateData();
 }
