@@ -24,17 +24,24 @@
 #include <QGraphicsItem>
 #include <QDebug>
 
-class GroupingGraphicsItem : public QGraphicsItem
+class GroupingGraphicsItem : public QGraphicsObject
 {
+    Q_OBJECT;
+
 public:
     GroupingGraphicsItem(bool capturing = false, QGraphicsItem *parent = 0);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    void addChildItem(QGraphicsItem *item);
+    void addChildItem(QGraphicsObject *item);
     void setCapturingName(QString name);
 
-private:
+signals:
+    void dataChanged();
+
+public slots:
     void updateData();
+
+private:
     static const int expressionData = 0;
     static const int itemSpacing = 8;
     bool isCapturing;

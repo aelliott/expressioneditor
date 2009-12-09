@@ -25,6 +25,7 @@ ExpressionEditor::ExpressionEditor(QWidget *parent) : QWidget(parent)
     mainLayout = new QVBoxLayout(this);
 
     graphicalEditor = new GraphicalEditor(this);
+    connect(graphicalEditor, SIGNAL(expressionChanged(QString)), this, SLOT(updateExpression(QString)));
 
     splitter = new QSplitter(Qt::Vertical, this);
 

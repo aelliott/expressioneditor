@@ -29,6 +29,7 @@ GraphicalEditor::GraphicalEditor(QWidget *parent) : QWidget(parent)
     toolkit = new GraphicalToolkit(this);
     toolkit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
     workspace = new GraphicalWorkspace(this);
+    connect(workspace, SIGNAL(expressionChanged(QString)), this, SLOT(sceneChanged(QString)));
 
     layout->addWidget(toolkit);
     layout->addWidget(workspace);
@@ -46,6 +47,11 @@ void GraphicalEditor::updateExpression(QString newExpression)
 {
     expression = newExpression;
     workspace->updateExpression(newExpression);
+}
+
+void GraphicalEditor::sceneChanged(QString newExpression)
+{
+    emit expressionChanged(newExpression);
 }
 
 QPixmap GraphicalEditor::exportToImage()

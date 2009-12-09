@@ -25,7 +25,7 @@ SpecialCharGraphicsItem::SpecialCharGraphicsItem(QGraphicsItem *parent)
     SpecialCharGraphicsItem("", parent);
 }
 
-SpecialCharGraphicsItem::SpecialCharGraphicsItem(QString text, QGraphicsItem *parent)
+SpecialCharGraphicsItem::SpecialCharGraphicsItem(QString text, QGraphicsItem *parent) : QGraphicsObject(parent)
 {
     contents = new QGraphicsTextItem;
     contents->setParentItem(this);
@@ -112,4 +112,5 @@ void SpecialCharGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 void SpecialCharGraphicsItem::updateData()
 {
     setData(expressionData, QVariant(plainContents));
+    emit dataChanged();
 }

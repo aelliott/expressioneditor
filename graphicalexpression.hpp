@@ -45,10 +45,10 @@ public:
 
 private:
     void parseExpression(QString expression);
-    QGraphicsItem* parseSection(QString expression, int &offset, bool inAlternatives = false);
-    RepeatGraphicsItem* parseRepeat(QString repeatString, QGraphicsItem* repeatItem);
-    QGraphicsItem* parseCapture(QString expression, int &offset);
-    AlternativesGraphicsItem* parseAlternatives(QString expression, int &offset, QGraphicsItem* firstItem);
+    QGraphicsObject* parseSection(QString expression, int &offset, bool inAlternatives = false);
+    RepeatGraphicsItem* parseRepeat(QString repeatString, QGraphicsObject* repeatItem);
+    QGraphicsObject* parseCapture(QString expression, int &offset);
+    AlternativesGraphicsItem* parseAlternatives(QString expression, int &offset, QGraphicsObject* firstItem);
     static const int expressionData = 0;
     static const int itemSpacing = 8;
 };

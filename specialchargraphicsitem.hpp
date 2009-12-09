@@ -25,8 +25,10 @@
 #include <QPainter>
 #include <QGraphicsSceneHoverEvent>
 
-class SpecialCharGraphicsItem : public QGraphicsItem
+class SpecialCharGraphicsItem : public QGraphicsObject
 {
+    Q_OBJECT;
+
 public:
     SpecialCharGraphicsItem(QGraphicsItem *parent = 0);
     SpecialCharGraphicsItem(QString text, QGraphicsItem *parent = 0);
@@ -36,6 +38,9 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+
+signals:
+    void dataChanged();
 
 private:
     void updateData();

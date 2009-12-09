@@ -13,7 +13,8 @@ SOURCES += main.cpp \
     groupinggraphicsitem.cpp \
     charrangegraphicsitem.cpp \
     repeatgraphicsitem.cpp \
-    specialchargraphicsitem.cpp
+    specialchargraphicsitem.cpp \
+    repeateditdialog.cpp
 HEADERS += mainwindow.hpp \
     welcome.hpp \
     expressioneditor.hpp \
@@ -28,7 +29,8 @@ HEADERS += mainwindow.hpp \
     groupinggraphicsitem.hpp \
     charrangegraphicsitem.hpp \
     repeatgraphicsitem.hpp \
-    specialchargraphicsitem.hpp
+    specialchargraphicsitem.hpp \
+    repeateditdialog.hpp
 RESOURCES += images.qrc
 QT += xml
 OTHER_FILES += README.txt \

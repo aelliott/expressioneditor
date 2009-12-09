@@ -26,18 +26,25 @@
 #include <QGraphicsSceneHoverEvent>
 #include <QPainter>
 
-class AlternativesGraphicsItem : public QGraphicsItem
+class AlternativesGraphicsItem : public QGraphicsObject
 {
+    Q_OBJECT;
+
 public:
     AlternativesGraphicsItem(QGraphicsItem *parent = 0);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    void addChildItem(QGraphicsItem *item);
+    void addChildItem(QGraphicsObject *item);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
-private:
+signals:
+    void dataChanged();
+
+public slots:
     void updateData();
+
+private:
     static const int expressionData = 0;
     static const int horizontalPadding = 10;
     static const int verticalPadding = 8;

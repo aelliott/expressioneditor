@@ -33,8 +33,12 @@ public:
     explicit GraphicalEditor(QWidget *parent = 0);
     QString getExpression();
 
+signals:
+    void expressionChanged(QString newExpression);
+
 public slots:
     void updateExpression(QString newExpression);
+    void sceneChanged(QString newExpression);
     QPixmap exportToImage();
 
 private:

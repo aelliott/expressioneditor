@@ -25,11 +25,15 @@
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QGraphicsSceneHoverEvent>
+#include <QGraphicsSceneMouseEvent>
 #include <QGraphicsTextItem>
+#include <QDebug>
 #include "specialchargraphicsitem.hpp"
 
-class CharRangeGraphicsItem : public QGraphicsItem
+class CharRangeGraphicsItem : public QGraphicsObject
 {
+    Q_OBJECT;
+
 public:
     CharRangeGraphicsItem(QGraphicsItem *parent = 0);
     CharRangeGraphicsItem(QString initContents, QGraphicsItem *parent = 0);
@@ -38,9 +42,15 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+
+signals:
+    void dataChanged();
+
+public slots:
+    void updateData();
 
 private:
-    void updateData();
     static const int expressionData = 0;
     static const int horizontalPadding = 10;
     static const int verticalPadding = 6;

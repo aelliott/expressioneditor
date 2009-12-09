@@ -45,11 +45,6 @@ QRectF GraphicalExpression::boundingRect() const
 
 void GraphicalExpression::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-}
-
-void GraphicalExpression::addChildItem(QGraphicsItem *item)
-{
-    item->setParentItem(this);
     // Lay out items
     double offset = 0;
     double height = boundingRect().height();
@@ -58,9 +53,15 @@ void GraphicalExpression::addChildItem(QGraphicsItem *item)
         if(offset > 0)
             offset += itemSpacing;
         double verticalOffset = (height/2)-(childItems().at(i)->boundingRect().height()/2);
-        childItems().at(i)->setPos(offset, verticalOffset);
+        if(!childItems().at(i)->isSelected())
+            childItems().at(i)->setPos(offset, verticalOffset);
         offset += childItems().at(i)->boundingRect().width();
     }
+}
+
+void GraphicalExpression::addChildItem(QGraphicsItem *item)
+{
+    item->setParentItem(this);
 }
 
 void GraphicalExpression::parseExpression(QString expression)
@@ -69,7 +70,7 @@ void GraphicalExpression::parseExpression(QString expression)
     addChildItem(parseSection(expression, offset));
 }
 
-QGraphicsItem* GraphicalExpression::parseSection(QString expression, int &offset, bool inAlternatives)
+QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offset, bool inAlternatives)
 {
     GroupingGraphicsItem *group = new GroupingGraphicsItem;
 
@@ -170,7 +171,7 @@ QGraphicsItem* GraphicalExpression::parseSection(QString expression, int &offset
     return group;
 }
 
-RepeatGraphicsItem* GraphicalExpression::parseRepeat(QString repeatString, QGraphicsItem *repeatItem)
+RepeatGraphicsItem* GraphicalExpression::parseRepeat(QString repeatString, QGraphicsObject *repeatItem)
 {
     RepeatGraphicsItem *repeat;
     QRegExp range("\\{(\\d+)?,?(\\d+)?\\}");
@@ -197,11 +198,11 @@ RepeatGraphicsItem* GraphicalExpression::parseRepeat(QString repeatString, QGrap
     return repeat;
 }
 
-QGraphicsItem* GraphicalExpression::parseCapture(QString expression, int &offset)
+QGraphicsObject* GraphicalExpression::parseCapture(QString expression, int &offset)
 {
     GroupingGraphicsItem *group = new GroupingGraphicsItem(true);
     ++offset;
-    QGraphicsItem *tmp = parseSection(expression, offset);
+    QGraphicsObject *tmp = parseSection(expression, offset);
 
     if(QRegExp("\\)").indexIn(expression, offset) == offset)
         ++offset;
@@ -219,7 +220,7 @@ QGraphicsItem* GraphicalExpression::parseCapture(QString expression, int &offset
         return group;
 }
 
-AlternativesGraphicsItem* GraphicalExpression::parseAlternatives(QString expression, int &offset, QGraphicsItem *firstItem)
+AlternativesGraphicsItem* GraphicalExpression::parseAlternatives(QString expression, int &offset, QGraphicsObject *firstItem)
 {
     AlternativesGraphicsItem *alternatives = new AlternativesGraphicsItem;
     alternatives->addChildItem(firstItem);
@@ -242,6 +243,8 @@ QString GraphicalExpression::getExpression() const
 {
     QStringList expression;
     for(int i = 0; i < childItems().size(); ++i)
+    {
         expression << childItems().at(i)->data(expressionData).toString();
+    }
     return expression.join("");
 }

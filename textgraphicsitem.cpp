@@ -25,7 +25,7 @@ TextGraphicsItem::TextGraphicsItem(QGraphicsItem * parent)
     TextGraphicsItem("", parent);
 }
 
-TextGraphicsItem::TextGraphicsItem(QString text, QGraphicsItem * parent) : QGraphicsItem(parent)
+TextGraphicsItem::TextGraphicsItem(QString text, QGraphicsItem * parent) : QGraphicsObject(parent)
 {
     setText(text);
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -87,4 +87,5 @@ void TextGraphicsItem::updateData()
     QString expression = textString;
     expression.replace(QRegExp(pattern), "\\\\1");
     setData(expressionData, QVariant(expression));
+    emit dataChanged();
 }

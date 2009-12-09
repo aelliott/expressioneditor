@@ -24,10 +24,14 @@
 #include <QApplication>
 #include <QGraphicsItem>
 #include <QGraphicsSceneHoverEvent>
+#include <QGraphicsSceneMouseEvent>
 #include <QPainter>
+#include <QDebug>
 
-class RepeatGraphicsItem : public QGraphicsItem
+class RepeatGraphicsItem : public QGraphicsObject
 {
+    Q_OBJECT;
+
 public:
     enum Type
     {
@@ -39,14 +43,21 @@ public:
     };
 
     RepeatGraphicsItem(RepeatGraphicsItem::Type type, int minimum = -1, int maximum = -1, QGraphicsItem *parent = 0);
-    void setChildItem(QGraphicsItem *item);
+    void setRepeat(RepeatGraphicsItem::Type type, int minimum = -1, int maximum = -1);
+    void setChildItem(QGraphicsObject *item);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+
+signals:
+    void dataChanged();
+
+public slots:
+    void updateData();
 
 private:
-    void updateData();
     static const int expressionData = 0;
     static const int horizontalPadding = 10;
     static const int verticalPadding = 8;

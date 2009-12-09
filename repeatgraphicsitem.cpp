@@ -19,9 +19,24 @@
  */
 
 #include "repeatgraphicsitem.hpp"
+#include "repeateditdialog.hpp"
 
-RepeatGraphicsItem::RepeatGraphicsItem(RepeatGraphicsItem::Type type, int minimum, int maximum, QGraphicsItem *parent) : QGraphicsItem(parent)
+RepeatGraphicsItem::RepeatGraphicsItem(RepeatGraphicsItem::Type type, int minimum, int maximum, QGraphicsItem *parent) : QGraphicsObject(parent)
 {
+    setRepeat(type, minimum, maximum);
+
+    updateData();
+
+    setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
+    setAcceptHoverEvents(true);
+    backgroundColour = QColor(255, 230, 230);
+}
+
+void RepeatGraphicsItem::setRepeat(RepeatGraphicsItem::Type type, int minimum, int maximum)
+{
+    setType = type;
+    setMinimum = minimum;
+    setMaximum = maximum;
     switch(type)
     {
         case RepeatGraphicsItem::ZeroOrOne:
@@ -45,26 +60,15 @@ RepeatGraphicsItem::RepeatGraphicsItem(RepeatGraphicsItem::Type type, int minimu
                 title = "Repeated Between " + QVariant(minimum).toString() + " And " + QVariant(maximum).toString() + " Times";
             break;
     }
-
-    setType = type;
-    setMinimum = minimum;
-    setMaximum = maximum;
-    updateData();
-
-    setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
-    setAcceptHoverEvents(true);
-    backgroundColour = QColor(255, 230, 230);
 }
 
-void RepeatGraphicsItem::setChildItem(QGraphicsItem *item)
+void RepeatGraphicsItem::setChildItem(QGraphicsObject *item)
 {
     // There can only be one child item
     if(childItems().size() > 0)
         delete childItems().at(0);
     item->setParentItem(this);
-    double verticalOffset = qApp->fontMetrics().height() + 1.5*verticalPadding;
-    double horizontalOffset = (boundingRect().width()/2)-(item->boundingRect().width()/2);
-    item->setPos(horizontalOffset, verticalOffset);
+    connect(item, SIGNAL(dataChanged()), this, SLOT(updateData()));
     updateData();
 }
 
@@ -92,6 +96,13 @@ void RepeatGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
 
     painter->drawRoundedRect(boundingRect(), 8.0, 8.0);
     painter->drawText(horizontalPadding, 0.5*qApp->fontMetrics().height()+verticalPadding, title);
+
+    if(childItems().size() > 0 && !childItems().at(0)->isSelected())
+    {
+        double verticalOffset = qApp->fontMetrics().height() + 1.5*verticalPadding;
+        double horizontalOffset = (boundingRect().width()/2)-(childItems().at(0)->boundingRect().width()/2);
+        childItems().at(0)->setPos(horizontalOffset, verticalOffset);
+    }
 }
 
 void RepeatGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
@@ -105,6 +116,20 @@ void RepeatGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     event->accept();
     backgroundColour = QColor(255, 230, 230);
+    update();
+}
+
+void RepeatGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    event->accept();
+    RepeatEditDialog dialog(setType, setMinimum, setMaximum);
+    int response = dialog.exec();
+
+    if(response == QDialog::Rejected)
+        return;
+
+    setRepeat(dialog.getType(), dialog.getMinimum(), dialog.getMaximum());
+    updateData();
     update();
 }
 
@@ -142,4 +167,5 @@ void RepeatGraphicsItem::updateData()
     }
 
     setData(expressionData, QVariant(expression));
+    emit dataChanged();
 }

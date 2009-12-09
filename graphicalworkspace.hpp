@@ -32,11 +32,16 @@ class GraphicalWorkspace : public QGraphicsView
 public:
     explicit GraphicalWorkspace(QWidget *parent = 0);
 
+signals:
+    void expressionChanged(QString newExpression);
+
 public slots:
     void updateExpression(QString expression);
+    void sceneChanged();
     QPixmap exportToImage();
 
 private:
+    QString expression;
     bool editingStarted;
     QGraphicsScene *scene;
     QGraphicsTextItem *welcomeMessage;

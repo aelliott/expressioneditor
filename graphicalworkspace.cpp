@@ -28,6 +28,7 @@ GraphicalWorkspace::GraphicalWorkspace(QWidget *parent) : QGraphicsView(parent)
     scene = new QGraphicsScene;
     scene->setBackgroundBrush(QColor(247, 247, 247));
     setScene(scene);
+    connect(scene, SIGNAL(changed(QList<QRectF>)), this, SLOT(sceneChanged()));
     editingStarted = false;
     welcomeMessage = new QGraphicsTextItem;
     welcomeMessage->setHtml(tr("To begin editing drag an item from the toolkit <br>"
@@ -38,9 +39,9 @@ GraphicalWorkspace::GraphicalWorkspace(QWidget *parent) : QGraphicsView(parent)
 /**
  * Public slots
  */
-void GraphicalWorkspace::updateExpression(QString expression)
+void GraphicalWorkspace::updateExpression(QString newExpression)
 {
-    if(!QRegExp(expression).isValid())
+    if(!QRegExp(newExpression).isValid())
         return;
     if(!editingStarted)
     {
@@ -48,8 +49,13 @@ void GraphicalWorkspace::updateExpression(QString expression)
         editingStarted = true;
     }
     else
+    {
+        if(newExpression == expression)
+            return;
         scene->removeItem(visualisation);
-    visualisation = new GraphicalExpression(expression);
+    }
+    expression = newExpression;
+    visualisation = new GraphicalExpression(newExpression);
     scene->addItem(visualisation);
     QRectF sceneArea = scene->itemsBoundingRect();
     sceneArea.adjust(-10, -10, 20, 20);
@@ -65,4 +71,17 @@ QPixmap GraphicalWorkspace::exportToImage()
     painter.end();
 
     return image;
+}
+
+void GraphicalWorkspace::sceneChanged()
+{
+    if(editingStarted)
+    {
+        QString newExpression = visualisation->getExpression();
+        if(expression != newExpression)
+        {
+            expression = newExpression;
+            emit expressionChanged(newExpression);
+        }
+    }
 }

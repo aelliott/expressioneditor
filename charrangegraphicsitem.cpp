@@ -20,7 +20,7 @@
 
 #include "charrangegraphicsitem.hpp"
 
-CharRangeGraphicsItem::CharRangeGraphicsItem(QGraphicsItem *parent) : QGraphicsItem(parent)
+CharRangeGraphicsItem::CharRangeGraphicsItem(QGraphicsItem *parent) : QGraphicsObject(parent)
 {
     CharRangeGraphicsItem("", parent);
 }
@@ -140,6 +140,12 @@ void CharRangeGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     update();
 }
 
+void CharRangeGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    event->accept();
+    qDebug() << "CharRange: I've been double clicked";
+}
+
 /**
  * Private methods
  */
@@ -147,4 +153,5 @@ void CharRangeGraphicsItem::updateData()
 {
     QString expression = QString("[") + contents + "]";
     setData(expressionData, QVariant(expression));
+    emit dataChanged();
 }

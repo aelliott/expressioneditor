@@ -20,7 +20,7 @@
 
 #include "alternativesgraphicsitem.hpp"
 
-AlternativesGraphicsItem::AlternativesGraphicsItem(QGraphicsItem *parent) : QGraphicsItem(parent)
+AlternativesGraphicsItem::AlternativesGraphicsItem(QGraphicsItem *parent) : QGraphicsObject(parent)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setAcceptHoverEvents(true);
@@ -71,9 +71,10 @@ void AlternativesGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphi
     }
 }
 
-void AlternativesGraphicsItem::addChildItem(QGraphicsItem *item)
+void AlternativesGraphicsItem::addChildItem(QGraphicsObject *item)
 {
     item->setParentItem(this);
+    connect(item, SIGNAL(dataChanged()), this, SLOT(updateData()));
     double width = boundingRect().width();
     double verticalOffset = 2*verticalPadding+(qApp->fontMetrics().height()/2);
     for(int i = 0; i < childItems().size(); ++i)
@@ -108,4 +109,5 @@ void AlternativesGraphicsItem::updateData()
     for(int i = 0; i < childItems().size(); ++i)
         expression << childItems().at(i)->data(expressionData).toString();
     setData(expressionData, QVariant(expression.join("|")));
+    emit dataChanged();
 }

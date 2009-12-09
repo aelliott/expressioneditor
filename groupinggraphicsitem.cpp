@@ -20,7 +20,7 @@
 
 #include "groupinggraphicsitem.hpp"
 
-GroupingGraphicsItem::GroupingGraphicsItem(bool capturing, QGraphicsItem *parent) : QGraphicsItem(parent)
+GroupingGraphicsItem::GroupingGraphicsItem(bool capturing, QGraphicsItem *parent) : QGraphicsObject(parent)
 {
     isCapturing = capturing;
     updateData();
@@ -44,23 +44,25 @@ QRectF GroupingGraphicsItem::boundingRect() const
 
 void GroupingGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-
-}
-
-void GroupingGraphicsItem::addChildItem(QGraphicsItem *item)
-{
-    item->setParentItem(this);
     // Lay out items
     double offset = 0;
     double height = boundingRect().height();
     for(int i = 0; i < childItems().size(); ++i)
     {
+        QRectF rect = childItems().at(i)->boundingRect();
         if(offset > 0)
             offset += itemSpacing;
-        double verticalOffset = (height/2)-(childItems().at(i)->boundingRect().height()/2);
-        childItems().at(i)->setPos(offset, verticalOffset);
-        offset += childItems().at(i)->boundingRect().width();
+        double verticalOffset = (height/2)-(rect.height()/2);
+        if(!childItems().at(i)->isSelected())
+            childItems().at(i)->setPos(offset, verticalOffset);
+        offset += rect.width();
     }
+}
+
+void GroupingGraphicsItem::addChildItem(QGraphicsObject *item)
+{
+    item->setParentItem(this);
+    connect(item, SIGNAL(dataChanged()), this, SLOT(updateData()));
     updateData();
 }
 
@@ -89,4 +91,5 @@ void GroupingGraphicsItem::updateData()
     else
         expression = elements.join("");
     setData(expressionData, QVariant(expression));
+    emit dataChanged();
 }
