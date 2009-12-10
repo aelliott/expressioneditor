@@ -47,7 +47,7 @@ void CharRangeGraphicsItem::parseContents(QString string)
     QStringList characters;
     QVector<QString> elements;
 
-    QString charRegex = "((\\\\x[0-9a-fA-F]{2}|\\\\.|[^]\\\\]))";
+    QString charRegex = "((\\\\x[0-9a-fA-F]{2,4}|\\\\.|[^]\\\\]))";
     QRegExp charPattern(charRegex);
     QRegExp rangePattern(charRegex+"\\-"+charRegex);
 
@@ -75,13 +75,10 @@ void CharRangeGraphicsItem::parseContents(QString string)
 
         if(!workDone && charPattern.indexIn(string, offset) == offset)
         {
-            if(charPattern.cap(0).length() == 2)
-            {
-                if(QRegExp("\\.|\\^|\\$|\\\\[bBwWdDsSnt]").exactMatch(charPattern.cap(0)))
-                    elements.push_back(SpecialCharGraphicsItem::parseString(charPattern.cap(0)).replace("<br>"," "));
-                else
-                    characters << QString(charPattern.cap(0).at(1));
-            }
+            if(QRegExp("\\.|\\^|\\$|\\\\[bBwWdDsSntafrv]|\\\\x[0-9a-fA-F]{4}|\\\\0?[0-3][0-7]{2}|\\\\[1-9][0-9]*").exactMatch(charPattern.cap(0)))
+                elements.push_back(SpecialCharGraphicsItem::parseString(charPattern.cap(0)).replace("<br>"," "));
+            else if(charPattern.cap(0).length() == 2)
+                characters << QString(charPattern.cap(0).at(1));
             else
                 characters << charPattern.cap(0);
             offset += charPattern.cap(0).length();

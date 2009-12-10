@@ -76,8 +76,7 @@ QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offs
 
     QRegExp character("[^[\\\\$.|?*+()^{}]|\\\\[^bBwWdDsSnt]");
     QRegExp repeats("\\{(\\d+)?,?(\\d+)?\\}|\\+|\\?|\\*");
-    QRegExp special("\\.|\\^|\\$|\\\\[bBwWdDsSnt]");
-    QRegExp other("\\\\[^bBwWdDsSnt]");
+    QRegExp special("\\.|\\^|\\$|\\\\[bBwWdDsSntafrv]|\\\\x[0-9a-fA-F]{4}|\\\\0?[0-3][0-7]{2}|\\\\[1-9][0-9]*");
 
     bool workDone = true;
     while(workDone)
@@ -87,6 +86,21 @@ QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offs
         if(QRegExp("\\(").indexIn(expression, offset) == offset)
         {
             group->addChildItem(parseCapture(expression, offset));
+            workDone = true;
+        }
+
+        if(!workDone && special.indexIn(expression, offset) == offset)
+        {
+            SpecialCharGraphicsItem *tmp = new SpecialCharGraphicsItem(special.cap(0));
+            offset += special.cap(0).length();
+            if(repeats.indexIn(expression, offset) == offset)
+            {
+                group->addChildItem(parseRepeat(repeats.cap(0), tmp));
+                offset += repeats.cap(0).length();
+            }
+            else
+                group->addChildItem(tmp);
+
             workDone = true;
         }
 
@@ -141,21 +155,6 @@ QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offs
                 else
                     group->addChildItem(tmp);
             }
-
-            workDone = true;
-        }
-
-        if(!workDone && special.indexIn(expression, offset) == offset)
-        {
-            SpecialCharGraphicsItem *tmp = new SpecialCharGraphicsItem(special.cap(0));
-            offset += special.cap(0).length();
-            if(repeats.indexIn(expression, offset) == offset)
-            {
-                group->addChildItem(parseRepeat(repeats.cap(0), tmp));
-                offset += repeats.cap(0).length();
-            }
-            else
-                group->addChildItem(tmp);
 
             workDone = true;
         }

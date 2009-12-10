@@ -72,6 +72,26 @@ QString SpecialCharGraphicsItem::parseString(QString text)
         return "Line<br>break";
     if(text == "\\t")
         return "Tab<br>character";
+    if(text == "\\a")
+        return "Bell<br>character";
+    if(text == "\\f")
+        return "Form<br>feed";
+    if(text == "\\r")
+        return "Carraige<br>return";
+    if(text == "\\v")
+        return "Vertical<br>tab";
+
+    QRegExp unicode("\\\\x([0-9a-fA-F]{4})");
+    if(unicode.exactMatch(text))
+        return QString("Unicode<br>char ") + unicode.cap(1);
+
+    QRegExp octal("\\\\0?([0-3][0-7]{2})");
+    if(octal.exactMatch(text))
+        return QString("Octal<br>char ") + octal.cap(1);
+
+    QRegExp backreference("\\\\([1-9][0-9]*)");
+    if(backreference.exactMatch(text))
+        return QString("Backreference<br>#") + backreference.cap(1);
 
     return "";
 }

@@ -50,7 +50,8 @@ TextEditDialog::TextEditDialog(QString curText, QWidget *parent) : QDialog(paren
 
 QString TextEditDialog::getText() const
 {
-    return text;
+    QString tmp = text;
+    return tmp.replace("\\", "\\\\");
 }
 
 /**

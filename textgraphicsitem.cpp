@@ -80,7 +80,7 @@ void TextGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 void TextGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     event->accept();
-    TextEditDialog dialog(textString);
+    TextEditDialog dialog(displayText);
     int response = dialog.exec();
 
     if(response == QDialog::Rejected)

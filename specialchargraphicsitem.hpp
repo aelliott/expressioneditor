@@ -24,6 +24,7 @@
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QGraphicsSceneHoverEvent>
+#include <QDebug>
 
 class SpecialCharGraphicsItem : public QGraphicsObject
 {
