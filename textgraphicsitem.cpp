@@ -95,11 +95,11 @@ void TextGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
  */
 void TextGraphicsItem::updateData()
 {
-    QStringList specialchars;
-    specialchars << "\\\\" << "[" << "]" << "(" << ")" << "*" << "^" << "$" << "." << "|" << "?" << "+" << "{" << "}";
-    QString pattern = QString("(\\") + specialchars.join("|\\") + ")";
-    QString expression = textString;
-    expression.replace(QRegExp(pattern), "\\\\1");
-    setData(expressionData, QVariant(expression));
+//    QStringList specialchars;
+//    specialchars << "\\\\" << "[" << "]" << "(" << ")" << "*" << "^" << "$" << "." << "|" << "?" << "+" << "{" << "}";
+//    QString pattern = QString("(\\") + specialchars.join("|\\") + ")";
+//    QString expression = textString;
+//    expression.replace(QRegExp(pattern), "\\\\1");
+    setData(expressionData, QVariant(textString));
     emit dataChanged();
 }

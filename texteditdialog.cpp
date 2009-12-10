@@ -50,8 +50,11 @@ TextEditDialog::TextEditDialog(QString curText, QWidget *parent) : QDialog(paren
 
 QString TextEditDialog::getText() const
 {
+    QStringList specialchars;
+    specialchars << "\\" << "[" << "]" << "(" << ")" << "*" << "^" << "$" << "." << "|" << "?" << "+" << "{" << "}";
+    QString pattern = QString("(\\") + specialchars.join("|\\") + ")";
     QString tmp = text;
-    return tmp.replace("\\", "\\\\");
+    return tmp.replace(QRegExp(pattern), "\\\\1");
 }
 
 /**
