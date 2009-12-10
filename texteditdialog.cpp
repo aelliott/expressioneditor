@@ -24,6 +24,9 @@ TextEditDialog::TextEditDialog(QString curText, QWidget *parent) : QDialog(paren
 {
     text = curText;
 
+    setWindowTitle(tr("Edit Text Item"));
+    setWindowIcon(QIcon::fromTheme("expressioneditor", QIcon(":/images/expressioneditor.png")));
+
     mainLayout = new QVBoxLayout(this);
 
     textEditLayout = new QHBoxLayout;
