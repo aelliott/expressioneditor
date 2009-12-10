@@ -39,7 +39,8 @@ QRectF GraphicalExpression::boundingRect() const
             height = childItems().at(i)->boundingRect().height();
     double width = 0;
     for(int i = 0; i < childItems().size(); ++i)
-        width += childItems().at(i)->boundingRect().width();
+        width += childItems().at(i)->boundingRect().width()+itemSpacing;
+    width += 2*itemSpacing;
     return QRectF(0, 0, width, height);
 }
 
@@ -50,8 +51,7 @@ void GraphicalExpression::paint(QPainter *painter, const QStyleOptionGraphicsIte
     double height = boundingRect().height();
     for(int i = 0; i < childItems().size(); ++i)
     {
-        if(offset > 0)
-            offset += itemSpacing;
+        offset += itemSpacing;
         double verticalOffset = (height/2)-(childItems().at(i)->boundingRect().height()/2);
         if(!childItems().at(i)->isSelected())
             childItems().at(i)->setPos(offset, verticalOffset);
