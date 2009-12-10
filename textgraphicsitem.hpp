@@ -21,6 +21,7 @@
 #ifndef TEXTGRAPHICSITEM_HPP
 #define TEXTGRAPHICSITEM_HPP
 
+#include <QApplication>
 #include <QGraphicsItem>
 #include <QGraphicsSceneHoverEvent>
 #include <QGraphicsSceneMouseEvent>
@@ -49,8 +50,8 @@ signals:
 private:
     void updateData();
     QString textString;
+    QString displayText;
     QColor backgroundColour;
-    QGraphicsSimpleTextItem *textItem;
     static const int expressionData = 0;
     static const int horizontalPadding = 10;
     static const int verticalPadding = 6;

@@ -36,7 +36,8 @@ TextGraphicsItem::TextGraphicsItem(QString text, QGraphicsItem * parent) : QGrap
 void TextGraphicsItem::setText(QString text)
 {
     textString = text;
-    textItem = new QGraphicsSimpleTextItem(textString);
+    displayText = textString;
+    displayText.replace(QRegExp("\\\\([^bBwWdDsSnt])"),"\\1");
     updateData();
 }
 
@@ -47,8 +48,8 @@ void TextGraphicsItem::appendText(QString append)
 
 QRectF TextGraphicsItem::boundingRect() const
 {
-    double width = textItem->boundingRect().width()+(2*horizontalPadding);
-    double height = textItem->boundingRect().height()+(2*verticalPadding);
+    double width = qApp->fontMetrics().width(displayText)+(2*horizontalPadding);
+    double height = qApp->fontMetrics().height()+(2*verticalPadding);
     return QRectF(0, 0, width, height);
 }
 
@@ -59,7 +60,7 @@ void TextGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     else
         painter->setBrush(QColor(180,225,180));
     painter->drawRoundedRect(boundingRect(), 8.0, 8.0);
-    painter->drawText(horizontalPadding, boundingRect().height()-(1.5*verticalPadding), textString);
+    painter->drawText(horizontalPadding, boundingRect().height()-(1.5*verticalPadding), displayText);
 }
 
 void TextGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
@@ -95,7 +96,7 @@ void TextGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 void TextGraphicsItem::updateData()
 {
     QStringList specialchars;
-    specialchars << "\\" << "[" << "]" << "(" << ")" << "*" << "^" << "$" << "." << "|" << "?" << "+" << "{" << "}";
+    specialchars << "\\\\" << "[" << "]" << "(" << ")" << "*" << "^" << "$" << "." << "|" << "?" << "+" << "{" << "}";
     QString pattern = QString("(\\") + specialchars.join("|\\") + ")";
     QString expression = textString;
     expression.replace(QRegExp(pattern), "\\\\1");
