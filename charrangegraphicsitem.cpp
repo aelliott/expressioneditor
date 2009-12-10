@@ -59,6 +59,11 @@ void CharRangeGraphicsItem::parseContents(QString string)
     {
         negated = true;
         ++offset;
+        if(QString(string.at(offset)) == "]")
+        {
+            characters << "]";
+            ++offset;
+        }
     }
 
     bool workDone = true;

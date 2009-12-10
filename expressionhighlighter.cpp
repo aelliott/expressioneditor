@@ -97,7 +97,7 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
                 }
                 // if the block state was 1 then it's a literal [
             }
-            if(QString(text.at(startOffset)) == "]")
+            if(QString(text.at(startOffset)) == "]" && QString(text.at(startOffset-1)) != "^")
             {
                 if(currentBlockState() == 1)
                 {

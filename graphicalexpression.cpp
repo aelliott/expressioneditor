@@ -143,9 +143,18 @@ QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offs
             // Consume characters until we get to the end ]
             QRegExp content("((\\\\[^]]){0,}|[^]\\\\])+");
             ++offset;
+            // If we've started with ^] take that
+            QString charRangeContents = "";
+            QRegExp notBrace("(\\^\\])");
+            if(notBrace.indexIn(expression, offset) == offset)
+            {
+                charRangeContents = notBrace.cap(1);
+                offset += notBrace.cap(1).length();
+            }
             if(content.indexIn(expression, offset) == offset)
             {
-                CharRangeGraphicsItem *tmp = new CharRangeGraphicsItem(content.cap(0));
+                charRangeContents += content.cap(0);
+                CharRangeGraphicsItem *tmp = new CharRangeGraphicsItem(charRangeContents);
                 offset += content.cap(0).length()+1;
                 if(repeats.indexIn(expression, offset) == offset)
                 {
