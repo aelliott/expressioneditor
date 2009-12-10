@@ -26,6 +26,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QIcon>
 #include <QLineEdit>
 
 class TextEditDialog : public QDialog
