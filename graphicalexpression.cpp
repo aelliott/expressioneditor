@@ -109,7 +109,7 @@ QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offs
             // Read in as many consecutive characters as possible
             QStringList characters;
 
-            while(character.indexIn(expression, offset) == offset)
+            while(special.indexIn(expression, offset) != offset && character.indexIn(expression, offset) == offset)
             {
 //                if(character.cap(0).length() == 2)
 //                    characters << QString(character.cap(0).at(1));

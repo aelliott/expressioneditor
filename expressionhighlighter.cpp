@@ -56,13 +56,14 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
     //escapedFormat.setFont(highlightedFont);
     escapedFormat.setFontWeight(QFont::Bold);
 
-    QString pattern = QString("\\\\\\") + specialchars.join("|\\\\\\");
+    QString pattern = QString("(\\\\\\") + specialchars.join("|\\\\\\");
+    pattern += "|\\\\[bBwWdDsSntafrv]|\\\\x[0-9a-fA-F]{4}|\\\\0?[0-3][0-7]{2}|\\\\[1-9][0-9]*)";
     QRegExp escaped(pattern);
 
     int startOffset = text.indexOf(escaped);
     while(startOffset >= 0)
     {
-        setFormat(startOffset, 2, escapedFormat);
+        setFormat(startOffset, escaped.cap(0).length(), escapedFormat);
         escapedChars.push_back(startOffset);
         escapedChars.push_back(++startOffset);
         startOffset = text.indexOf(escaped, ++startOffset);
