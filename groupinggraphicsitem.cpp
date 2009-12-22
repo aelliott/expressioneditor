@@ -142,7 +142,9 @@ void GroupingGraphicsItem::dropEvent(QGraphicsSceneDragDropEvent *event)
         QGraphicsObject *item = GraphicalExpression::parseSection(fragment, regexpoffset);
         addChildItem(item, false);
 
-        if(++offset < childItems().size())
+        if(!outerGroup)
+            ++offset;
+        if(offset < childItems().size())
         {
             item->stackBefore(childItems().at(offset));
         }
