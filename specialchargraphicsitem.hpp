@@ -24,9 +24,12 @@
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QGraphicsSceneHoverEvent>
+#include <QGraphicsSceneMouseEvent>
 #include <QDebug>
+#include "regexgraphicsitem.hpp"
+#include "specialchareditdialog.hpp"
 
-class SpecialCharGraphicsItem : public QGraphicsObject
+class SpecialCharGraphicsItem : public RegexGraphicsItem
 {
     Q_OBJECT;
 
@@ -39,6 +42,7 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 signals:
     void dataChanged();
@@ -48,7 +52,6 @@ private:
     QString plainContents;
     QGraphicsTextItem *contents;
     QColor backgroundColour;
-    static const int expressionData = 0;
     static const int horizontalPadding = 10;
     static const int verticalPadding = 6;
 };

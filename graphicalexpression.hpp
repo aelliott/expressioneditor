@@ -42,13 +42,13 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void addChildItem(QGraphicsItem *item);
+    static QGraphicsObject* parseSection(QString expression, int &offset, bool inAlternatives = false);
+    static RepeatGraphicsItem* parseRepeat(QString repeatString, QGraphicsObject* repeatItem);
+    static QGraphicsObject* parseCapture(QString expression, int &offset);
+    static AlternativesGraphicsItem* parseAlternatives(QString expression, int &offset, QGraphicsObject* firstItem);
 
 private:
     void parseExpression(QString expression);
-    QGraphicsObject* parseSection(QString expression, int &offset, bool inAlternatives = false);
-    RepeatGraphicsItem* parseRepeat(QString repeatString, QGraphicsObject* repeatItem);
-    QGraphicsObject* parseCapture(QString expression, int &offset);
-    AlternativesGraphicsItem* parseAlternatives(QString expression, int &offset, QGraphicsObject* firstItem);
     static const int expressionData = 0;
     static const int itemSpacing = 8;
 };

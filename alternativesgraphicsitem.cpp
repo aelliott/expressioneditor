@@ -20,7 +20,7 @@
 
 #include "alternativesgraphicsitem.hpp"
 
-AlternativesGraphicsItem::AlternativesGraphicsItem(QGraphicsItem *parent) : QGraphicsObject(parent)
+AlternativesGraphicsItem::AlternativesGraphicsItem(QGraphicsItem *parent) : RegexGraphicsItem(parent)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setAcceptHoverEvents(true);
@@ -41,8 +41,8 @@ QRectF AlternativesGraphicsItem::boundingRect() const
         height += rect.height() + 2*verticalPadding;
     }
     // Width of heading
-    if(qApp->fontMetrics().width(QObject::tr("Alternatives")) > width)
-        width = qApp->fontMetrics().width(QObject::tr("Alternatives"));
+    if(qApp->fontMetrics().width(tr("Alternatives")) > width)
+        width = qApp->fontMetrics().width(tr("Alternatives"));
     // Height of heading:
     height += qApp->fontMetrics().height() + verticalPadding;
     width +=  2*horizontalPadding;
@@ -51,6 +51,9 @@ QRectF AlternativesGraphicsItem::boundingRect() const
 
 void AlternativesGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     if(!isSelected())
         painter->setBrush(backgroundColour);
     else
@@ -59,7 +62,7 @@ void AlternativesGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphi
 
     // Draw heading
     double lineHeight = verticalPadding+(painter->fontMetrics().height()/2);
-    painter->drawText(horizontalPadding, lineHeight, QObject::tr("Alternatives"));
+    painter->drawText(horizontalPadding, lineHeight, tr("Alternatives"));
 
     lineHeight += verticalPadding;
     double width = boundingRect().width();

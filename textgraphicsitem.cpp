@@ -25,7 +25,7 @@ TextGraphicsItem::TextGraphicsItem(QGraphicsItem * parent)
     TextGraphicsItem("", parent);
 }
 
-TextGraphicsItem::TextGraphicsItem(QString text, QGraphicsItem * parent) : QGraphicsObject(parent)
+TextGraphicsItem::TextGraphicsItem(QString text, QGraphicsItem * parent) : RegexGraphicsItem(parent)
 {
     setText(text);
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -55,6 +55,9 @@ QRectF TextGraphicsItem::boundingRect() const
 
 void TextGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     if(!isSelected())
         painter->setBrush(backgroundColour);
     else

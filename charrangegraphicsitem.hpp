@@ -28,9 +28,10 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsTextItem>
 #include <QDebug>
+#include "regexgraphicsitem.hpp"
 #include "specialchargraphicsitem.hpp"
 
-class CharRangeGraphicsItem : public QGraphicsObject
+class CharRangeGraphicsItem : public RegexGraphicsItem
 {
     Q_OBJECT;
 
@@ -51,7 +52,6 @@ public slots:
     void updateData();
 
 private:
-    static const int expressionData = 0;
     static const int horizontalPadding = 10;
     static const int verticalPadding = 6;
     QColor backgroundColour;

@@ -26,8 +26,9 @@
 #include <QGraphicsSceneHoverEvent>
 #include <QPainter>
 #include <QDebug>
+#include "regexgraphicsitem.hpp"
 
-class AlternativesGraphicsItem : public QGraphicsObject
+class AlternativesGraphicsItem : public RegexGraphicsItem
 {
     Q_OBJECT;
 
@@ -46,7 +47,6 @@ public slots:
     void updateData();
 
 private:
-    static const int expressionData = 0;
     static const int horizontalPadding = 10;
     static const int verticalPadding = 8;
     QColor backgroundColour;

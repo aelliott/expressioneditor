@@ -22,7 +22,10 @@
 #define GROUPINGGRAPHICSITEM_HPP
 
 #include <QGraphicsItem>
+#include <QGraphicsSceneDragDropEvent>
 #include <QDebug>
+#include <QMimeData>
+#include "graphicalexpression.hpp"
 
 class GroupingGraphicsItem : public QGraphicsObject
 {
@@ -34,6 +37,9 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void addChildItem(QGraphicsObject *item);
     void setCapturingName(QString name);
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
+    void dropEvent(QGraphicsSceneDragDropEvent *event);
 
 signals:
     void dataChanged();

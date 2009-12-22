@@ -27,9 +27,10 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
 #include <QDebug>
+#include "regexgraphicsitem.hpp"
 #include "texteditdialog.hpp"
 
-class TextGraphicsItem : public QGraphicsObject
+class TextGraphicsItem : public RegexGraphicsItem
 {
     Q_OBJECT;
 
@@ -52,7 +53,6 @@ private:
     QString textString;
     QString displayText;
     QColor backgroundColour;
-    static const int expressionData = 0;
     static const int horizontalPadding = 10;
     static const int verticalPadding = 6;
 };

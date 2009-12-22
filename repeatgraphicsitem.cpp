@@ -21,7 +21,7 @@
 #include "repeatgraphicsitem.hpp"
 #include "repeateditdialog.hpp"
 
-RepeatGraphicsItem::RepeatGraphicsItem(RepeatGraphicsItem::Type type, int minimum, int maximum, QGraphicsItem *parent) : QGraphicsObject(parent)
+RepeatGraphicsItem::RepeatGraphicsItem(RepeatGraphicsItem::Type type, int minimum, int maximum, QGraphicsItem *parent) : RegexGraphicsItem(parent)
 {
     setRepeat(type, minimum, maximum);
 
@@ -40,24 +40,24 @@ void RepeatGraphicsItem::setRepeat(RepeatGraphicsItem::Type type, int minimum, i
     switch(type)
     {
         case RepeatGraphicsItem::ZeroOrOne:
-            title = "Included At Most Once";
+            title = tr("Included At Most Once");
             break;
         case RepeatGraphicsItem::ZeroOrMore:
-            title = "Repeated 0+ Times";
+            title = tr("Repeated 0+ Times");
             break;
         case RepeatGraphicsItem::OneOrMore:
-            title = "Repeated At Least Once";
+            title = tr("Repeated At Least Once");
             break;
         case RepeatGraphicsItem::ExactValue:
-            title = "Repeated Exactly " + QVariant(minimum).toString() + " Times";
+            title = tr("Repeated Exactly ") + QVariant(minimum).toString() + tr(" Times");
             break;
         case RepeatGraphicsItem::SpecifiedRange:
             if(maximum == -1)
-                title = "Repeated At Least " + QVariant(minimum).toString() + " Times";
+                title = tr("Repeated At Least ") + QVariant(minimum).toString() + tr(" Times");
             else if(minimum == -1)
-                title = "Repeated At Most " + QVariant(maximum).toString() + " Times";
+                title = tr("Repeated At Most ") + QVariant(maximum).toString() + tr(" Times");
             else
-                title = "Repeated Between " + QVariant(minimum).toString() + " And " + QVariant(maximum).toString() + " Times";
+                title = tr("Repeated Between ") + QVariant(minimum).toString() + tr(" And ") + QVariant(maximum).toString() + tr(" Times");
             break;
     }
 }
@@ -89,6 +89,8 @@ QRectF RepeatGraphicsItem::boundingRect() const
 
 void RepeatGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
     if(!isSelected())
         painter->setBrush(backgroundColour);
     else

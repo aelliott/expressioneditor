@@ -25,6 +25,16 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
+    // Recommended translation code
+    QTranslator qtTranslator;
+    qtTranslator.load("qt_" + QLocale::system().name(),
+                      QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    app.installTranslator(&qtTranslator);
+
+    QTranslator myappTranslator;
+    myappTranslator.load("myapp_" + QLocale::system().name());
+    app.installTranslator(&myappTranslator);
+
     MainWindow mainWindow;
     mainWindow.show();
 

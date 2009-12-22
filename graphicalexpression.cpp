@@ -46,6 +46,10 @@ QRectF GraphicalExpression::boundingRect() const
 
 void GraphicalExpression::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(painter);
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     // Lay out items
     double offset = 0;
     double height = boundingRect().height();
@@ -76,7 +80,7 @@ QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offs
 
     QRegExp character("[^[\\\\$.|?*+()^{}]|\\\\[^bBwWdDsSnt]");
     QRegExp repeats("\\{(\\d+)?,?(\\d+)?\\}|\\+|\\?|\\*");
-    QRegExp special("\\.|\\^|\\$|\\\\[bBwWdDsSntafrv]|\\\\x[0-9a-fA-F]{4}|\\\\0?[0-3][0-7]{2}|\\\\[1-9][0-9]*");
+    QRegExp special("\\.|\\^|\\$|\\\\[bBwWdDsSntafrv]|\\\\x[0-9a-fA-F]{2,4}|\\\\0[1-3]?[0-7]{2}|\\\\[1-9][0-9]*");
 
     bool workDone = true;
     while(workDone)

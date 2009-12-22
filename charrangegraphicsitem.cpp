@@ -20,12 +20,12 @@
 
 #include "charrangegraphicsitem.hpp"
 
-CharRangeGraphicsItem::CharRangeGraphicsItem(QGraphicsItem *parent) : QGraphicsObject(parent)
+CharRangeGraphicsItem::CharRangeGraphicsItem(QGraphicsItem *parent)
 {
     CharRangeGraphicsItem("", parent);
 }
 
-CharRangeGraphicsItem::CharRangeGraphicsItem(QString initContents, QGraphicsItem *parent)
+CharRangeGraphicsItem::CharRangeGraphicsItem(QString initContents, QGraphicsItem *parent) : RegexGraphicsItem(parent)
 {
     initialised = false;
     contents = initContents;
@@ -97,9 +97,9 @@ void CharRangeGraphicsItem::parseContents(QString string)
 
     QString htmlContents;
     if(negated)
-        htmlContents = QObject::tr("All characters except: ");
+        htmlContents = tr("All characters except: ");
     else
-        htmlContents = QObject::tr("Any one of: ");
+        htmlContents = tr("Any one of: ");
     for(int i = 0; i < elements.size(); ++i)
         htmlContents += QString("<br> - ") + elements.at(i);
 
@@ -117,6 +117,9 @@ QRectF CharRangeGraphicsItem::boundingRect() const
 
 void CharRangeGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     if(!isSelected())
         painter->setBrush(backgroundColour);
     else

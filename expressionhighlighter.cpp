@@ -57,7 +57,7 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
     escapedFormat.setFontWeight(QFont::Bold);
 
     QString pattern = QString("(\\\\\\") + specialchars.join("|\\\\\\");
-    pattern += "|\\\\[bBwWdDsSntafrv]|\\\\x[0-9a-fA-F]{4}|\\\\0?[0-3][0-7]{2}|\\\\[1-9][0-9]*)";
+    pattern += "|\\\\[bBwWdDsSntafrv]|\\\\x[0-9a-fA-F]{2,4}|\\\\0?[0-3][0-7]{2}|\\\\[1-9][0-9]*)";
     QRegExp escaped(pattern);
 
     int startOffset = text.indexOf(escaped);
@@ -98,7 +98,7 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
                 }
                 // if the block state was 1 then it's a literal [
             }
-            if(QString(text.at(startOffset)) == "]" && QString(text.at(startOffset-1)) != "^")
+            if(QString(text.at(startOffset)) == "]" && startOffset > 1 && QString(text.at(startOffset-1)) != "^")
             {
                 if(currentBlockState() == 1)
                 {

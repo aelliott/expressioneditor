@@ -25,7 +25,7 @@ SpecialCharGraphicsItem::SpecialCharGraphicsItem(QGraphicsItem *parent)
     SpecialCharGraphicsItem("", parent);
 }
 
-SpecialCharGraphicsItem::SpecialCharGraphicsItem(QString text, QGraphicsItem *parent) : QGraphicsObject(parent)
+SpecialCharGraphicsItem::SpecialCharGraphicsItem(QString text, QGraphicsItem *parent) : RegexGraphicsItem(parent)
 {
     contents = new QGraphicsTextItem;
     contents->setParentItem(this);
@@ -47,51 +47,51 @@ void SpecialCharGraphicsItem::setContents(QString text)
 QString SpecialCharGraphicsItem::parseString(QString text)
 {
     if(text == ".")
-        return "Matches<br>any character";
+        return tr("Matches<br>any character");
     if(text == "^")
-        return "Line<br>start";
+        return tr("Line<br>start");
     if(text == "$")
-        return "Line<br>end";
+        return tr("Line<br>end");
     if(text == "\\d")
-        return "Digit<br>character";
+        return tr("Digit<br>character");
     if(text == "\\b")
-        return "Word<br>boundary";
+        return tr("Word<br>boundary");
     if(text == "\\w")
-        return "Word<br>character";
+        return tr("Word<br>character");
     if(text == "\\s")
-        return "Whitespace<br>character";
+        return tr("Whitespace<br>character");
     if(text == "\\D")
-        return "Non-digit<br>character";
+        return tr("Non-digit<br>character");
     if(text == "\\B")
-        return "Non-word<br>boundary";
+        return tr("Non-word<br>boundary");
     if(text == "\\W")
-        return "Non-word<br>character";
+        return tr("Non-word<br>character");
     if(text == "\\S")
-        return "Non-whitespace<br>character";
+        return tr("Non-whitespace<br>character");
     if(text == "\\n")
-        return "Line<br>break";
+        return tr("Line<br>break");
     if(text == "\\t")
-        return "Tab<br>character";
+        return tr("Tab<br>character");
     if(text == "\\a")
-        return "Bell<br>character";
+        return tr("Bell<br>character");
     if(text == "\\f")
-        return "Form<br>feed";
+        return tr("Form<br>feed");
     if(text == "\\r")
-        return "Carraige<br>return";
+        return tr("Carraige<br>return");
     if(text == "\\v")
-        return "Vertical<br>tab";
+        return tr("Vertical<br>tab");
 
-    QRegExp unicode("\\\\x([0-9a-fA-F]{4})");
+    QRegExp unicode("\\\\x([0-9a-fA-F]{2,4})");
     if(unicode.exactMatch(text))
-        return QString("Unicode<br>char ") + unicode.cap(1);
+        return tr("Unicode<br>char ") + unicode.cap(1) + " \"" + QString(QChar(unicode.cap(1).toInt(0, 16))) + "\"";
 
-    QRegExp octal("\\\\0?([0-3][0-7]{2})");
+    QRegExp octal("\\\\(0?[0-3][0-7]{2})");
     if(octal.exactMatch(text))
-        return QString("Octal<br>char ") + octal.cap(1);
+        return tr("Octal<br>char ") + octal.cap(1) + " \"" + QString(QChar::fromAscii(octal.cap(1).toInt(0, 8))) + "\"";
 
     QRegExp backreference("\\\\([1-9][0-9]*)");
     if(backreference.exactMatch(text))
-        return QString("Backreference<br>#") + backreference.cap(1);
+        return tr("Backreference<br>#") + backreference.cap(1);
 
     return "";
 }
@@ -103,6 +103,9 @@ QRectF SpecialCharGraphicsItem::boundingRect() const
 
 void SpecialCharGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     if(!isSelected())
         painter->setBrush(backgroundColour);
     else
@@ -124,6 +127,16 @@ void SpecialCharGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     event->accept();
     backgroundColour = QColor(255, 220, 255);
     update();
+}
+
+void SpecialCharGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    event->accept();
+    SpecialCharEditDialog dialog(plainContents);
+    int response = dialog.exec();
+
+    if(response == QDialog::Rejected)
+        return;
 }
 
 /**

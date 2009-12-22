@@ -23,6 +23,7 @@
 GroupingGraphicsItem::GroupingGraphicsItem(bool capturing, QGraphicsItem *parent) : QGraphicsObject(parent)
 {
     isCapturing = capturing;
+    setAcceptDrops(true);
     updateData();
 }
 
@@ -44,6 +45,10 @@ QRectF GroupingGraphicsItem::boundingRect() const
 
 void GroupingGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    Q_UNUSED(painter);
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     // Lay out items
     double offset = 0;
     double height = boundingRect().height();
@@ -70,6 +75,23 @@ void GroupingGraphicsItem::setCapturingName(QString name)
 {
     capturingName = name;
     updateData();
+}
+
+void GroupingGraphicsItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
+{
+    event->accept();
+}
+
+void GroupingGraphicsItem::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+{
+    event->accept();
+}
+
+void GroupingGraphicsItem::dropEvent(QGraphicsSceneDragDropEvent *event)
+{
+    event->acceptProposedAction();
+    qDebug() << "GroupingItem: Item dropped in my bounding rect";
+    qDebug() << "MimeData: " << event->mimeData()->text();
 }
 
 /**
