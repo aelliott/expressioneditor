@@ -23,6 +23,7 @@
 GroupingGraphicsItem::GroupingGraphicsItem(bool capturing, QGraphicsItem *parent) : QGraphicsObject(parent)
 {
     isCapturing = capturing;
+    dragEvent = false;
     setAcceptDrops(true);
     updateData();
 }
@@ -45,9 +46,11 @@ QRectF GroupingGraphicsItem::boundingRect() const
 
 void GroupingGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    Q_UNUSED(painter);
+    //Q_UNUSED(painter);
     Q_UNUSED(option);
     Q_UNUSED(widget);
+
+    dropZones.clear();
 
     // Lay out items
     double offset = 0;
@@ -55,6 +58,15 @@ void GroupingGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
     for(int i = 0; i < childItems().size(); ++i)
     {
         QRectF rect = childItems().at(i)->boundingRect();
+        if(dragEvent && offset > 0)
+        {
+            QRectF dropZone(offset, 0, itemSpacing, height);
+            dropZones.push_back(dropZone);
+            QBrush brush(Qt::lightGray, Qt::BDiagPattern);
+            painter->setBrush(brush);
+            painter->setPen(Qt::NoPen);
+            painter->drawRect(dropZone);
+        }
         if(offset > 0)
             offset += itemSpacing;
         double verticalOffset = (height/2)-(rect.height()/2);
@@ -79,12 +91,24 @@ void GroupingGraphicsItem::setCapturingName(QString name)
 
 void GroupingGraphicsItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
-    event->accept();
+    event->acceptProposedAction();
+    dragEvent = true;
+    update();
 }
 
 void GroupingGraphicsItem::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 {
+    if(validDropZone(event->pos()))
+        event->acceptProposedAction();
+    else
+        event->ignore();
+}
+
+void GroupingGraphicsItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
+{
     event->accept();
+    dragEvent = false;
+    update();
 }
 
 void GroupingGraphicsItem::dropEvent(QGraphicsSceneDragDropEvent *event)
@@ -92,11 +116,21 @@ void GroupingGraphicsItem::dropEvent(QGraphicsSceneDragDropEvent *event)
     event->acceptProposedAction();
     qDebug() << "GroupingItem: Item dropped in my bounding rect";
     qDebug() << "MimeData: " << event->mimeData()->text();
+    dragEvent = false;
+    update();
 }
 
 /**
  * Private methods
  */
+bool GroupingGraphicsItem::validDropZone(QPointF position)
+{
+    for(int i = 0; i < dropZones.size(); ++i)
+        if(dropZones.at(i).contains(position))
+            return true;
+    return false;
+}
+
 void GroupingGraphicsItem::updateData()
 {
     QString expression;

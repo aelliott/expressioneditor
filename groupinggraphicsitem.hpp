@@ -39,6 +39,7 @@ public:
     void setCapturingName(QString name);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
+    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
     void dropEvent(QGraphicsSceneDragDropEvent *event);
 
 signals:
@@ -48,10 +49,13 @@ public slots:
     void updateData();
 
 private:
+    bool validDropZone(QPointF position);
     static const int expressionData = 0;
     static const int itemSpacing = 8;
     bool isCapturing;
+    bool dragEvent;
     QString capturingName;
+    QVector<QRectF> dropZones;
 };
 
 #endif // GROUPINGGRAPHICSITEM_HPP
