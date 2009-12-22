@@ -47,6 +47,7 @@ public slots:
     void removeChild(QGraphicsObject *item);
 
 protected:
+    void updateData();
     static const int expressionData = 0;
     QPointF dragStartPosition;
 };

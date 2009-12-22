@@ -61,6 +61,8 @@ void RegexGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         emit removeItem(this);
 }
 
+void RegexGraphicsItem::updateData(){ }
+
 /**
  * Public slots
  */
@@ -68,4 +70,6 @@ void RegexGraphicsItem::removeChild(QGraphicsObject *item)
 {
     if(isAncestorOf(item))
         delete item;
+    update();
+    updateData();
 }

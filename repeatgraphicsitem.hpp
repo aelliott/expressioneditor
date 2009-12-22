@@ -57,6 +57,7 @@ signals:
 
 public slots:
     void updateData();
+    void removeChild(QGraphicsObject *item);
 
 private:
     static const int horizontalPadding = 10;

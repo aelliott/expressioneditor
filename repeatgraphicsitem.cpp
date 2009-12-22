@@ -67,6 +67,7 @@ void RepeatGraphicsItem::setChildItem(QGraphicsObject *item)
         delete childItems().at(0);
     item->setParentItem(this);
     connect(item, SIGNAL(dataChanged()), this, SLOT(updateData()));
+    connect(item, SIGNAL(removeItem(QGraphicsObject*)), this, SLOT(removeChild(QGraphicsObject*)));
     updateData();
 }
 
@@ -134,38 +135,47 @@ void RepeatGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 }
 
 /**
- * Private methods
+ * Public slots
  */
 void RepeatGraphicsItem::updateData()
 {
     QString expression = "";
     if(childItems().size() > 0)
+    {
         expression = childItems().at(0)->data(expressionData).toString();
 
-    switch(setType)
-    {
-    case RepeatGraphicsItem::ZeroOrOne:
-        expression += "?";
-        break;
-    case RepeatGraphicsItem::ZeroOrMore:
-        expression += "*";
-        break;
-    case RepeatGraphicsItem::OneOrMore:
-        expression += "+";
-        break;
-    case RepeatGraphicsItem::ExactValue:
-        expression += "{" + QVariant(setMinimum).toString() + "}";
-        break;
-    case RepeatGraphicsItem::SpecifiedRange:
-        if(setMaximum == -1)
-            expression += "{" + QVariant(setMinimum).toString() + ",}";
-        else if(setMinimum == -1)
-            expression += "{," + QVariant(setMaximum).toString() + "}";
-        else
-            expression += "{" + QVariant(setMinimum).toString() + "," + QVariant(setMaximum).toString() + "}";
-        break;
+        switch(setType)
+        {
+        case RepeatGraphicsItem::ZeroOrOne:
+            expression += "?";
+            break;
+        case RepeatGraphicsItem::ZeroOrMore:
+            expression += "*";
+            break;
+        case RepeatGraphicsItem::OneOrMore:
+            expression += "+";
+            break;
+        case RepeatGraphicsItem::ExactValue:
+            expression += "{" + QVariant(setMinimum).toString() + "}";
+            break;
+        case RepeatGraphicsItem::SpecifiedRange:
+            if(setMaximum == -1)
+                expression += "{" + QVariant(setMinimum).toString() + ",}";
+            else if(setMinimum == -1)
+                expression += "{," + QVariant(setMaximum).toString() + "}";
+            else
+                expression += "{" + QVariant(setMinimum).toString() + "," + QVariant(setMaximum).toString() + "}";
+            break;
+        }
     }
 
     setData(expressionData, QVariant(expression));
     emit dataChanged();
+}
+
+void RepeatGraphicsItem::removeChild(QGraphicsObject *item)
+{
+    if(isAncestorOf(item))
+        delete item;
+    emit removeItem(this);
 }
