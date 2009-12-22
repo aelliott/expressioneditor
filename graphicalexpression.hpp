@@ -42,7 +42,7 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void addChildItem(QGraphicsItem *item);
-    static QGraphicsObject* parseSection(QString expression, int &offset, bool inAlternatives = false);
+    static QGraphicsObject* parseSection(QString expression, int &offset, bool inAlternatives = false, bool outerFlag = false);
     static RepeatGraphicsItem* parseRepeat(QString repeatString, QGraphicsObject* repeatItem);
     static QGraphicsObject* parseCapture(QString expression, int &offset);
     static AlternativesGraphicsItem* parseAlternatives(QString expression, int &offset, QGraphicsObject* firstItem);

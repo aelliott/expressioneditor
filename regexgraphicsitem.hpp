@@ -40,6 +40,12 @@ public:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
+signals:
+    void removeItem(QGraphicsObject *item);
+
+public slots:
+    void removeChild(QGraphicsObject *item);
+
 protected:
     static const int expressionData = 0;
     QPointF dragStartPosition;

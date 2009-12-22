@@ -71,13 +71,13 @@ void GraphicalExpression::addChildItem(QGraphicsItem *item)
 void GraphicalExpression::parseExpression(QString expression)
 {
     int offset = 0;
-    addChildItem(parseSection(expression, offset));
+    addChildItem(parseSection(expression, offset, false, true));
 }
 
-QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offset, bool inAlternatives)
+QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offset, bool inAlternatives, bool outerFlag)
 {
     GroupingGraphicsItem *group = new GroupingGraphicsItem;
-    if(offset == 0 || inAlternatives)
+    if(outerFlag || inAlternatives)
         group->setOuterGroup(true);
 
     QRegExp character("[^[\\\\$.|?*+()^{}]|\\\\[^bBwWdDsSnt]");

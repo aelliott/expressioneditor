@@ -27,8 +27,6 @@ RepeatGraphicsItem::RepeatGraphicsItem(RepeatGraphicsItem::Type type, int minimu
 
     updateData();
 
-    setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
-    setAcceptHoverEvents(true);
     backgroundColour = QColor(255, 230, 230);
 }
 

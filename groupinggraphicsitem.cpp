@@ -49,7 +49,6 @@ QRectF GroupingGraphicsItem::boundingRect() const
 
 void GroupingGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    //Q_UNUSED(painter);
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
@@ -89,11 +88,13 @@ void GroupingGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
     }
 }
 
-void GroupingGraphicsItem::addChildItem(QGraphicsObject *item)
+void GroupingGraphicsItem::addChildItem(QGraphicsObject *item, bool updateFlag)
 {
     item->setParentItem(this);
     connect(item, SIGNAL(dataChanged()), this, SLOT(updateData()));
-    updateData();
+    connect(item, SIGNAL(removeItem(QGraphicsObject*)), this, SLOT(removeChild(QGraphicsObject*)));
+    if(updateFlag)
+        updateData();
 }
 
 void GroupingGraphicsItem::setCapturingName(QString name)
@@ -131,22 +132,35 @@ void GroupingGraphicsItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 
 void GroupingGraphicsItem::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
-    event->acceptProposedAction();
-    qDebug() << "GroupingItem: Item dropped in my bounding rect";
-    qDebug() << "MimeData: " << event->mimeData()->text();
-    dragEvent = false;
-    update();
+    int offset;
+    if((offset = dropZoneOffset(event->pos())) >= 0)
+    {
+        event->acceptProposedAction();
+
+        QString fragment = event->mimeData()->text();
+        int regexpoffset = 0;
+        QGraphicsObject *item = GraphicalExpression::parseSection(fragment, regexpoffset);
+        addChildItem(item, false);
+
+        if(++offset < childItems().size())
+        {
+            item->stackBefore(childItems().at(offset));
+        }
+
+        dragEvent = false;
+        update();
+        updateData();
+    }
 }
 
 /**
- * Private methods
+ * Public slots
  */
-bool GroupingGraphicsItem::validDropZone(QPointF position)
+void GroupingGraphicsItem::removeChild(QGraphicsObject *item)
 {
-    for(int i = 0; i < dropZones.size(); ++i)
-        if(dropZones.at(i).contains(position))
-            return true;
-    return false;
+    if(isAncestorOf(item))
+        delete item;
+    updateData();
 }
 
 void GroupingGraphicsItem::updateData()
@@ -166,4 +180,23 @@ void GroupingGraphicsItem::updateData()
         expression = elements.join("");
     setData(expressionData, QVariant(expression));
     emit dataChanged();
+}
+
+/**
+ * Private methods
+ */
+bool GroupingGraphicsItem::validDropZone(QPointF position)
+{
+    for(int i = 0; i < dropZones.size(); ++i)
+        if(dropZones.at(i).contains(position))
+            return true;
+    return false;
+}
+
+int GroupingGraphicsItem::dropZoneOffset(QPointF position)
+{
+    for(int i = 0; i < dropZones.size(); ++i)
+        if(dropZones.at(i).contains(position))
+            return i;
+    return -1;
 }

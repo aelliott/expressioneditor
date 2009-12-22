@@ -35,7 +35,7 @@ public:
     GroupingGraphicsItem(bool capturing = false, bool outer = false, QGraphicsItem *parent = 0);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    void addChildItem(QGraphicsObject *item);
+    void addChildItem(QGraphicsObject *item, bool updateFlag = true);
     void setCapturingName(QString name);
     void setOuterGroup(bool outer);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
@@ -45,12 +45,15 @@ public:
 
 signals:
     void dataChanged();
+    void removeItem(QGraphicsObject *item);
 
 public slots:
     void updateData();
+    void removeChild(QGraphicsObject *item);
 
 private:
     bool validDropZone(QPointF position);
+    int dropZoneOffset(QPointF position);
     static const int expressionData = 0;
     static const int itemSpacing = 8;
     bool outerGroup;

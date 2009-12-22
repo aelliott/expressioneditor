@@ -22,6 +22,9 @@
 
 RegexGraphicsItem::RegexGraphicsItem(QGraphicsItem *parent) : QGraphicsObject(parent)
 {
+    setCursor(Qt::OpenHandCursor);
+    setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
+    setAcceptHoverEvents(true);
 }
 
 void RegexGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -53,5 +56,16 @@ void RegexGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     drag->setPixmap(image);
 
     Qt::DropAction dropAction = drag->exec();
-    Q_UNUSED(dropAction);
+
+    if(dropAction == Qt::MoveAction)
+        emit removeItem(this);
+}
+
+/**
+ * Public slots
+ */
+void RegexGraphicsItem::removeChild(QGraphicsObject *item)
+{
+    if(isAncestorOf(item))
+        delete item;
 }
