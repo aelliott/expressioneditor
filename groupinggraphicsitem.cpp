@@ -20,9 +20,10 @@
 
 #include "groupinggraphicsitem.hpp"
 
-GroupingGraphicsItem::GroupingGraphicsItem(bool capturing, QGraphicsItem *parent) : QGraphicsObject(parent)
+GroupingGraphicsItem::GroupingGraphicsItem(bool capturing, bool outer, QGraphicsItem *parent) : QGraphicsObject(parent)
 {
     isCapturing = capturing;
+    setOuterGroup(outer);
     dragEvent = false;
     setAcceptDrops(true);
     updateData();
@@ -39,8 +40,10 @@ QRectF GroupingGraphicsItem::boundingRect() const
             height = rect.height();
         width += rect.width() + itemSpacing;
     }
-    if(width > 0)
+    if(width > 0 && !outerGroup)
         width -= itemSpacing;
+    else
+        width += itemSpacing;
     return QRectF(0, 0, width, height);
 }
 
@@ -58,7 +61,7 @@ void GroupingGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
     for(int i = 0; i < childItems().size(); ++i)
     {
         QRectF rect = childItems().at(i)->boundingRect();
-        if(dragEvent && offset > 0)
+        if(dragEvent && (outerGroup || offset > 0))
         {
             QRectF dropZone(offset, 0, itemSpacing, height);
             dropZones.push_back(dropZone);
@@ -67,12 +70,22 @@ void GroupingGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
             painter->setPen(Qt::NoPen);
             painter->drawRect(dropZone);
         }
-        if(offset > 0)
+        if(offset > 0 || outerGroup)
             offset += itemSpacing;
         double verticalOffset = (height/2)-(rect.height()/2);
         if(!childItems().at(i)->isSelected())
             childItems().at(i)->setPos(offset, verticalOffset);
         offset += rect.width();
+    }
+
+    if(dragEvent && outerGroup)
+    {
+        QRectF dropZone(offset, 0, itemSpacing, height);
+        dropZones.push_back(dropZone);
+        QBrush brush(Qt::lightGray, Qt::BDiagPattern);
+        painter->setBrush(brush);
+        painter->setPen(Qt::NoPen);
+        painter->drawRect(dropZone);
     }
 }
 
@@ -87,6 +100,11 @@ void GroupingGraphicsItem::setCapturingName(QString name)
 {
     capturingName = name;
     updateData();
+}
+
+void GroupingGraphicsItem::setOuterGroup(bool outer)
+{
+    outerGroup = outer;
 }
 
 void GroupingGraphicsItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)

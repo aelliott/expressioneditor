@@ -77,6 +77,8 @@ void GraphicalExpression::parseExpression(QString expression)
 QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offset, bool inAlternatives)
 {
     GroupingGraphicsItem *group = new GroupingGraphicsItem;
+    if(offset == 0 || inAlternatives)
+        group->setOuterGroup(true);
 
     QRegExp character("[^[\\\\$.|?*+()^{}]|\\\\[^bBwWdDsSnt]");
     QRegExp repeats("\\{(\\d+)?,?(\\d+)?\\}|\\+|\\?|\\*");
@@ -175,7 +177,10 @@ QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offs
         if(!workDone && QRegExp("\\|").indexIn(expression, offset) == offset)
         {
             if(!inAlternatives)
+            {
+                group->setOuterGroup(true);
                 return parseAlternatives(expression, offset, group);
+            }
             else
                 return group;
         }
