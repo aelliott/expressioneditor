@@ -30,7 +30,11 @@ GraphicalToolkit::GraphicalToolkit(QWidget *parent) : QWidget(parent)
 
     generalItems = new QListWidget;
     generalItems->setFixedWidth(180);
-    generalItems->addItem(new QListWidgetItem(QIcon(":/images/text.png"), tr("Text Segment")));
+    generalItems->setDragEnabled(true);
+
+    QListWidgetItem *textItem = new QListWidgetItem(QIcon(":/images/text.png"), tr("Text Segment"));
+    textItem->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled);
+    generalItems->addItem(textItem);
     generalItems->addItem(tr("Character Range"));
     generalLayout->addWidget(generalItems);
 

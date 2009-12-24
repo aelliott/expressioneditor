@@ -135,12 +135,34 @@ void GroupingGraphicsItem::dropEvent(QGraphicsSceneDragDropEvent *event)
     int offset;
     if((offset = dropZoneOffset(event->pos())) >= 0)
     {
-        event->acceptProposedAction();
+        QGraphicsObject *item;
 
-        QString fragment = event->mimeData()->text();
-        int regexpoffset = 0;
-        QGraphicsObject *item = GraphicalExpression::parseSection(fragment, regexpoffset);
-        addChildItem(item, false);
+        if(event->mimeData()->hasFormat("text/x-regexp"))
+        {
+            event->acceptProposedAction();
+            QString fragment = event->mimeData()->data("text/x-regexp");
+            if(fragment.isEmpty())
+                return;
+
+            int regexpoffset = 0;
+            item = GraphicalExpression::parseSection(fragment, regexpoffset);
+            addChildItem(item, false);
+        }
+        else if(event->mimeData()->hasFormat("message/x-droptype"))
+        {
+            event->acceptProposedAction();
+            qDebug() << "Drop Type: " << event->mimeData()->data("message/x-droptype");
+            // handle each droptype with a specified dialog handler, then
+            // use parseSection as above.
+        }
+        else
+        {
+            qDebug() << "Unexpected drop action";
+            dragEvent = false;
+            update();
+            updateData();
+            return;
+        }
 
         if(!outerGroup)
             ++offset;

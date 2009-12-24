@@ -177,5 +177,6 @@ void RepeatGraphicsItem::removeChild(QGraphicsObject *item)
 {
     if(isAncestorOf(item))
         delete item;
+    // Since the repeat item can only have one child, this is now empty
     emit removeItem(this);
 }

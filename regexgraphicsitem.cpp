@@ -44,7 +44,7 @@ void RegexGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     QDrag *drag = new QDrag(event->widget());
     QMimeData *mimeData = new QMimeData;
 
-    mimeData->setText(this->data(expressionData).toString());
+    mimeData->setData("text/x-regexp", this->data(expressionData).toByteArray());
     drag->setMimeData(mimeData);
 
     QPixmap image(this->boundingRect().width()*0.75, this->boundingRect().height()*0.75);
