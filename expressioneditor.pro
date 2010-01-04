@@ -17,7 +17,13 @@ SOURCES += main.cpp \
     repeateditdialog.cpp \
     texteditdialog.cpp \
     specialchareditdialog.cpp \
-    regexgraphicsitem.cpp
+    regexgraphicsitem.cpp \
+    regexbase.cpp \
+    pcreregex.cpp \
+    qtregex.cpp \
+    regexfactory.cpp \
+    pcrewrapper.cpp \
+    capturedstring.cpp
 HEADERS += mainwindow.hpp \
     welcome.hpp \
     expressioneditor.hpp \
@@ -36,8 +42,16 @@ HEADERS += mainwindow.hpp \
     repeateditdialog.hpp \
     texteditdialog.hpp \
     specialchareditdialog.hpp \
-    regexgraphicsitem.hpp
+    regexgraphicsitem.hpp \
+    regexbase.hpp \
+    pcreregex.hpp \
+    qtregex.hpp \
+    regexfactory.hpp \
+    pcrewrapper.hpp \
+    capturedstring.hpp
 RESOURCES += images.qrc
 QT += xml
+LIBS += -lpcre -lpcrecpp \
+    -L/usr/include
 OTHER_FILES += README.txt \
     gpl.txt

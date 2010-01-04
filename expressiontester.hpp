@@ -31,6 +31,7 @@
 #include <QHeaderView>
 #include <QLabel>
 #include <QDebug>
+#include "regexfactory.hpp"
 
 class ExpressionTester : public QWidget
 {
@@ -51,7 +52,8 @@ private:
     static const int initialRows = 4;
     void addRow();
     QVBoxLayout *mainLayout;
-    QRegExp *rx;
+    RegexFactory *factory;
+    RegexBase *rx;
     QTableWidget *table;
 
 private slots:

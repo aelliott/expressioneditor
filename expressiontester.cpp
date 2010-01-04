@@ -22,7 +22,8 @@
 
 ExpressionTester::ExpressionTester(QWidget *parent) : QWidget(parent)
 {
-    rx = new QRegExp("");
+    factory = new RegexFactory();
+    rx = factory->factory();
 
     mainLayout = new QVBoxLayout(this);
 
@@ -61,7 +62,7 @@ void ExpressionTester::addRow()
 
 QString ExpressionTester::getExpression()
 {
-    return rx->pattern();
+    return rx->getExpression();
 }
 
 QStringList ExpressionTester::getTestStrings()
@@ -79,7 +80,7 @@ QStringList ExpressionTester::getTestStrings()
 void ExpressionTester::updateExpression(QString exp)
 {
     delete rx;
-    rx = new QRegExp(exp);
+    rx = factory->factory(exp);
     for(int i = 0; i < table->rowCount(); ++i)
         updateRow(i);
 }
