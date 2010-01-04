@@ -22,6 +22,6 @@ RegexBase* RegexFactory::factory(QString pattern, int type)
             break;
         default:
             // This should never happen
-            return new QtRegex(pattern);
+            return new PcreRegex(pattern);
     }
 }

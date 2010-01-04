@@ -53,6 +53,7 @@ void PcreWrapper::InitMatch()
 bool PcreWrapper::ExactMatch(const std::string &string)
 {
     // Make sure it matches the full string if possible.
+    std::string tmp = pattern;
     setExpression(std::string("(?:") + pattern + ")\\z");
 
     if(!isValid())
@@ -61,6 +62,8 @@ bool PcreWrapper::ExactMatch(const std::string &string)
     InitMatch();
 
     bool match = PartialMatch(string);
+
+    setExpression(tmp);
 
     return (match && string.length() == matchedLength());
 }

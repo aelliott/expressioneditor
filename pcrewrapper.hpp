@@ -27,6 +27,7 @@
 #include <string>
 #include <vector>
 #include <utility>
+#include <QDebug>
 
 /**
  * This class wraps the C API for PCRE, I decided against using pcrecpp
