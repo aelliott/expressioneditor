@@ -45,6 +45,7 @@ public:
 
     RepeatGraphicsItem(RepeatGraphicsItem::Type type, int minimum = -1, int maximum = -1, QGraphicsItem *parent = 0);
     void setRepeat(RepeatGraphicsItem::Type type, int minimum = -1, int maximum = -1);
+    void setGreedy(bool newGreedy);
     void setChildItem(QGraphicsObject *item);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -65,6 +66,7 @@ private:
     QColor backgroundColour;
     QString title;
     RepeatGraphicsItem::Type setType;
+    bool greedy;
     int setMinimum;
     int setMaximum;
 };

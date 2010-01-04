@@ -81,7 +81,7 @@ QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offs
         group->setOuterGroup(true);
 
     QRegExp character("[^[\\\\$.|?*+()^{}]|\\\\[^bBwWdDsSnt]");
-    QRegExp repeats("\\{(\\d+)?,?(\\d+)?\\}|\\+|\\?|\\*");
+    QRegExp repeats("\\{(\\d+)?,?(\\d+)?\\}|\\+\\??|\\?|\\*\\??");
     QRegExp special("\\.|\\^|\\$|\\\\[bBwWdDsSntafrv]|\\\\x[0-9a-fA-F]{2,4}|\\\\0[1-3]?[0-7]{2}|\\\\[1-9][0-9]*");
 
     bool workDone = true;
@@ -207,10 +207,20 @@ RepeatGraphicsItem* GraphicalExpression::parseRepeat(QString repeatString, QGrap
     }
     else if(repeatString == "+")
         repeat = new RepeatGraphicsItem(RepeatGraphicsItem::OneOrMore);
+    else if(repeatString == "+?")
+    {
+        repeat = new RepeatGraphicsItem(RepeatGraphicsItem::OneOrMore);
+        repeat->setGreedy(false);
+    }
     else if(repeatString == "?")
         repeat = new RepeatGraphicsItem(RepeatGraphicsItem::ZeroOrOne);
     else if(repeatString == "*")
         repeat = new RepeatGraphicsItem(RepeatGraphicsItem::ZeroOrMore);
+    else if(repeatString == "*?")
+    {
+        repeat = new RepeatGraphicsItem(RepeatGraphicsItem::ZeroOrMore);
+        repeat->setGreedy(false);
+    }
 
     repeat->setChildItem(repeatItem);
     return repeat;
@@ -227,7 +237,7 @@ QGraphicsObject* GraphicalExpression::parseCapture(QString expression, int &offs
 
     group->addChildItem(tmp);
 
-    QRegExp repeats("\\{(\\d+)?,?(\\d+)?\\}|\\+|\\?|\\*");
+    QRegExp repeats("\\{(\\d+)?,?(\\d+)?\\}|\\+\\??|\\?|\\*\\??");
     if(repeats.indexIn(expression, offset) == offset)
     {
         RepeatGraphicsItem *repeat = parseRepeat(repeats.cap(0), group);

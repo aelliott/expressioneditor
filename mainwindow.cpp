@@ -232,7 +232,8 @@ void MainWindow::createMenuBar()
 
     // [Edit] Format Menu:
     formatMenu = editMenu->addMenu(tr("Expression Format"));
-    formatMenu->setDisabled(true);
+    if(fileOpen == false)
+        formatMenu->setDisabled(true);
 
     // [Edit -> Format] Perl Style Action:
     QActionGroup *formatGroup = new QActionGroup(formatMenu);

@@ -21,7 +21,7 @@
 #include "repeatgraphicsitem.hpp"
 #include "repeateditdialog.hpp"
 
-RepeatGraphicsItem::RepeatGraphicsItem(RepeatGraphicsItem::Type type, int minimum, int maximum, QGraphicsItem *parent) : RegexGraphicsItem(parent)
+RepeatGraphicsItem::RepeatGraphicsItem(RepeatGraphicsItem::Type type, int minimum, int maximum, QGraphicsItem *parent) : RegexGraphicsItem(parent), greedy(true)
 {
     setRepeat(type, minimum, maximum);
 
@@ -42,9 +42,13 @@ void RepeatGraphicsItem::setRepeat(RepeatGraphicsItem::Type type, int minimum, i
             break;
         case RepeatGraphicsItem::ZeroOrMore:
             title = tr("Repeated 0+ Times");
+            if(!greedy)
+                title += tr(" (non-greedy)");
             break;
         case RepeatGraphicsItem::OneOrMore:
             title = tr("Repeated At Least Once");
+            if(!greedy)
+                title += tr(" (non-greedy)");
             break;
         case RepeatGraphicsItem::ExactValue:
             title = tr("Repeated Exactly ") + QVariant(minimum).toString() + tr(" Times");
@@ -58,6 +62,12 @@ void RepeatGraphicsItem::setRepeat(RepeatGraphicsItem::Type type, int minimum, i
                 title = tr("Repeated Between ") + QVariant(minimum).toString() + tr(" And ") + QVariant(maximum).toString() + tr(" Times");
             break;
     }
+}
+
+void RepeatGraphicsItem::setGreedy(bool newGreedy)
+{
+    greedy = newGreedy;
+    setRepeat(setType, setMinimum, setMaximum);
 }
 
 void RepeatGraphicsItem::setChildItem(QGraphicsObject *item)
@@ -151,9 +161,13 @@ void RepeatGraphicsItem::updateData()
             break;
         case RepeatGraphicsItem::ZeroOrMore:
             expression += "*";
+            if(!greedy)
+                expression += "?";
             break;
         case RepeatGraphicsItem::OneOrMore:
             expression += "+";
+            if(!greedy)
+                expression += "?";
             break;
         case RepeatGraphicsItem::ExactValue:
             expression += "{" + QVariant(setMinimum).toString() + "}";
