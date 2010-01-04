@@ -23,6 +23,7 @@
 
 #include <QGraphicsView>
 #include <QDebug>
+#include "regexfactory.hpp"
 #include "graphicalexpression.hpp"
 
 class GraphicalWorkspace : public QGraphicsView
@@ -39,8 +40,10 @@ public slots:
     void updateExpression(QString expression);
     void sceneChanged();
     QPixmap exportToImage();
+    void setFormat(int type);
 
 private:
+    RegexFactory *factory;
     QString expression;
     bool editingStarted;
     QGraphicsScene *scene;

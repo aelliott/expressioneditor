@@ -40,6 +40,7 @@ public slots:
     void updateExpression(QString newExpression);
     void sceneChanged(QString newExpression);
     QPixmap exportToImage();
+    void setFormat(int type);
 
 private:
     QString expression;

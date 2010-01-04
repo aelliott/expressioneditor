@@ -9,6 +9,11 @@ void RegexFactory::setType(int type)
     defaultType = type;
 }
 
+int RegexFactory::type() const
+{
+    return defaultType;
+}
+
 RegexBase* RegexFactory::factory(QString pattern, int type)
 {
     int usedType = (type == -1) ? defaultType : type;

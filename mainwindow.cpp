@@ -23,6 +23,11 @@
 MainWindow::MainWindow()
 {
     importSettings();
+
+    statusBar()->showMessage("Ready");
+    formatLabel = new QLabel;
+    statusBar()->addPermanentWidget(formatLabel);
+
     createMenuBar();
 
     setWindowIcon(QIcon::fromTheme("expressioneditor", QIcon(":/images/expressioneditor.png")));
@@ -99,6 +104,11 @@ void MainWindow::importSettings()
 
 void MainWindow::updateSettings()
 {
+    QString settingsDirname = ".expressioneditor";
+#ifdef Q_OS_WIN32
+    settingsDirname = "expressioneditor";
+#endif
+
     // Update recent files
     QDomDocument recent("recentFiles");
     QDomElement root = recent.createElement("root");
@@ -113,7 +123,7 @@ void MainWindow::updateSettings()
         file.appendChild(filePath);
     }
 
-    QFile recentFile(QDir::homePath() + "/.expressioneditor/recentfiles");
+    QFile recentFile(QDir::homePath() + "/" + settingsDirname + "/recentfiles");
     recentFile.open(QIODevice::WriteOnly | QIODevice::Text);
     recentFile.write(recent.toByteArray());
 }
@@ -128,6 +138,7 @@ void MainWindow::createMenuBar()
     // [File] New Action:
     newAction = new QAction(QIcon::fromTheme("document-new", QIcon(":/images/document-new.png")), tr("&New Expression"), this);
     newAction->setShortcut(tr("Ctrl+N"));
+    newAction->setStatusTip(tr("Create a new expression"));
         connect(newAction, SIGNAL(triggered()), this, SLOT(newFile()));
     fileMenu->addAction(newAction);
 
@@ -137,6 +148,7 @@ void MainWindow::createMenuBar()
     // [File] Open Action:
     openAction = new QAction(QIcon::fromTheme("document-open", QIcon(":/images/document-open.png")), tr("&Open Expression"), this);
     openAction->setShortcut(tr("Ctrl+O"));
+    openAction->setStatusTip("Open an existing expression");
         connect(openAction, SIGNAL(triggered()), this, SLOT(openFile()));
     fileMenu->addAction(openAction);
 
@@ -148,6 +160,7 @@ void MainWindow::createMenuBar()
         {
             QFile file(recentFiles.at(i));
             QAction *recentFileAction = new QAction(file.fileName(), this);
+            recentFileAction->setStatusTip("Open " + file.fileName());
                 connect(recentFileAction, SIGNAL(triggered()), recentMap, SLOT(map()));
             recentMap->setMapping(recentFileAction, recentFiles.at(i));
             recentMenu->addAction(recentFileAction);
@@ -164,6 +177,7 @@ void MainWindow::createMenuBar()
         {
             QFile file(commonFiles.at(i));
             QAction *commonFileAction = new QAction(file.fileName(), this);
+            commonFileAction->setStatusTip("Open " + file.fileName());
                 connect(commonFileAction, SIGNAL(triggered()), commonMap, SLOT(map()));
             commonMap->setMapping(commonFileAction, commonFiles.at(i));
             commonMenu->addAction(commonFileAction);
@@ -178,6 +192,7 @@ void MainWindow::createMenuBar()
     // [File] Save Action:
     saveAction = new QAction(QIcon::fromTheme("document-save", QIcon(":/images/document-save.png")), tr("&Save Expression"), this);
     saveAction->setShortcut(tr("Ctrl+S"));
+    saveAction->setStatusTip("Save the current expression");
     if(fileOpen == false)
         saveAction->setDisabled(true);
         connect(saveAction, SIGNAL(triggered()), this, SLOT(saveFile()));
@@ -185,6 +200,7 @@ void MainWindow::createMenuBar()
 
     // [File] Save As Action
     saveAsAction = new QAction(QIcon::fromTheme("document-save-as", QIcon(":/images/document-save-as.png")), tr("Save Expression As..."), this);
+    saveAsAction->setStatusTip("Save the current expression in a new file");
     if(fileOpen == false)
         saveAsAction->setDisabled(true);
         connect(saveAsAction, SIGNAL(triggered()), this, SLOT(saveFileAs()));
@@ -196,6 +212,7 @@ void MainWindow::createMenuBar()
     // [File] Quit Action
     quitAction = new QAction(QIcon::fromTheme("application-exit", QIcon(":/images/application-exit.png")), tr("&Quit"), this);
     quitAction->setShortcut(tr("Ctrl+Q"));
+    quitAction->setStatusTip("Exit the application");
         connect(quitAction, SIGNAL(triggered()), this, SLOT(close()));
     fileMenu->addAction(quitAction);
 
@@ -204,6 +221,7 @@ void MainWindow::createMenuBar()
 
     // [Edit] Export to Image Action
     exportToImageAction = new QAction(tr("Export Expression as Image"), this);
+    exportToImageAction->setStatusTip("Export Visualisation as PNG");
     if(fileOpen == false)
         exportToImageAction->setDisabled(true);
         connect(exportToImageAction, SIGNAL(triggered()), this, SLOT(exportToImage()));
@@ -214,33 +232,46 @@ void MainWindow::createMenuBar()
 
     // [Edit] Format Menu:
     formatMenu = editMenu->addMenu(tr("Expression Format"));
+    formatMenu->setDisabled(true);
 
     // [Edit -> Format] Perl Style Action:
-    perlStyleAction = new QAction(tr("Perl Compatible"), this);
-    perlStyleAction->setCheckable(true);
-    formatMenu->addAction(perlStyleAction);
+    QActionGroup *formatGroup = new QActionGroup(formatMenu);
+    pcreStyleAction = new QAction(tr("Perl Compatible"), this);
+    pcreStyleAction->setCheckable(true);
+    pcreStyleAction->setActionGroup(formatGroup);
+    pcreStyleAction->setStatusTip("Use PCRE Format Expressions");
+        connect(pcreStyleAction, SIGNAL(triggered()), this, SLOT(setFormatPcre()));
+    formatMenu->addAction(pcreStyleAction);
 
     // [Edit -> Format] Qt4 Style Action:
     qt4StyleAction = new QAction(tr("Qt4 Style"), this);
     qt4StyleAction->setCheckable(true);
     qt4StyleAction->setChecked(true);
+    qt4StyleAction->setActionGroup(formatGroup);
+    qt4StyleAction->setStatusTip("Use Qt4 Format Expressions");
+        connect(qt4StyleAction, SIGNAL(triggered()), this, SLOT(setFormatQt()));
     formatMenu->addAction(qt4StyleAction);
 
-    // [Edit -> Format] Emacs Style Action:
-    emacsStyleAction = new QAction(tr("Extended"), this);
-    emacsStyleAction->setCheckable(true);
-    formatMenu->addAction(emacsStyleAction);
+    // [Edit -> Format] POSIX Style Action:
+    posixStyleAction = new QAction(tr("POSIX (Extended)"), this);
+    posixStyleAction->setCheckable(true);
+    posixStyleAction->setActionGroup(formatGroup);
+    posixStyleAction->setStatusTip("Use POSIX Extended Format Expressions");
+        connect(posixStyleAction, SIGNAL(triggered()), this, SLOT(setFormatPosix()));
+    formatMenu->addAction(posixStyleAction);
 
     // Help Menu:
     helpMenu = menuBar()->addMenu(tr("&Help"));
 
     // [Help] Regex Help Action:
     regexHelpAction = new QAction(tr("Regular Expression Reference"), this);
+    regexHelpAction->setStatusTip("View regular expression help");
         connect(regexHelpAction, SIGNAL(triggered()), this, SLOT(showRegexHelp()));
     helpMenu->addAction(regexHelpAction);
 
     // [Help] App Help Action:
     appHelpAction = new QAction(tr("Expression Editor Manual"), this);
+    appHelpAction->setStatusTip("View application documentation");
         connect(appHelpAction, SIGNAL(triggered()), this, SLOT(showAppHelp()));
     helpMenu->addAction(appHelpAction);
 
@@ -249,6 +280,7 @@ void MainWindow::createMenuBar()
 
     // [Help] About Application:
     aboutAction = new QAction(QIcon::fromTheme("expressioneditor", QIcon(":/images/expressioneditor.png")), tr("About Expression Editor"), this);
+    aboutAction->setStatusTip("About this application");
         connect(aboutAction, SIGNAL(triggered()), this, SLOT(showAboutApp()));
     helpMenu->addAction(aboutAction);
 }
@@ -271,10 +303,12 @@ void MainWindow::newFile()
     saveAction->setDisabled(false);
     saveAsAction->setDisabled(false);
     exportToImageAction->setDisabled(false);
+    formatMenu->setDisabled(false);
     fileOpen = true;
     openFilePath = "";
     editor = new ExpressionEditor(this);
     setCentralWidget(editor);
+    setFormatQt();
 }
 
 void MainWindow::openFile()
@@ -324,6 +358,7 @@ void MainWindow::openFile(QString fileName, bool warnOnOpen)
 
         editor = new ExpressionEditor(this);
         setCentralWidget(editor);
+        setFormatQt();
 
         QDomNodeList expressionList = document.elementsByTagName("expression");
         QDomNode expressionNode = expressionList.at(0);
@@ -339,6 +374,7 @@ void MainWindow::openFile(QString fileName, bool warnOnOpen)
         saveAction->setDisabled(false);
         saveAsAction->setDisabled(false);
         exportToImageAction->setDisabled(false);
+        formatMenu->setDisabled(false);
         fileOpen = true;
         openFilePath = fileName;
         addRecentFile(fileName);
@@ -461,4 +497,22 @@ void MainWindow::exportToImage()
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save Expression Visualisation"), QDir::homePath(), tr("PNG File (*.png)"));
     if(!fileName.isEmpty())
         image.save(fileName);
+}
+
+void MainWindow::setFormatPcre()
+{
+    editor->setFormat(RegexFactory::PCRE);
+    formatLabel->setText("PCRE Format");
+}
+
+void MainWindow::setFormatQt()
+{
+    editor->setFormat(RegexFactory::Qt);
+    formatLabel->setText("Qt4 Format");
+}
+
+void MainWindow::setFormatPosix()
+{
+    editor->setFormat(RegexFactory::POSIX);
+    formatLabel->setText("POSIX Format");
 }

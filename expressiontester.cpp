@@ -144,6 +144,12 @@ void ExpressionTester::addTestString(QString testString)
     }
 }
 
+void ExpressionTester::setFormat(int type)
+{
+    factory->setType(type);
+    updateExpression(rx->getExpression());
+}
+
 /**
  * Private slots
  */

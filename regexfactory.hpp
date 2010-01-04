@@ -14,8 +14,9 @@ public:
         POSIX
     };
 
-    RegexFactory(int type = -1);
+    RegexFactory(int type = 0);
     void setType(int type);
+    int type() const;
     RegexBase* factory(QString pattern = QString(), int type = -1);
 
 private:

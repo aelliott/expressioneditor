@@ -97,6 +97,12 @@ void ExpressionEditor::addTestString(QString testString)
     tester->addTestString(testString);
 }
 
+void ExpressionEditor::setFormat(int type)
+{
+    tester->setFormat(type);
+    graphicalEditor->setFormat(type);
+}
+
 QPixmap ExpressionEditor::exportToImage()
 {
     return graphicalEditor->exportToImage();

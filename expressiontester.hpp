@@ -47,6 +47,7 @@ public slots:
     void updateExpression(QString exp);
     void updateRow(int row);
     void addTestString(QString testString);
+    void setFormat(int type);
 
 private:
     static const int initialRows = 4;

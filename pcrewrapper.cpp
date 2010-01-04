@@ -85,6 +85,7 @@ bool PcreWrapper::PartialMatch(const std::string &string, int offset)
     {
         errorStr = "Error occurred while parsing regular expression";
         failed = true;
+        return false;
     }
     else
     {

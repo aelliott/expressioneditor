@@ -25,6 +25,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QMenuBar>
+#include <QStatusBar>
 #include <QMenu>
 #include <QAction>
 #include <QPushButton>
@@ -38,6 +39,7 @@
 #include <QSignalMapper>
 #include "welcome.hpp"
 #include "expressioneditor.hpp"
+#include "regexfactory.hpp"
 
 class MainWindow : public QMainWindow
 {
@@ -60,6 +62,9 @@ public slots:
     void showAppHelp();
     void showAboutApp();
     void exportToImage();
+    void setFormatPcre();
+    void setFormatQt();
+    void setFormatPosix();
 
 private:
     QMenu *fileMenu;
@@ -79,14 +84,15 @@ private:
         QAction *exportToImageAction;
         // ----
         QMenu *formatMenu;
-            QAction *perlStyleAction;
+            QAction *pcreStyleAction;
             QAction *qt4StyleAction;
-            QAction *emacsStyleAction;
+            QAction *posixStyleAction;
     QMenu *helpMenu;
         QAction *regexHelpAction;
         QAction *appHelpAction;
         // ----
         QAction *aboutAction;
+    QLabel *formatLabel;
     Welcome *welcome;
     ExpressionEditor *editor;
     bool fileOpen;

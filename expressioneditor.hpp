@@ -51,6 +51,7 @@ public slots:
     void updateExpression();
     void updateExpression(QString regex);
     void addTestString(QString testString);
+    void setFormat(int type);
     QPixmap exportToImage();
 
 private:

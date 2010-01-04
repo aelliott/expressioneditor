@@ -58,3 +58,8 @@ QPixmap GraphicalEditor::exportToImage()
 {
     return workspace->exportToImage();
 }
+
+void GraphicalEditor::setFormat(int type)
+{
+    workspace->setFormat(type);
+}

@@ -22,6 +22,8 @@
 
 GraphicalWorkspace::GraphicalWorkspace(QWidget *parent) : QGraphicsView(parent)
 {
+    factory = new RegexFactory();
+
     setDragMode(QGraphicsView::RubberBandDrag);
     setRubberBandSelectionMode(Qt::IntersectsItemShape);
 
@@ -41,8 +43,13 @@ GraphicalWorkspace::GraphicalWorkspace(QWidget *parent) : QGraphicsView(parent)
  */
 void GraphicalWorkspace::updateExpression(QString newExpression)
 {
-    if(!QRegExp(newExpression).isValid())
+    RegexBase *rx = factory->factory(newExpression);
+    if(!rx->isValid())
+    {
+        delete rx;
         return;
+    }
+    delete rx;
     if(!editingStarted)
     {
         scene->removeItem(welcomeMessage);
@@ -80,4 +87,9 @@ void GraphicalWorkspace::sceneChanged()
             emit expressionChanged(newExpression);
         }
     }
+}
+
+void GraphicalWorkspace::setFormat(int type)
+{
+    factory->setType(type);
 }
