@@ -22,8 +22,9 @@ currently in a pre-alpha state.
 
 At the moment there is no automated build process, so Expression Editor
 requires the development libraries of Qt4.6+ or the Qt4.6+ SDK (which
-contains the required libraries and QtCreator a C++/Qt IDE).  It also
-requires a build toolchain (compiler, linker, etc).
+contains the required libraries and QtCreator a C++/Qt IDE), the
+development libraries for PCRE (and pcrecpp), and it requires a build
+toolchain (compiler, linker, etc).
 
 On windows this should be fine if you install the SDK, on Linux many
 distros include the build essentials in the default packages, but there
