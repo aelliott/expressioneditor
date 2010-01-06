@@ -239,6 +239,7 @@ void MainWindow::createMenuBar()
     QActionGroup *formatGroup = new QActionGroup(formatMenu);
     pcreStyleAction = new QAction(tr("Perl Compatible"), this);
     pcreStyleAction->setCheckable(true);
+    pcreStyleAction->setChecked(true);
     pcreStyleAction->setActionGroup(formatGroup);
     pcreStyleAction->setStatusTip("Use PCRE Format Expressions");
         connect(pcreStyleAction, SIGNAL(triggered()), this, SLOT(setFormatPcre()));
@@ -247,7 +248,6 @@ void MainWindow::createMenuBar()
     // [Edit -> Format] Qt4 Style Action:
     qt4StyleAction = new QAction(tr("Qt4 Style"), this);
     qt4StyleAction->setCheckable(true);
-    qt4StyleAction->setChecked(true);
     qt4StyleAction->setActionGroup(formatGroup);
     qt4StyleAction->setStatusTip("Use Qt4 Format Expressions");
         connect(qt4StyleAction, SIGNAL(triggered()), this, SLOT(setFormatQt()));
@@ -309,7 +309,7 @@ void MainWindow::newFile()
     openFilePath = "";
     editor = new ExpressionEditor(this);
     setCentralWidget(editor);
-    setFormatQt();
+    setFormatPcre();
 }
 
 void MainWindow::openFile()
@@ -359,7 +359,7 @@ void MainWindow::openFile(QString fileName, bool warnOnOpen)
 
         editor = new ExpressionEditor(this);
         setCentralWidget(editor);
-        setFormatQt();
+        setFormatPcre();
 
         QDomNodeList expressionList = document.elementsByTagName("expression");
         QDomNode expressionNode = expressionList.at(0);
