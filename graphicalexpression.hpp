@@ -28,6 +28,7 @@
 #include "groupinggraphicsitem.hpp"
 #include "alternativesgraphicsitem.hpp"
 #include "charrangegraphicsitem.hpp"
+#include "commentgraphicsitem.hpp"
 #include "repeatgraphicsitem.hpp"
 #include "specialchargraphicsitem.hpp"
 #include "textgraphicsitem.hpp"

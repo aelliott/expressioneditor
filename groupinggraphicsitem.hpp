@@ -32,12 +32,13 @@ class GroupingGraphicsItem : public QGraphicsObject
     Q_OBJECT;
 
 public:
-    GroupingGraphicsItem(bool capturing = false, bool outer = false, QGraphicsItem *parent = 0);
+    GroupingGraphicsItem(bool brackets = false, bool outer = false, bool capturing = true, QGraphicsItem *parent = 0);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void addChildItem(QGraphicsObject *item, bool updateFlag = true);
     void setCapturingName(QString name);
     void setOuterGroup(bool outer);
+    void setCapturing(bool capturing);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
     void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
@@ -57,6 +58,7 @@ private:
     static const int expressionData = 0;
     static const int itemSpacing = 8;
     bool outerGroup;
+    bool hasBrackets;
     bool isCapturing;
     bool dragEvent;
     QString capturingName;

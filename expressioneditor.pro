@@ -23,7 +23,8 @@ SOURCES += main.cpp \
     qtregex.cpp \
     regexfactory.cpp \
     pcrewrapper.cpp \
-    capturedstring.cpp
+    capturedstring.cpp \
+    commentgraphicsitem.cpp
 HEADERS += mainwindow.hpp \
     welcome.hpp \
     expressioneditor.hpp \
@@ -48,10 +49,12 @@ HEADERS += mainwindow.hpp \
     qtregex.hpp \
     regexfactory.hpp \
     pcrewrapper.hpp \
-    capturedstring.hpp
+    capturedstring.hpp \
+    commentgraphicsitem.hpp
 RESOURCES += images.qrc
 QT += xml
-LIBS += -lpcre -lpcrecpp \
+LIBS += -lpcre \
+    -lpcrecpp \
     -L/usr/include
 OTHER_FILES += README.txt \
     gpl.txt

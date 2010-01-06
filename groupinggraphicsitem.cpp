@@ -20,9 +20,8 @@
 
 #include "groupinggraphicsitem.hpp"
 
-GroupingGraphicsItem::GroupingGraphicsItem(bool capturing, bool outer, QGraphicsItem *parent) : QGraphicsObject(parent)
+GroupingGraphicsItem::GroupingGraphicsItem(bool brackets, bool outer, bool capturing, QGraphicsItem *parent) : QGraphicsObject(parent), hasBrackets(brackets), isCapturing(capturing)
 {
-    isCapturing = capturing;
     setOuterGroup(outer);
     dragEvent = false;
     setAcceptDrops(true);
@@ -106,6 +105,11 @@ void GroupingGraphicsItem::setCapturingName(QString name)
 void GroupingGraphicsItem::setOuterGroup(bool outer)
 {
     outerGroup = outer;
+}
+
+void GroupingGraphicsItem::setCapturing(bool capturing)
+{
+    isCapturing = capturing;
 }
 
 void GroupingGraphicsItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
@@ -193,12 +197,14 @@ void GroupingGraphicsItem::updateData()
     QStringList elements;
     for(int i = 0; i < childItems().size(); ++i)
         elements << childItems().at(i)->data(expressionData).toString();
-    if(isCapturing)
+    if(hasBrackets)
     {
         if(!capturingName.isEmpty())
             expression = QString("(?<") + capturingName + ">" + elements.join("") + ")";
-        else
+        else if(isCapturing)
             expression = QString("(") + elements.join("") + ")";
+        else
+            expression = QString("(?:") + elements.join("") + ")";
     }
     else
         expression = elements.join("");

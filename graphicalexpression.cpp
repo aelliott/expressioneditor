@@ -89,9 +89,33 @@ QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offs
     {
         workDone = false;
 
+        if(QRegExp("\\(\\?#").indexIn(expression, offset) == offset)
+        {
+            offset += 3;
+            CommentGraphicsItem *tmp = new CommentGraphicsItem;
+            while(QRegExp("[^)]").indexIn(expression, offset) == offset)
+            {
+                // We have not yet reached the end.
+                QRegExp match("(\\\\\\\\|\\\\\\))");
+                if(match.indexIn(expression, offset) == offset)
+                {
+                    offset += 2;
+                    tmp->appendText(match.cap(1));
+                }
+                else
+                {
+                    tmp->appendText(QString(expression.at(offset)));
+                    ++offset;
+                }
+            }
+            ++offset;
+            group->addChildItem(tmp);
+            workDone = true;
+        }
+
         if(QRegExp("\\(").indexIn(expression, offset) == offset)
         {
-            group->addChildItem(parseCapture(expression, offset));
+            group->addChildItem(parseCapture(expression, ++offset));
             workDone = true;
         }
 
@@ -229,7 +253,14 @@ RepeatGraphicsItem* GraphicalExpression::parseRepeat(QString repeatString, QGrap
 QGraphicsObject* GraphicalExpression::parseCapture(QString expression, int &offset)
 {
     GroupingGraphicsItem *group = new GroupingGraphicsItem(true);
-    ++offset;
+
+    // Check for non-capturing, etc.
+    if(QRegExp("\\?:").indexIn(expression, offset) == offset)
+    {
+        offset += 2;
+        group->setCapturing(false);
+    }
+
     QGraphicsObject *tmp = parseSection(expression, offset);
 
     if(QRegExp("\\)").indexIn(expression, offset) == offset)
