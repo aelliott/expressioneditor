@@ -92,6 +92,7 @@ private:
         QAction *appHelpAction;
         // ----
         QAction *aboutAction;
+    QString format;
     QLabel *formatLabel;
     Welcome *welcome;
     ExpressionEditor *editor;

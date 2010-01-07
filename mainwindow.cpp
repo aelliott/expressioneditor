@@ -361,6 +361,16 @@ void MainWindow::openFile(QString fileName, bool warnOnOpen)
         setCentralWidget(editor);
         setFormatPcre();
 
+        QDomNodeList formatList = document.elementsByTagName("format");
+        if(formatList.size() > 0)
+        {
+            QString format = formatList.at(0).toElement().text();
+            if(format.contains("qt"))
+                setFormatQt();
+            else if(format.contains("posix"))
+                setFormatPosix();
+        }
+
         QDomNodeList expressionList = document.elementsByTagName("expression");
         QDomNode expressionNode = expressionList.at(0);
         editor->updateExpression(expressionNode.toElement().text());
@@ -400,6 +410,12 @@ void MainWindow::saveFile(QString fileName)
     QDomDocument saveDocument("expression");
     QDomElement root = saveDocument.createElement("root");
     saveDocument.appendChild(root);
+
+    QDomElement formatElem = saveDocument.createElement("format");
+    root.appendChild(formatElem);
+
+    QDomText regexpFormat = saveDocument.createTextNode(format);
+    formatElem.appendChild(regexpFormat);
 
     QDomElement expression = saveDocument.createElement("expression");
     root.appendChild(expression);
@@ -486,7 +502,7 @@ void MainWindow::showAboutApp()
                       "<p>The editor supports several regexp formats including "
                       "perl-compatible, POSIX extended and Qt4's internal format."
                       "<br></p>"
-                      "<p>Expression Editor was written by Alex Elliot "
+                      "<p>Expression Editor was written by Alex Elliott "
                       "&lt;alex@alex-elliott.co.uk&gt;"));
     msgBox.setIconPixmap(QPixmap(":/images/expressioneditor.png"));
     msgBox.exec();
@@ -504,16 +520,19 @@ void MainWindow::setFormatPcre()
 {
     editor->setFormat(RegexFactory::PCRE);
     formatLabel->setText("PCRE Format");
+    format = "pcre";
 }
 
 void MainWindow::setFormatQt()
 {
     editor->setFormat(RegexFactory::Qt);
     formatLabel->setText("Qt4 Format");
+    format = "qt";
 }
 
 void MainWindow::setFormatPosix()
 {
     editor->setFormat(RegexFactory::POSIX);
     formatLabel->setText("POSIX Format");
+    format = "posix";
 }
