@@ -83,13 +83,22 @@ QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offs
     QRegExp character("[^[\\\\$.|?*+()^{}]|\\\\[^bBwWdDsSnt]");
     QRegExp repeats("\\{(\\d+)?,?(\\d+)?\\}|\\+\\??|\\?|\\*\\??");
     QRegExp special("\\.|\\^|\\$|\\\\[bBwWdDsSntafrv]|\\\\x[0-9a-fA-F]{2,4}|\\\\0[1-3]?[0-7]{2}|\\\\[1-9][0-9]*");
+    QRegExp pcre_config("\\(\\?(i|s|x|X|m|U)\\)");
 
     bool workDone = true;
     while(workDone)
     {
         workDone = false;
 
-        if(QRegExp("\\(\\?#").indexIn(expression, offset) == offset)
+        if(!workDone && pcre_config.indexIn(expression, offset) == offset)
+        {
+            QString flag = QString(expression.at(offset+2));
+            group->addChildItem(new ConfigGraphicsItem(flag));
+            offset += pcre_config.matchedLength();
+            workDone = true;
+        }
+
+        if(!workDone && QRegExp("\\(\\?#").indexIn(expression, offset) == offset)
         {
             offset += 3;
             CommentGraphicsItem *tmp = new CommentGraphicsItem;
@@ -113,7 +122,7 @@ QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offs
             workDone = true;
         }
 
-        if(QRegExp("\\(").indexIn(expression, offset) == offset)
+        if(!workDone && QRegExp("\\(").indexIn(expression, offset) == offset)
         {
             group->addChildItem(parseCapture(expression, ++offset));
             workDone = true;

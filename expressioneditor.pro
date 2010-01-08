@@ -24,7 +24,8 @@ SOURCES += main.cpp \
     regexfactory.cpp \
     pcrewrapper.cpp \
     capturedstring.cpp \
-    commentgraphicsitem.cpp
+    commentgraphicsitem.cpp \
+    configgraphicsitem.cpp
 HEADERS += mainwindow.hpp \
     welcome.hpp \
     expressioneditor.hpp \
@@ -50,7 +51,8 @@ HEADERS += mainwindow.hpp \
     regexfactory.hpp \
     pcrewrapper.hpp \
     capturedstring.hpp \
-    commentgraphicsitem.hpp
+    commentgraphicsitem.hpp \
+    configgraphicsitem.hpp
 RESOURCES += images.qrc
 QT += xml
 LIBS += -lpcre \

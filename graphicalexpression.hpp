@@ -29,6 +29,7 @@
 #include "alternativesgraphicsitem.hpp"
 #include "charrangegraphicsitem.hpp"
 #include "commentgraphicsitem.hpp"
+#include "configgraphicsitem.hpp"
 #include "repeatgraphicsitem.hpp"
 #include "specialchargraphicsitem.hpp"
 #include "textgraphicsitem.hpp"
