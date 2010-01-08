@@ -41,7 +41,7 @@ void CharRangeGraphicsItem::parseContents(QString string)
         delete contentsItem;
     else
         initialised = true;
-    contentsItem = new QGraphicsTextItem;
+    contentsItem = new QGraphicsTextItem(this);
 
     // Parse into sections:
     QStringList characters;
