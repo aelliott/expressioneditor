@@ -110,17 +110,20 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
                     setCurrentBlockState(0);
                     setFormat(startOffset, 1, braceFormat);
                 }
-                else if(currentBlockState() == 0)
-                {
-                    // Unmatched closing brace
-                    setFormat(startOffset, 1, errorFormat);
-                }
+//                NOTE: this is not an error in PCRE, but is in Qt
+//                else if(currentBlockState() == 0)
+//                {
+//                    // Unmatched closing brace
+//                    setFormat(startOffset, 1, errorFormat);
+//                }
             }
         }
         startOffset = text.indexOf(bracePattern, ++startOffset);
     }
 
-    if(openingSquareBraces != closingSquareBraces)
+    // Follow default format (PCRE) rules and highlight on an
+    // unmatched opening brace only.
+    if(openingSquareBraces > closingSquareBraces)
     {
         // Unmatched opening brace
         setFormat(lastOpeningBrace, 1, errorFormat);
@@ -135,7 +138,7 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
     QRegExp parenPattern("\\(|\\)");
     int openingParens = 0;
     int closingParens = 0;
-    int lastOpeningParen = -1;
+    int firstOpeningParen = -1;
     setCurrentBlockState(0);
     startOffset = text.indexOf(parenPattern, 0);
     while(startOffset >= 0)
@@ -145,7 +148,8 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
             if(QString(text.at(startOffset)) == "(")
             {
                 ++openingParens;
-                lastOpeningParen = startOffset;
+                if(firstOpeningParen == -1)
+                    firstOpeningParen = startOffset;
                 setCurrentBlockState(currentBlockState()+1);
                 setFormat(startOffset, 1, parenFormat);
             }
@@ -170,7 +174,7 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
     if(openingParens != closingParens)
     {
         // Unmatched opening parenthesis
-        setFormat(lastOpeningParen, 1, errorFormat);
+        setFormat(firstOpeningParen, 1, errorFormat);
     }
 
     // Highlight the specified number of repeats {n} and {n,n}

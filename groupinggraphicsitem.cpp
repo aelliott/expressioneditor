@@ -200,7 +200,7 @@ void GroupingGraphicsItem::updateData()
     if(hasBrackets)
     {
         if(!capturingName.isEmpty())
-            expression = QString("(?<") + capturingName + ">" + elements.join("") + ")";
+            expression = QString("(?P<") + capturingName + ">" + elements.join("") + ")";
         else if(isCapturing)
             expression = QString("(") + elements.join("") + ")";
         else

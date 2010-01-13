@@ -263,11 +263,19 @@ QGraphicsObject* GraphicalExpression::parseCapture(QString expression, int &offs
 {
     GroupingGraphicsItem *group = new GroupingGraphicsItem(true);
 
+    QRegExp named("\\?P<([^>]+)>");
+
     // Check for non-capturing, etc.
     if(QRegExp("\\?:").indexIn(expression, offset) == offset)
     {
         offset += 2;
         group->setCapturing(false);
+    }
+    else if(named.indexIn(expression, offset) == offset)
+    {
+        // We have a capturing name;
+        offset += named.matchedLength();
+        group->setCapturingName(named.cap(1));
     }
 
     QGraphicsObject *tmp = parseSection(expression, offset);

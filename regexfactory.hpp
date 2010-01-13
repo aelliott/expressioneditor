@@ -3,6 +3,7 @@
 
 #include "pcreregex.hpp"
 #include "qtregex.hpp"
+#include "posixregex.hpp"
 
 class RegexFactory
 {

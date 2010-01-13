@@ -521,6 +521,7 @@ void MainWindow::setFormatPcre()
     editor->setFormat(RegexFactory::PCRE);
     formatLabel->setText("PCRE Format");
     format = "pcre";
+    pcreStyleAction->setChecked(true);
 }
 
 void MainWindow::setFormatQt()
@@ -528,6 +529,7 @@ void MainWindow::setFormatQt()
     editor->setFormat(RegexFactory::Qt);
     formatLabel->setText("Qt4 Format");
     format = "qt";
+    qt4StyleAction->setChecked(true);
 }
 
 void MainWindow::setFormatPosix()
@@ -535,4 +537,5 @@ void MainWindow::setFormatPosix()
     editor->setFormat(RegexFactory::POSIX);
     formatLabel->setText("POSIX Format");
     format = "posix";
+    posixStyleAction->setChecked(true);
 }

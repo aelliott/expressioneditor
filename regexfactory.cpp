@@ -25,6 +25,9 @@ RegexBase* RegexFactory::factory(QString pattern, int type)
         case PCRE:
             return new PcreRegex(pattern);
             break;
+        case POSIX:
+            return new PosixRegex(pattern);
+            break;
         default:
             // This should never happen
             return new PcreRegex(pattern);
