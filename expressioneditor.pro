@@ -61,4 +61,5 @@ LIBS += -lpcre \
     -lpcrecpp \
     -L/usr/include
 OTHER_FILES += README.txt \
-    gpl.txt
+    gpl.txt \
+    CREDITS.txt

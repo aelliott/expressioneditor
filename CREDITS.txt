@@ -1,0 +1,13 @@
+Expression Editor CREDITS:
+--------------------------
+
+This file contains the main libraries etc that Expression
+Editor depends upon.
+
+LIBRARIES:
+ - Qt Toolkit       http://qt.nokia.com/
+ - PCRE             http://www.pcre.org/
+
+ICON PACKAGES:
+ - Oxygen Icons     http://www.oxygen-icons.org/
+ - FamFamFam Silk   http://www.famfamfam.com/lab/icons/silk/
