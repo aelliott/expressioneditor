@@ -359,7 +359,6 @@ void MainWindow::openFile(QString fileName, bool warnOnOpen)
 
         editor = new ExpressionEditor(this);
         setCentralWidget(editor);
-        setFormatPcre();
 
         QDomNodeList formatList = document.elementsByTagName("format");
         if(formatList.size() > 0)
@@ -369,7 +368,11 @@ void MainWindow::openFile(QString fileName, bool warnOnOpen)
                 setFormatQt();
             else if(format.contains("posix"))
                 setFormatPosix();
+            else
+                setFormatPcre();
         }
+        else
+            setFormatPcre();
 
         QDomNodeList expressionList = document.elementsByTagName("expression");
         QDomNode expressionNode = expressionList.at(0);

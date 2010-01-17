@@ -104,15 +104,16 @@ void ExpressionTester::updateRow(int row)
     // Test for index
     QTableWidgetItem *index = new QTableWidgetItem;
     index->setFlags(Qt::ItemIsSelectable);
-    int idx;
-    if((idx = rx->indexIn(table->item(row, 0)->text())) > -1)
-        index->setText(QVariant(idx).toString());
+    int foundIndex;
+    if((foundIndex = rx->indexIn(table->item(row, 0)->text())) > -1)
+        index->setText(QVariant(foundIndex).toString());
     else
         index->setText(tr("None"));
     table->setItem(row, 2, index);
 
     // Get any captured strings
-    rx->indexIn(table->item(row, 0)->text(), 0);
+    if(!rx->exactMatch(table->item(row, 0)->text()))
+        rx->indexIn(table->item(row, 0)->text(), 0);
     QTableWidgetItem *captured = new QTableWidgetItem;
     captured->setFlags(Qt::ItemIsSelectable);
     QString texts;

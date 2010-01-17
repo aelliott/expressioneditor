@@ -54,7 +54,7 @@ bool PcreWrapper::ExactMatch(const std::string &string)
 {
     // Make sure it matches the full string if possible.
     std::string tmp = pattern;
-    setExpression(std::string("(?:") + pattern + ")\\z");
+    setExpression(std::string("(?:") + pattern + ")\\Z");
 
     if(!isValid())
         return false;
