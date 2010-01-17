@@ -59,6 +59,7 @@ private:
     QSplitter *splitter;
     QVBoxLayout *subLayout;
     QTextEdit *expressionInput;
+    QLabel *validIndicator;
     ExpressionTester *tester;
     ExpressionHighlighter *highlighter;
     GraphicalEditor *graphicalEditor;

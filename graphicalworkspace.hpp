@@ -32,12 +32,13 @@ class GraphicalWorkspace : public QGraphicsView
 
 public:
     explicit GraphicalWorkspace(QWidget *parent = 0);
+    QString getErrorString() const;
 
 signals:
     void expressionChanged(QString newExpression);
 
 public slots:
-    void updateExpression(QString expression);
+    bool updateExpression(QString expression);
     void sceneChanged();
     QPixmap exportToImage();
     void setFormat(int type);
@@ -45,6 +46,7 @@ public slots:
 private:
     RegexFactory *factory;
     QString expression;
+    QString errorString;
     bool editingStarted;
     QGraphicsScene *scene;
     QGraphicsTextItem *welcomeMessage;

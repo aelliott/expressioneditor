@@ -32,12 +32,13 @@ Q_OBJECT
 public:
     explicit GraphicalEditor(QWidget *parent = 0);
     QString getExpression();
+    QString getErrorString() const;
 
 signals:
     void expressionChanged(QString newExpression);
 
 public slots:
-    void updateExpression(QString newExpression);
+    bool updateExpression(QString newExpression);
     void sceneChanged(QString newExpression);
     QPixmap exportToImage();
     void setFormat(int type);

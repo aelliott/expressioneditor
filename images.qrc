@@ -8,5 +8,7 @@
         <file alias="application-exit.png">images/application-exit.png</file>
         <file alias="text.png">images/text.png</file>
         <file alias="expressioneditor.png">images/icon.png</file>
+        <file alias="valid.png">images/accept.png</file>
+        <file alias="invalid.png">images/exclamation.png</file>
     </qresource>
 </RCC>

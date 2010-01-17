@@ -38,16 +38,22 @@ GraphicalWorkspace::GraphicalWorkspace(QWidget *parent) : QGraphicsView(parent)
     scene->addItem(welcomeMessage);
 }
 
+QString GraphicalWorkspace::getErrorString() const
+{
+    return errorString;
+}
+
 /**
  * Public slots
  */
-void GraphicalWorkspace::updateExpression(QString newExpression)
+bool GraphicalWorkspace::updateExpression(QString newExpression)
 {
     RegexBase *rx = factory->factory(newExpression);
     if(!rx->isValid())
     {
+        errorString = rx->getErrorString();
         delete rx;
-        return;
+        return false;
     }
     delete rx;
     if(!editingStarted)
@@ -63,6 +69,7 @@ void GraphicalWorkspace::updateExpression(QString newExpression)
     QRectF sceneArea = scene->itemsBoundingRect();
     sceneArea.adjust(-10, -10, 20, 20);
     setSceneRect(sceneArea);
+    return true;
 }
 
 QPixmap GraphicalWorkspace::exportToImage()

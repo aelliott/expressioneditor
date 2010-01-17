@@ -40,8 +40,11 @@ ExpressionEditor::ExpressionEditor(QWidget *parent) : QWidget(parent)
 
     highlighter = new ExpressionHighlighter(expressionInput);
 
+    validIndicator = new QLabel;
+
     textLayout->addWidget(inputLabel);
     textLayout->addWidget(expressionInput);
+    textLayout->addWidget(validIndicator);
 
     tester = new ExpressionTester(this);
         connect(expressionInput, SIGNAL(textChanged()), this, SLOT(updateExpression()));
@@ -87,9 +90,18 @@ void ExpressionEditor::updateExpression()
 void ExpressionEditor::updateExpression(QString regex)
 {
     tester->updateExpression(regex);
-    graphicalEditor->updateExpression(regex);
-    if(getExpression() != regex)
-        expressionInput->setText(regex);
+    if(graphicalEditor->updateExpression(regex))
+    {
+        if(getExpression() != regex)
+            expressionInput->setText(regex);
+        validIndicator->setPixmap(QPixmap(":/images/valid.png"));
+        validIndicator->setToolTip(tr("The Expression Is Valid"));
+    }
+    else
+    {
+        validIndicator->setPixmap(QPixmap(":/images/invalid.png"));
+        validIndicator->setToolTip(graphicalEditor->getErrorString());
+    }
 }
 
 void ExpressionEditor::addTestString(QString testString)

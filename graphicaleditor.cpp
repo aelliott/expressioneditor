@@ -40,13 +40,18 @@ QString GraphicalEditor::getExpression()
     return expression;
 }
 
+QString GraphicalEditor::getErrorString() const
+{
+    return workspace->getErrorString();
+}
+
 /**
  * Public Slots
  */
-void GraphicalEditor::updateExpression(QString newExpression)
+bool GraphicalEditor::updateExpression(QString newExpression)
 {
     expression = newExpression;
-    workspace->updateExpression(newExpression);
+    return workspace->updateExpression(newExpression);
 }
 
 void GraphicalEditor::sceneChanged(QString newExpression)
