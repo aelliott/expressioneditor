@@ -158,6 +158,8 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
                 if(currentBlockState() > 0)
                 {
                     ++closingParens;
+                    if(openingParens == closingParens)
+                        firstOpeningParen = -1;
                     setCurrentBlockState(currentBlockState()-1);
                     setFormat(startOffset, 1, parenFormat);
                 }
