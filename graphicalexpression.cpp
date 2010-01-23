@@ -80,8 +80,8 @@ QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offs
     if(outerFlag || inAlternatives)
         group->setOuterGroup(true);
 
-    QRegExp character("[^[\\\\$.|?*+()^{}]|\\\\[^bBwWdDsSnt]");
-    QRegExp repeats("\\{(\\d+)?,?(\\d+)?\\}|\\+\\??|\\?|\\*\\??");
+    QRegExp character("[^[\\\\$.|?*+()^]|\\\\[^bBwWdDsSnt]");
+    QRegExp repeats("\\{(\\d+),?(\\d+)?\\}|\\{,(\\d+)?\\}|\\+\\??|\\?|\\*\\??");
     QRegExp special("\\.|\\^|\\$|\\\\[bBwWdDsSntafrv]|\\\\x[0-9a-fA-F]{2,4}|\\\\0[1-3]?[0-7]{2}|\\\\[1-9][0-9]*");
     QRegExp pcre_config("\\(\\?(i|s|x|X|m|U)\\)");
 
@@ -148,7 +148,7 @@ QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offs
             // Read in as many consecutive characters as possible
             QStringList characters;
 
-            while(special.indexIn(expression, offset) != offset && character.indexIn(expression, offset) == offset)
+            while(repeats.indexIn(expression, offset) != offset && special.indexIn(expression, offset) != offset && character.indexIn(expression, offset) == offset)
             {
 //                if(character.cap(0).length() == 2)
 //                    characters << QString(character.cap(0).at(1));

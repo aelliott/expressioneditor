@@ -204,11 +204,12 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
                     startOffset = text.indexOf("}", ++startOffset);
                     setFormat(startOffset, 1, repeatFormat);
                 }
-                else
-                    setFormat(startOffset, 1, errorFormat);
+                //              NOTE: literal { characters are permitted in PCRE
+//                else
+//                    setFormat(startOffset, 1, errorFormat);
             }
-            else
-                setFormat(startOffset, 1, errorFormat);
+//            else
+//                setFormat(startOffset, 1, errorFormat);
         }
         startOffset = text.indexOf(repeatPattern, ++startOffset);
     }
