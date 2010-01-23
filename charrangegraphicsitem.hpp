@@ -28,6 +28,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsTextItem>
 #include <QDebug>
+#include "regexfactory.hpp"
 #include "regexgraphicsitem.hpp"
 #include "specialchargraphicsitem.hpp"
 
@@ -36,8 +37,7 @@ class CharRangeGraphicsItem : public RegexGraphicsItem
     Q_OBJECT;
 
 public:
-    CharRangeGraphicsItem(QGraphicsItem *parent = 0);
-    CharRangeGraphicsItem(QString initContents, QGraphicsItem *parent = 0);
+    CharRangeGraphicsItem(QString initContents = QString(), int regexType = 0, QGraphicsItem *parent = 0);
     void parseContents(QString string);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -56,6 +56,7 @@ private:
     static const int verticalPadding = 6;
     QColor backgroundColour;
     QString contents;
+    int regexFormat;
     bool initialised;
     QGraphicsTextItem *contentsItem;
 };

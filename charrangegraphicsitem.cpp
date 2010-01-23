@@ -20,12 +20,7 @@
 
 #include "charrangegraphicsitem.hpp"
 
-CharRangeGraphicsItem::CharRangeGraphicsItem(QGraphicsItem *parent)
-{
-    CharRangeGraphicsItem("", parent);
-}
-
-CharRangeGraphicsItem::CharRangeGraphicsItem(QString initContents, QGraphicsItem *parent) : RegexGraphicsItem(parent)
+CharRangeGraphicsItem::CharRangeGraphicsItem(QString initContents, int regexType, QGraphicsItem *parent) : RegexGraphicsItem(parent), regexFormat(regexType)
 {
     initialised = false;
     contents = initContents;
@@ -50,6 +45,7 @@ void CharRangeGraphicsItem::parseContents(QString string)
     QString charRegex = "((\\\\x[0-9a-fA-F]{2,4}|\\\\.|[^]\\\\]))";
     QRegExp charPattern(charRegex);
     QRegExp rangePattern(charRegex+"\\-"+charRegex);
+    QRegExp charClass("\\[:(alnum|word|alpha|blank|cntrl|digit|graph|lower|print|punct|space|upper|xdigit):\\]");
 
     // Parsing logic
     //TODO: Actually parse the string ;)
@@ -71,7 +67,14 @@ void CharRangeGraphicsItem::parseContents(QString string)
     {
         workDone = false;
 
-        if(rangePattern.indexIn(string, offset) == offset)
+        if(!workDone && charClass.indexIn(string, offset) == offset)
+        {
+            elements.push_back(charClass.cap(0) + " POSIX Class");
+            offset += charClass.cap(0).length();
+            workDone = true;
+        }
+
+        if(!workDone && rangePattern.indexIn(string, offset) == offset)
         {
             elements.push_back(rangePattern.cap(0));
             offset += rangePattern.cap(0).length();
@@ -80,7 +83,7 @@ void CharRangeGraphicsItem::parseContents(QString string)
 
         if(!workDone && charPattern.indexIn(string, offset) == offset)
         {
-            if(QRegExp("\\.|\\^|\\$|\\\\[bBwWdDsSntafrv]|\\\\x[0-9a-fA-F]{4}|\\\\0?[0-3][0-7]{2}|\\\\[1-9][0-9]*").exactMatch(charPattern.cap(0)))
+            if(QRegExp("\\.|\\\\[bBwWdDsSntafrv]|\\\\x[0-9a-fA-F]{4}|\\\\0?[0-3][0-7]{2}|\\\\[1-9][0-9]*").exactMatch(charPattern.cap(0)))
                 elements.push_back(SpecialCharGraphicsItem::parseString(charPattern.cap(0)).replace("<br>"," "));
             else if(charPattern.cap(0).length() == 2)
                 characters << QString(charPattern.cap(0).at(1));

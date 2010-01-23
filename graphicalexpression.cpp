@@ -180,7 +180,7 @@ QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offs
         if(!workDone && QRegExp("\\[").indexIn(expression, offset) == offset)
         {
             // Consume characters until we get to the end ]
-            QRegExp content("((\\\\[^]]){0,}|[^]\\\\])+");
+            QRegExp content("((\\\\[^]]){0,}|[^]\\\\]|\\[:[a-z]+:\\])+");
             ++offset;
             // If we've started with ^] take that
             QString charRangeContents = "";
