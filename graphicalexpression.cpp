@@ -19,12 +19,6 @@
  */
 
 #include "graphicalexpression.hpp"
-
-GraphicalExpression::GraphicalExpression()
-{
-    GraphicalExpression("");
-}
-
 GraphicalExpression::GraphicalExpression(QString expression)
 {
     updateExpression(expression);

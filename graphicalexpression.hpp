@@ -37,8 +37,7 @@
 class GraphicalExpression : public QGraphicsItem
 {
 public:
-    GraphicalExpression();
-    GraphicalExpression(QString expression);
+    GraphicalExpression(QString expression = QString());
     void updateExpression(QString expression);
     QString getExpression() const;
     QRectF boundingRect() const;

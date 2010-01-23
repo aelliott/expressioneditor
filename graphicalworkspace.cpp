@@ -30,7 +30,7 @@ GraphicalWorkspace::GraphicalWorkspace(QWidget *parent) : QGraphicsView(parent)
     scene = new QGraphicsScene;
     scene->setBackgroundBrush(QColor(247, 247, 247));
     setScene(scene);
-    connect(scene, SIGNAL(changed(QList<QRectF>)), this, SLOT(sceneChanged()));
+    //connect(scene, SIGNAL(changed(QList<QRectF>)), this, SLOT(sceneChanged()));
     editingStarted = false;
     welcomeMessage = new QGraphicsTextItem;
     welcomeMessage->setHtml(tr("To begin editing drag an item from the toolkit <br>"
