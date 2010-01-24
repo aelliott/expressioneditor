@@ -111,6 +111,12 @@ void GroupingGraphicsItem::setOuterGroup(bool outer)
 void GroupingGraphicsItem::setCapturing(bool capturing)
 {
     isCapturing = capturing;
+    updateData();
+}
+
+void GroupingGraphicsItem::setBrackets(bool brackets)
+{
+    hasBrackets = brackets;
 }
 
 void GroupingGraphicsItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
@@ -150,7 +156,7 @@ void GroupingGraphicsItem::dropEvent(QGraphicsSceneDragDropEvent *event)
                 return;
 
             int regexpoffset = 0;
-            item = GraphicalExpression::parseSection(fragment, regexpoffset);
+            item = GraphicalExpression::parseSection(fragment, regexpoffset, false, true);
             addChildItem(item, false);
         }
         else if(event->mimeData()->hasFormat("message/x-droptype"))
@@ -190,7 +196,10 @@ void GroupingGraphicsItem::removeChild(QGraphicsObject *item)
     if(isAncestorOf(item))
         delete item;
     updateData();
-    emit editComplete();
+    if(data(expressionData).toString() == "()" || data(expressionData).toString() == "")
+        emit removeItem(this);
+    else
+        emit editComplete();
 }
 
 void GroupingGraphicsItem::updateData()

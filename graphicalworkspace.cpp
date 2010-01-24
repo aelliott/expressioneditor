@@ -62,7 +62,10 @@ bool GraphicalWorkspace::updateExpression(QString newExpression)
         editingStarted = true;
     }
     else
-        scene->removeItem(visualisation);
+    {
+        //scene->removeItem(visualisation);
+        delete visualisation;
+    }
     expression = newExpression;
     visualisation = new GraphicalExpression(newExpression);
     connect(visualisation, SIGNAL(dataChanged()), this, SLOT(sceneChanged()));

@@ -39,6 +39,7 @@ public:
     void setCapturingName(QString name);
     void setOuterGroup(bool outer);
     void setCapturing(bool capturing);
+    void setBrackets(bool brackets);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
     void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);

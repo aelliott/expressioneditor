@@ -206,8 +206,16 @@ QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offs
         {
             if(!inAlternatives)
             {
+                GroupingGraphicsItem *newGroup = new GroupingGraphicsItem;
+                if(outerFlag)
+                {
+                    //newGroup->setOuterGroup(true);
+                    newGroup->setBrackets(true);
+                }
                 group->setOuterGroup(true);
-                return parseAlternatives(expression, offset, group);
+                AlternativesGraphicsItem *alts = parseAlternatives(expression, offset, group);
+                newGroup->addChildItem(alts);
+                return newGroup;
             }
             else
                 return group;
