@@ -57,8 +57,9 @@ void GraphicalExpression::paint(QPainter *painter, const QStyleOptionGraphicsIte
     }
 }
 
-void GraphicalExpression::addChildItem(QGraphicsItem *item)
+void GraphicalExpression::addChildItem(QGraphicsObject *item)
 {
+    connect(item, SIGNAL(editComplete()), this, SLOT(expressionChanged()));
     item->setParentItem(this);
 }
 
@@ -317,4 +318,9 @@ QString GraphicalExpression::getExpression() const
         expression << childItems().at(i)->data(expressionData).toString();
     }
     return expression.join("");
+}
+
+void GraphicalExpression::expressionChanged()
+{
+    emit dataChanged();
 }

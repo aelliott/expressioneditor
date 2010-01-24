@@ -42,9 +42,11 @@ public:
 
 signals:
     void removeItem(QGraphicsObject *item);
+    void editComplete();
 
 public slots:
     void removeChild(QGraphicsObject *item);
+    void editCompleted();
 
 protected:
     void updateData();

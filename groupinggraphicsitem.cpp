@@ -91,6 +91,7 @@ void GroupingGraphicsItem::addChildItem(QGraphicsObject *item, bool updateFlag)
 {
     item->setParentItem(this);
     connect(item, SIGNAL(dataChanged()), this, SLOT(updateData()));
+    connect(item, SIGNAL(editComplete()), this, SLOT(editCompleted()));
     connect(item, SIGNAL(removeItem(QGraphicsObject*)), this, SLOT(removeChild(QGraphicsObject*)));
     if(updateFlag)
         updateData();
@@ -189,6 +190,7 @@ void GroupingGraphicsItem::removeChild(QGraphicsObject *item)
     if(isAncestorOf(item))
         delete item;
     updateData();
+    emit editComplete();
 }
 
 void GroupingGraphicsItem::updateData()
@@ -210,6 +212,11 @@ void GroupingGraphicsItem::updateData()
         expression = elements.join("");
     setData(expressionData, QVariant(expression));
     emit dataChanged();
+}
+
+void GroupingGraphicsItem::editCompleted()
+{
+    emit editComplete();
 }
 
 /**

@@ -65,6 +65,7 @@ bool GraphicalWorkspace::updateExpression(QString newExpression)
         scene->removeItem(visualisation);
     expression = newExpression;
     visualisation = new GraphicalExpression(newExpression);
+    connect(visualisation, SIGNAL(dataChanged()), this, SLOT(sceneChanged()));
     scene->addItem(visualisation);
     QRectF sceneArea = scene->itemsBoundingRect();
     sceneArea.adjust(-10, -10, 20, 20);

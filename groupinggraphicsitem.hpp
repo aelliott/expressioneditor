@@ -47,10 +47,12 @@ public:
 signals:
     void dataChanged();
     void removeItem(QGraphicsObject *item);
+    void editComplete();
 
 public slots:
     void updateData();
     void removeChild(QGraphicsObject *item);
+    void editCompleted();
 
 private:
     bool validDropZone(QPointF position);

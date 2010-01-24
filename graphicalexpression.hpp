@@ -22,7 +22,7 @@
 #define GRAPHICALEXPRESSION_HPP
 
 #include <QGraphicsItemGroup>
-#include <QGraphicsItem>
+#include <QGraphicsObject>
 #include <QGraphicsScene>
 #include <QDebug>
 #include "groupinggraphicsitem.hpp"
@@ -34,19 +34,27 @@
 #include "specialchargraphicsitem.hpp"
 #include "textgraphicsitem.hpp"
 
-class GraphicalExpression : public QGraphicsItem
+class GraphicalExpression : public QGraphicsObject
 {
+    Q_OBJECT;
+
 public:
     GraphicalExpression(QString expression = QString());
     void updateExpression(QString expression);
     QString getExpression() const;
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    void addChildItem(QGraphicsItem *item);
+    void addChildItem(QGraphicsObject *item);
     static QGraphicsObject* parseSection(QString expression, int &offset, bool inAlternatives = false, bool outerFlag = false);
     static RepeatGraphicsItem* parseRepeat(QString repeatString, QGraphicsObject* repeatItem);
     static QGraphicsObject* parseCapture(QString expression, int &offset);
     static AlternativesGraphicsItem* parseAlternatives(QString expression, int &offset, QGraphicsObject* firstItem);
+
+public slots:
+    void expressionChanged();
+
+signals:
+    void dataChanged();
 
 private:
     void parseExpression(QString expression);
