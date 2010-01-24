@@ -72,7 +72,7 @@ void RegexGraphicsItem::removeChild(QGraphicsObject *item)
         delete item;
     update();
     updateData();
-    emit editComplete();
+    editCompleted();
 }
 
 void RegexGraphicsItem::editCompleted()

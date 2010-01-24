@@ -92,6 +92,7 @@ void AlternativesGraphicsItem::addChildItem(QGraphicsObject *item)
     item->setParentItem(this);
     connect(item, SIGNAL(dataChanged()), this, SLOT(updateData()));
     connect(item, SIGNAL(editComplete()), this, SLOT(editCompleted()));
+    connect(item, SIGNAL(removeItem(QGraphicsObject*)), this, SLOT(removeChild(QGraphicsObject*)));
 
     updateData();
 }

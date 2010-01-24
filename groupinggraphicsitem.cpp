@@ -199,7 +199,7 @@ void GroupingGraphicsItem::removeChild(QGraphicsObject *item)
     if(data(expressionData).toString() == "()" || data(expressionData).toString() == "")
         emit removeItem(this);
     else
-        emit editComplete();
+        editCompleted();
 }
 
 void GroupingGraphicsItem::updateData()
