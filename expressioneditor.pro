@@ -27,7 +27,9 @@ SOURCES += main.cpp \
     commentgraphicsitem.cpp \
     configgraphicsitem.cpp \
     posixregex.cpp \
-    expressiontester.cpp
+    expressiontester.cpp \
+    blocktester.cpp \
+    blockhighlighter.cpp
 HEADERS += mainwindow.hpp \
     welcome.hpp \
     expressioneditor.hpp \
@@ -56,7 +58,9 @@ HEADERS += mainwindow.hpp \
     commentgraphicsitem.hpp \
     configgraphicsitem.hpp \
     posixregex.hpp \
-    expressiontester.hpp
+    expressiontester.hpp \
+    blocktester.hpp \
+    blockhighlighter.hpp
 RESOURCES += images.qrc
 QT += xml
 LIBS += -lpcre \

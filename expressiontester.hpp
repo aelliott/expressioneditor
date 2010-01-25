@@ -23,6 +23,7 @@
 
 #include <QTabWidget>
 #include "multilinetester.hpp"
+#include "blocktester.hpp"
 
 
 class ExpressionTester : public QTabWidget
@@ -40,6 +41,7 @@ public slots:
 
 private:
     MultilineTester *multiline;
+    BlockTester *block;
 };
 
 #endif // EXPRESSIONTESTER_HPP

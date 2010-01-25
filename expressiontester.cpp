@@ -24,6 +24,9 @@ ExpressionTester::ExpressionTester(QWidget *parent) : QTabWidget(parent)
 {
     multiline = new MultilineTester(this);
     addTab(multiline, tr("Test Inputs"));
+
+    block = new BlockTester(this);
+    addTab(block, tr("Text Block"));
 }
 
 QString ExpressionTester::getExpression()
@@ -39,6 +42,7 @@ QStringList ExpressionTester::getTestStrings()
 void ExpressionTester::updateExpression(QString exp)
 {
     multiline->updateExpression(exp);
+    block->updateExpression(exp);
 }
 
 void ExpressionTester::addTestString(QString testString)
@@ -49,4 +53,5 @@ void ExpressionTester::addTestString(QString testString)
 void ExpressionTester::setFormat(int type)
 {
     multiline->setFormat(type);
+    block->setFormat(type);
 }

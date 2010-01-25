@@ -73,11 +73,12 @@ int PosixRegex::indexIn(QString string, int offset)
         char error[100];
         regerror(result, &posix, error, 100);
         errorString = error;
+        return -1;
     }
 
     parseCaptures(string, pmatch);
 
-    return pmatch[0].rm_so;
+    return (pmatch[0].rm_so == -1) ? pmatch[0].rm_so : pmatch[0].rm_so+offset;
 }
 
 int PosixRegex::lastIndexIn(QString string, int offset)
@@ -179,6 +180,8 @@ void PosixRegex::parseCaptures(QString str, regmatch_t captures[])
         int start = captures[i].rm_so;
         int end = captures[i].rm_eo;
         int length = end-start;
+        if(i == 0)
+            matched = length;
         str.remove(0, start);
         str = str.left(length);
         captured.push_back(CapturedString(str.toStdString(), start, end));

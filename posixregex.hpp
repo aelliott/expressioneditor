@@ -21,6 +21,7 @@
 #ifndef POSIXREGEX_HPP
 #define POSIXREGEX_HPP
 
+#include <QDebug>
 #include <vector>
 #include "capturedstring.hpp"
 #include "regexbase.hpp"
