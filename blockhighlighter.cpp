@@ -20,7 +20,6 @@ void BlockHighlighter::highlightBlock(const QString &text)
     while((offset = rx->indexIn(text, offset)) != -1)
     {
         int length = rx->matchedLength();
-        qDebug() << length;
         if(isRed)
             setFormat(offset, length, red);
         else
