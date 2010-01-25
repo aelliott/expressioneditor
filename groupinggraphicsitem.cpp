@@ -143,6 +143,9 @@ void GroupingGraphicsItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 
 void GroupingGraphicsItem::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
+    if(!validDropZone(event->pos()))
+        event->ignore();
+
     int offset;
     if((offset = dropZoneOffset(event->pos())) >= 0)
     {
