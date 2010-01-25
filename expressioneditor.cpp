@@ -46,6 +46,9 @@ ExpressionEditor::ExpressionEditor(QWidget *parent) : QWidget(parent)
     textLayout->addWidget(expressionInput);
     textLayout->addWidget(validIndicator);
 
+    // Test widgets
+    //testTabs
+
     tester = new ExpressionTester(this);
         connect(expressionInput, SIGNAL(textChanged()), this, SLOT(updateExpression()));
 

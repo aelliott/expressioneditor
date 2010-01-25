@@ -2,7 +2,7 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     welcome.cpp \
     expressioneditor.cpp \
-    expressiontester.cpp \
+    multilinetester.cpp \
     expressionhighlighter.cpp \
     graphicaleditor.cpp \
     graphicaltoolkit.cpp \
@@ -26,11 +26,12 @@ SOURCES += main.cpp \
     capturedstring.cpp \
     commentgraphicsitem.cpp \
     configgraphicsitem.cpp \
-    posixregex.cpp
+    posixregex.cpp \
+    expressiontester.cpp
 HEADERS += mainwindow.hpp \
     welcome.hpp \
     expressioneditor.hpp \
-    expressiontester.hpp \
+    multilinetester.hpp \
     expressionhighlighter.hpp \
     graphicaleditor.hpp \
     graphicaltoolkit.hpp \
@@ -54,7 +55,8 @@ HEADERS += mainwindow.hpp \
     capturedstring.hpp \
     commentgraphicsitem.hpp \
     configgraphicsitem.hpp \
-    posixregex.hpp
+    posixregex.hpp \
+    expressiontester.hpp
 RESOURCES += images.qrc
 QT += xml
 LIBS += -lpcre \

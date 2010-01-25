@@ -18,28 +18,46 @@
  *
  */
 
-#ifndef EXPRESSIONTESTER_HPP
-#define EXPRESSIONTESTER_HPP
+#ifndef MULTILINETESTER_HPP
+#define MULTILINETESTER_HPP
 
-#include <QTabWidget>
-#include "multilinetester.hpp"
+#include <QWidget>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QRegExp>
+#include <QTableWidget>
+#include <QString>
+#include <QStringList>
+#include <QHeaderView>
+#include <QLabel>
+#include <QDebug>
+#include "regexfactory.hpp"
 
-
-class ExpressionTester : public QTabWidget
+class MultilineTester : public QWidget
 {
     Q_OBJECT;
+
 public:
-    explicit ExpressionTester(QWidget *parent = 0);
+    explicit MultilineTester(QWidget *parent = 0);
     QString getExpression();
     QStringList getTestStrings();
 
 public slots:
     void updateExpression(QString exp);
+    void updateRow(int row);
     void addTestString(QString testString);
     void setFormat(int type);
 
 private:
-    MultilineTester *multiline;
+    static const int initialRows = 4;
+    void addRow();
+    QVBoxLayout *mainLayout;
+    RegexFactory *factory;
+    RegexBase *rx;
+    QTableWidget *table;
+
+private slots:
+    void updateTestCase(int row, int column);
 };
 
-#endif // EXPRESSIONTESTER_HPP
+#endif // MULTILINETESTER_HPP
