@@ -40,6 +40,9 @@ void BlockHighlighter::highlightBlock(const QString &text)
     while((offset = rx->indexIn(text, offset)) != -1)
     {
         int length = rx->matchedLength();
+        // Fix for infinite looping
+        if(length == 0)
+            return;
         if(isRed)
             setFormat(offset, length, red);
         else
