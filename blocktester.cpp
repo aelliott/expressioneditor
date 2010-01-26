@@ -39,6 +39,7 @@ QString BlockTester::text() const
 void BlockTester::updateExpression(QString exp)
 {
     highlighter->updateExpression(exp);
+    text_->setText(text());
 }
 
 void BlockTester::setText(QString testString)
@@ -49,4 +50,5 @@ void BlockTester::setText(QString testString)
 void BlockTester::setFormat(int type)
 {
     highlighter->setRegexpFormat(type);
+    text_->setText(text());
 }
