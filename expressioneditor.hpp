@@ -45,7 +45,8 @@ public:
     QString getExpression();
     QStringList getTestStrings();
 
-signals:
+protected:
+    void resizeEvent(QResizeEvent *event);
 
 public slots:
     void updateExpression();
@@ -55,6 +56,7 @@ public slots:
     QPixmap exportToImage();
 
 private:
+    void updateInputHeight();
     QVBoxLayout *mainLayout;
     QSplitter *splitter;
     QVBoxLayout *subLayout;

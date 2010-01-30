@@ -74,17 +74,21 @@ QStringList ExpressionEditor::getTestStrings()
 }
 
 /**
+ * Reimplemented protected methods
+ */
+void ExpressionEditor::resizeEvent(QResizeEvent *event)
+{
+    Q_UNUSED(event);
+
+    updateInputHeight();
+}
+
+/**
  * Public Slots
  */
 void ExpressionEditor::updateExpression()
 {
-    int height = 28;
-    if(qApp->fontMetrics().width(getExpression())+20 > expressionInput->width())
-        height += qApp->fontMetrics().height()*2;
-    if(getExpression().contains("\n"))
-        height += qApp->fontMetrics().height()*getExpression().count("\n");
-
-    expressionInput->setFixedHeight(height);
+    updateInputHeight();
 
     if(getExpression() != tester->getExpression())
         updateExpression(getExpression());
@@ -121,4 +125,18 @@ void ExpressionEditor::setFormat(int type)
 QPixmap ExpressionEditor::exportToImage()
 {
     return graphicalEditor->exportToImage();
+}
+
+/**
+ * Private methods
+ */
+void ExpressionEditor::updateInputHeight()
+{
+    int height = 28;
+    if(qApp->fontMetrics().width(getExpression())+20 > expressionInput->width())
+        height += qApp->fontMetrics().height()*2;
+    if(getExpression().contains("\n"))
+        height += qApp->fontMetrics().height()*getExpression().count("\n");
+
+    expressionInput->setFixedHeight(height);
 }
