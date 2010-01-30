@@ -36,7 +36,7 @@ ExpressionEditor::ExpressionEditor(QWidget *parent) : QWidget(parent)
 
     expressionInput = new QTextEdit;
     expressionInput->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    expressionInput->setFixedHeight(28);
+    updateInputHeight();
 
     highlighter = new ExpressionHighlighter(expressionInput);
 
