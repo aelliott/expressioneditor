@@ -137,7 +137,7 @@ void MainWindow::createMenuBar()
 
     // [File] New Action:
     newAction = new QAction(QIcon::fromTheme("document-new", QIcon(":/images/document-new.png")), tr("&New Expression"), this);
-    newAction->setShortcut(tr("Ctrl+N"));
+    newAction->setShortcut(QKeySequence::New);
     newAction->setStatusTip(tr("Create a new expression"));
         connect(newAction, SIGNAL(triggered()), this, SLOT(newFile()));
     fileMenu->addAction(newAction);
@@ -147,7 +147,7 @@ void MainWindow::createMenuBar()
 
     // [File] Open Action:
     openAction = new QAction(QIcon::fromTheme("document-open", QIcon(":/images/document-open.png")), tr("&Open Expression"), this);
-    openAction->setShortcut(tr("Ctrl+O"));
+    openAction->setShortcut(QKeySequence::Open);
     openAction->setStatusTip("Open an existing expression");
         connect(openAction, SIGNAL(triggered()), this, SLOT(openFile()));
     fileMenu->addAction(openAction);
@@ -191,7 +191,7 @@ void MainWindow::createMenuBar()
 
     // [File] Save Action:
     saveAction = new QAction(QIcon::fromTheme("document-save", QIcon(":/images/document-save.png")), tr("&Save Expression"), this);
-    saveAction->setShortcut(tr("Ctrl+S"));
+    saveAction->setShortcut(QKeySequence::Save);
     saveAction->setStatusTip("Save the current expression");
     if(fileOpen == false)
         saveAction->setDisabled(true);
@@ -200,6 +200,7 @@ void MainWindow::createMenuBar()
 
     // [File] Save As Action
     saveAsAction = new QAction(QIcon::fromTheme("document-save-as", QIcon(":/images/document-save-as.png")), tr("Save Expression As..."), this);
+    saveAsAction->setShortcut(QKeySequence::SaveAs);
     saveAsAction->setStatusTip("Save the current expression in a new file");
     if(fileOpen == false)
         saveAsAction->setDisabled(true);
@@ -211,7 +212,7 @@ void MainWindow::createMenuBar()
 
     // [File] Quit Action
     quitAction = new QAction(QIcon::fromTheme("application-exit", QIcon(":/images/application-exit.png")), tr("&Quit"), this);
-    quitAction->setShortcut(tr("Ctrl+Q"));
+    quitAction->setShortcut(QKeySequence::Quit);
     quitAction->setStatusTip("Exit the application");
         connect(quitAction, SIGNAL(triggered()), this, SLOT(close()));
     fileMenu->addAction(quitAction);
@@ -272,6 +273,7 @@ void MainWindow::createMenuBar()
 
     // [Help] App Help Action:
     appHelpAction = new QAction(tr("Expression Editor Manual"), this);
+    appHelpAction->setShortcut(QKeySequence::HelpContents);
     appHelpAction->setStatusTip("View application documentation");
         connect(appHelpAction, SIGNAL(triggered()), this, SLOT(showAppHelp()));
     helpMenu->addAction(appHelpAction);
