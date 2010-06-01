@@ -100,8 +100,11 @@ bool PcreWrapper::PartialMatch(const std::string &string, int offset)
         if(i == 0)
             matchLength = length;
 
-        std::string str = string.substr(start, length);
-        captureGroups.push_back(CapturedString(str, start, end));
+        if(start > -1)
+        {
+            std::string str = string.substr(start, length);
+            captureGroups.push_back(CapturedString(str, start, end));
+        }
     }
 
     return (rc >= 0);
