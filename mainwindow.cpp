@@ -262,6 +262,14 @@ void MainWindow::createMenuBar()
         connect(posixStyleAction, SIGNAL(triggered()), this, SLOT(setFormatPosix()));
     formatMenu->addAction(posixStyleAction);
 
+    // [Edit] ----------------
+    editMenu->addSeparator();
+
+    // [Edit] Preferences
+    preferencesAction = new QAction(QIcon::fromTheme("configure"), tr("Preferences"), this);
+    preferencesAction->setStatusTip(tr("Edit the Application Settings"));
+    editMenu->addAction(preferencesAction);
+
     // Help Menu:
     helpMenu = menuBar()->addMenu(tr("&Help"));
 

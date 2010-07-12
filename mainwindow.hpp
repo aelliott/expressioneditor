@@ -87,6 +87,8 @@ private:
             QAction *pcreStyleAction;
             QAction *qt4StyleAction;
             QAction *posixStyleAction;
+        // ----
+        QAction *preferencesAction;
     QMenu *helpMenu;
         QAction *regexHelpAction;
         QAction *appHelpAction;
