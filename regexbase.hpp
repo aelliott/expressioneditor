@@ -31,7 +31,11 @@ class RegexBase : public QObject
 protected:
     enum RegexpOptions
     {
-        CaseSensitive = 0x01
+        CaseInsensitive = 0x01,
+        MultiLine = 0x02,
+        UnGreedy = 0x04,
+        NoCapture = 0x08,
+        UTF8 = 0x10
     };
 
     QString regexp;

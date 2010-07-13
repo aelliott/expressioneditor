@@ -40,6 +40,7 @@
 #include "welcome.hpp"
 #include "expressioneditor.hpp"
 #include "regexfactory.hpp"
+#include "settingsdialog.hpp"
 
 class MainWindow : public QMainWindow
 {
@@ -65,6 +66,7 @@ public slots:
     void setFormatPcre();
     void setFormatQt();
     void setFormatPosix();
+    void showSettings();
 
 private:
     QMenu *fileMenu;

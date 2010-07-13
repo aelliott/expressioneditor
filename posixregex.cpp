@@ -170,7 +170,7 @@ QString PosixRegex::escape()
 
 QString PosixRegex::escape(QString expression)
 {
-    return QString();
+    return expression;
 }
 
 void PosixRegex::parseCaptures(QString str, regmatch_t captures[])

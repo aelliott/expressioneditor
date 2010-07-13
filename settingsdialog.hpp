@@ -18,27 +18,43 @@
  *
  */
 
-#include <QtGui>
-#include "mainwindow.hpp"
+#ifndef SETTINGSDIALOG_HPP
+#define SETTINGSDIALOG_HPP
 
-int main(int argc, char *argv[])
+#include <QDialog>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGridLayout>
+#include <QTabWidget>
+#include <QSettings>
+#include <QLabel>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QDialogButtonBox>
+
+class SettingsDialog : public QDialog
 {
-    QApplication app(argc, argv);
-    app.setOrganizationName("AElliott");
-    app.setApplicationName("ExpressionEditor");
+    Q_OBJECT;
 
-    // Recommended translation code
-    QTranslator qtTranslator;
-    qtTranslator.load("qt_" + QLocale::system().name(),
-                      QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    app.installTranslator(&qtTranslator);
+public:
+    SettingsDialog(QWidget *parent = 0);
 
-    QTranslator myappTranslator;
-    myappTranslator.load("myapp_" + QLocale::system().name());
-    app.installTranslator(&myappTranslator);
+private:
+    void addRegexSettings();
 
-    MainWindow mainWindow;
-    mainWindow.show();
+    QVBoxLayout *mainLayout;
+    QTabWidget *tabWidget;
+    QSettings settings;
 
-    return app.exec();
-}
+    // Regex Settings
+    QWidget *regexSettings;
+    QGridLayout *regexLayout;
+        QLabel *defaultLabel;
+        QComboBox *defaultCombo;
+        QLabel *caseLabel;
+        QCheckBox *caseCheck;
+        QDialogButtonBox *buttons;
+
+};
+
+#endif // SETTINGSDIALOG_HPP

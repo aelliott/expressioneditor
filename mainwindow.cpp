@@ -268,6 +268,7 @@ void MainWindow::createMenuBar()
     // [Edit] Preferences
     preferencesAction = new QAction(QIcon::fromTheme("configure"), tr("Preferences"), this);
     preferencesAction->setStatusTip(tr("Edit the Application Settings"));
+        connect(preferencesAction, SIGNAL(triggered()), this, SLOT(showSettings()));
     editMenu->addAction(preferencesAction);
 
     // Help Menu:
@@ -551,4 +552,10 @@ void MainWindow::setFormatPosix()
     formatLabel->setText("POSIX Format");
     format = "posix";
     posixStyleAction->setChecked(true);
+}
+
+void MainWindow::showSettings()
+{
+    SettingsDialog *s = new SettingsDialog(this);
+    s->show();
 }

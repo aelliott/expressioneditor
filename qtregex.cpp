@@ -82,9 +82,8 @@ void QtRegex::setExpression(QString expression)
 
 void QtRegex::setOptions(RegexBase::RegexpOptions options)
 {
-    if(options > RegexBase::CaseSensitive)
+    if(options > RegexBase::CaseInsensitive)
     {
-        //options &= ~RegexBase::CaseSensitive;
         setCaseSensitivity(true);
     }
 }
