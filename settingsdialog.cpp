@@ -46,6 +46,13 @@ void SettingsDialog::addRegexSettings()
     defaultCombo->addItem("Qt4");
     defaultCombo->addItem("POSIX ERE");
 
+    QString curType = settings.value("regex/defaultBackend", "pcre").toString();
+    if(curType == "qt4")
+        defaultCombo->setCurrentIndex(1);
+    else if(curType == "posix")
+        defaultCombo->setCurrentIndex(2);
+    settings.setValue("regex/defaultBackend", curType);
+
     regexLayout->addWidget(defaultLabel, 0, 0);
     regexLayout->addWidget(defaultCombo, 0, 1);
 
@@ -61,6 +68,8 @@ void SettingsDialog::addRegexSettings()
 
     buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Apply
                                    | QDialogButtonBox::Cancel, Qt::Horizontal, regexSettings);
+
+    connect(buttons, SIGNAL(rejected()), this, SLOT(reject()));
 
     regexLayout->addWidget(buttons, 2, 0, 1, 2, Qt::AlignRight);
 }

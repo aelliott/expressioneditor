@@ -32,6 +32,8 @@
 #include <QComboBox>
 #include <QDialogButtonBox>
 
+#include "regexfactory.hpp"
+
 class SettingsDialog : public QDialog
 {
     Q_OBJECT;
