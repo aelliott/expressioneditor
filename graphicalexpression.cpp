@@ -75,7 +75,7 @@ QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offs
     if(outerFlag || inAlternatives)
         group->setOuterGroup(true);
 
-    QRegExp character("[^[\\\\$.|?*+()^]|\\\\[^bBwWdDsSnt]");
+    QRegExp character("[^[\\\\$\\.|?*+()^]|\\\\[^bBwWdDsSnt]");
     QRegExp repeats("\\{(\\d+),?(\\d+)?\\}|\\{,(\\d+)?\\}|\\+\\??|\\?|\\*\\??");
     QRegExp special("\\.|\\^|\\$|\\\\[bBwWdDsSntafrv]|\\\\x[0-9a-fA-F]{2,4}|\\\\0[1-3]?[0-7]{2}|\\\\[1-9][0-9]*");
     QRegExp pcre_config("\\(\\?(i|s|x|X|m|U)\\)");
@@ -175,7 +175,7 @@ QGraphicsObject* GraphicalExpression::parseSection(QString expression, int &offs
         if(!workDone && QRegExp("\\[").indexIn(expression, offset) == offset)
         {
             // Consume characters until we get to the end ]
-            QRegExp content("((\\\\[^]]){0,}|[^]\\\\]|\\[:[a-z]+:\\])+");
+            QRegExp content("((\\\\.){0,}|[^]\\\\]|\\[:[a-z]+:\\])+");
             ++offset;
             // If we've started with ^] take that
             QString charRangeContents = "";
