@@ -63,9 +63,13 @@ public slots:
     void showAppHelp();
     void showAboutApp();
     void exportToImage();
+#ifndef NO_PCRE
     void setFormatPcre();
+#endif // NO_PCRE
     void setFormatQt();
+#ifndef NO_POSIX
     void setFormatPosix();
+#endif // NO_POSIX
     void showSettings();
 
 private:
@@ -86,9 +90,13 @@ private:
         QAction *exportToImageAction;
         // ----
         QMenu *formatMenu;
+#ifndef NO_PCRE
             QAction *pcreStyleAction;
+#endif // NO_PCRE
             QAction *qt4StyleAction;
+#ifndef NO_POSIX
             QAction *posixStyleAction;
+#endif // NO_POSIX
         // ----
         QAction *preferencesAction;
     QMenu *helpMenu;

@@ -235,9 +235,10 @@ void MainWindow::createMenuBar()
     formatMenu = editMenu->addMenu(tr("Expression Format"));
     if(fileOpen == false)
         formatMenu->setDisabled(true);
-
-    // [Edit -> Format] Perl Style Action:
     QActionGroup *formatGroup = new QActionGroup(formatMenu);
+
+#ifndef NO_PCRE
+    // [Edit -> Format] Perl Style Action:
     pcreStyleAction = new QAction(tr("Perl Compatible"), this);
     pcreStyleAction->setCheckable(true);
     pcreStyleAction->setChecked(true);
@@ -245,6 +246,7 @@ void MainWindow::createMenuBar()
     pcreStyleAction->setStatusTip("Use PCRE Format Expressions");
         connect(pcreStyleAction, SIGNAL(triggered()), this, SLOT(setFormatPcre()));
     formatMenu->addAction(pcreStyleAction);
+#endif // NO_PCRE
 
     // [Edit -> Format] Qt4 Style Action:
     qt4StyleAction = new QAction(tr("Qt4 Style"), this);
@@ -254,6 +256,7 @@ void MainWindow::createMenuBar()
         connect(qt4StyleAction, SIGNAL(triggered()), this, SLOT(setFormatQt()));
     formatMenu->addAction(qt4StyleAction);
 
+#ifndef NO_POSIX
     // [Edit -> Format] POSIX Style Action:
     posixStyleAction = new QAction(tr("POSIX (Extended)"), this);
     posixStyleAction->setCheckable(true);
@@ -261,6 +264,7 @@ void MainWindow::createMenuBar()
     posixStyleAction->setStatusTip("Use POSIX Extended Format Expressions");
         connect(posixStyleAction, SIGNAL(triggered()), this, SLOT(setFormatPosix()));
     formatMenu->addAction(posixStyleAction);
+#endif // NO_POSIX
 
     // [Edit] ----------------
     editMenu->addSeparator();
@@ -320,7 +324,11 @@ void MainWindow::newFile()
     openFilePath = "";
     editor = new ExpressionEditor(this);
     setCentralWidget(editor);
+#ifndef NO_PCRE
     setFormatPcre();
+#else
+    setFormatQt();
+#endif
 }
 
 void MainWindow::openFile()
@@ -378,12 +386,30 @@ void MainWindow::openFile(QString fileName, bool warnOnOpen)
             if(format.contains("qt"))
                 setFormatQt();
             else if(format.contains("posix"))
+            {
+#ifndef NO_POSIX
                 setFormatPosix();
+#else
+                QMessageBox errorMessage(QMessageBox::Critical, tr("Error Opening File"), tr("Error opening file.  ExpressionEditor was built without support for POSIX, falling back to Qt4 mode"));
+                errorMessage.show();
+#endif
+            }
             else
+            {
+#ifndef NO_PCRE
                 setFormatPcre();
+#else
+                QMessageBox errorMessage(QMessageBox::Critical, tr("Error Opening File"), tr("Error opening file.  ExpressionEditor was built without support for PCRE, falling back to Qt4 mode"));
+                errorMessage.show();
+#endif // NO_PCRE
+            }
         }
         else
+#ifndef NO_PCRE
             setFormatPcre();
+#else
+            setFormatQt();
+#endif // NO_PCRE
 
         QDomNodeList expressionList = document.elementsByTagName("expression");
         QDomNode expressionNode = expressionList.at(0);
@@ -530,6 +556,7 @@ void MainWindow::exportToImage()
         image.save(fileName);
 }
 
+#ifndef NO_PCRE
 void MainWindow::setFormatPcre()
 {
     editor->setFormat(RegexFactory::PCRE);
@@ -537,6 +564,7 @@ void MainWindow::setFormatPcre()
     format = "pcre";
     pcreStyleAction->setChecked(true);
 }
+#endif // NO_PCRE
 
 void MainWindow::setFormatQt()
 {
@@ -546,6 +574,7 @@ void MainWindow::setFormatQt()
     qt4StyleAction->setChecked(true);
 }
 
+#ifndef NO_POSIX
 void MainWindow::setFormatPosix()
 {
     editor->setFormat(RegexFactory::POSIX);
@@ -553,6 +582,7 @@ void MainWindow::setFormatPosix()
     format = "posix";
     posixStyleAction->setChecked(true);
 }
+#endif // NO_POSIX
 
 void MainWindow::showSettings()
 {

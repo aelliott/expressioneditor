@@ -1,9 +1,15 @@
 #ifndef REGEXFACTORY_HPP
 #define REGEXFACTORY_HPP
 
-#include "pcreregex.hpp"
 #include "qtregex.hpp"
+
+#ifndef NO_POSIX
 #include "posixregex.hpp"
+#endif
+
+#ifndef NO_PCRE
+#include "pcreregex.hpp"
+#endif // NO_PCRE
 
 class RegexFactory
 {

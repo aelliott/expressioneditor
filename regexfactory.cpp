@@ -22,14 +22,18 @@ RegexBase* RegexFactory::factory(QString pattern, int type)
         case Qt:
             return new QtRegex(pattern);
             break;
+#ifndef NO_PCRE
         case PCRE:
             return new PcreRegex(pattern);
             break;
+#endif // NO_PCRE
+#ifndef NO_POSIX
         case POSIX:
             return new PosixRegex(pattern);
             break;
+#endif // NO_POSIX
         default:
             // This should never happen
-            return new PcreRegex(pattern);
+            return new QtRegex(pattern);
     }
 }

@@ -65,9 +65,11 @@ HEADERS += mainwindow.hpp \
     settingsdialog.hpp
 RESOURCES += images.qrc
 QT += xml
+# Remove this if you want to compile without PCRE
 LIBS += -lpcre \
     -lpcrecpp \
     -L/usr/include
 OTHER_FILES += README.txt \
     gpl.txt \
     CREDITS.txt
+#DEFINES += NO_PCRE NO_POSIX
