@@ -20,13 +20,13 @@ SOURCES += main.cpp \
     regexgraphicsitem.cpp \
     regexbase.cpp \
     pcreregex.cpp \
+    pcrewrapper.cpp \
+    posixregex.cpp \
     qtregex.cpp \
     regexfactory.cpp \
-    pcrewrapper.cpp \
     capturedstring.cpp \
     commentgraphicsitem.cpp \
     configgraphicsitem.cpp \
-    posixregex.cpp \
     expressiontester.cpp \
     blocktester.cpp \
     blockhighlighter.cpp \
@@ -52,24 +52,36 @@ HEADERS += mainwindow.hpp \
     regexgraphicsitem.hpp \
     regexbase.hpp \
     pcreregex.hpp \
+    pcrewrapper.hpp \
+    posixregex.hpp \
     qtregex.hpp \
     regexfactory.hpp \
-    pcrewrapper.hpp \
     capturedstring.hpp \
     commentgraphicsitem.hpp \
     configgraphicsitem.hpp \
-    posixregex.hpp \
     expressiontester.hpp \
     blocktester.hpp \
     blockhighlighter.hpp \
     settingsdialog.hpp
+win32 {
+SOURCES -= pcreregex.cpp \
+    pcrewrapper.cpp \
+    posixregex.cpp
+HEADERS -= pcreregex.hpp \
+    pcrewrapper.hpp \
+    posixregex.hpp
+}
 RESOURCES += images.qrc
 QT += xml
 # Remove this if you want to compile without PCRE
+!win32 {
 LIBS += -lpcre \
     -lpcrecpp \
     -L/usr/include
+}
 OTHER_FILES += README.txt \
     gpl.txt \
     CREDITS.txt
-#DEFINES += NO_PCRE NO_POSIX
+win32 {
+DEFINES += NO_PCRE NO_POSIX
+}
