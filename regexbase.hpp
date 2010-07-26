@@ -48,7 +48,7 @@ public:
      * alterations to make it fit more with the rest of the application
      */
     explicit RegexBase(QString expression = QString(), QObject *parent = 0);
-    virtual ~RegexBase(){};
+    virtual ~RegexBase(){}
 
     // Getters
     QString getExpression() const;

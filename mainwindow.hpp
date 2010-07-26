@@ -65,11 +65,15 @@ public slots:
     void exportToImage();
 #ifndef NO_PCRE
     void setFormatPcre();
+    void setFormatPerlEmulation();
 #endif // NO_PCRE
     void setFormatQt();
 #ifndef NO_POSIX
     void setFormatPosix();
 #endif // NO_POSIX
+#ifndef NO_ICU
+    void setFormatIcu();
+#endif // NO_ICU
     void showSettings();
 
 private:
@@ -92,11 +96,15 @@ private:
         QMenu *formatMenu;
 #ifndef NO_PCRE
             QAction *pcreStyleAction;
+            QAction *perlStyleAction;
 #endif // NO_PCRE
             QAction *qt4StyleAction;
 #ifndef NO_POSIX
             QAction *posixStyleAction;
 #endif // NO_POSIX
+#ifndef NO_ICU
+            QAction *icuStyleAction;
+#endif // NO_ICU
         // ----
         QAction *preferencesAction;
     QMenu *helpMenu;

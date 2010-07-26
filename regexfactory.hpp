@@ -11,6 +11,10 @@
 #include "pcreregex.hpp"
 #endif // NO_PCRE
 
+#ifndef NO_ICU
+#include "icuregex.hpp"
+#endif // NO_ICU
+
 class RegexFactory
 {
 public:
@@ -18,7 +22,9 @@ public:
     {
         Qt,
         PCRE,
-        POSIX
+        POSIX,
+        ICU,
+        PerlEmulation
     };
 
     RegexFactory(int type = 0);

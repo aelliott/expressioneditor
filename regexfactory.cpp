@@ -26,12 +26,20 @@ RegexBase* RegexFactory::factory(QString pattern, int type)
         case PCRE:
             return new PcreRegex(pattern);
             break;
+    case PerlEmulation: //TODO: make an actual perl emulator :p
+            return new PcreRegex(pattern);
+            break;
 #endif // NO_PCRE
 #ifndef NO_POSIX
         case POSIX:
             return new PosixRegex(pattern);
             break;
 #endif // NO_POSIX
+#ifndef NO_ICU
+        case ICU:
+            return new IcuRegex(pattern);
+            break;
+#endif // NO_ICU
         default:
             // This should never happen
             return new QtRegex(pattern);

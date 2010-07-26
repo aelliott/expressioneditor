@@ -30,7 +30,8 @@ SOURCES += main.cpp \
     expressiontester.cpp \
     blocktester.cpp \
     blockhighlighter.cpp \
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    icuregex.cpp
 HEADERS += mainwindow.hpp \
     welcome.hpp \
     expressioneditor.hpp \
@@ -62,7 +63,8 @@ HEADERS += mainwindow.hpp \
     expressiontester.hpp \
     blocktester.hpp \
     blockhighlighter.hpp \
-    settingsdialog.hpp
+    settingsdialog.hpp \
+    icuregex.hpp
 win32 {
 SOURCES -= pcreregex.cpp \
     pcrewrapper.cpp \
@@ -77,11 +79,15 @@ QT += xml
 !win32 {
 LIBS += -lpcre \
     -lpcrecpp \
-    -L/usr/include
+    -L/usr/include \
+    -L/usr/lib \
+    -licui18n \
+    -licuuc \
+    -licudata
 }
 OTHER_FILES += README.txt \
     gpl.txt \
     CREDITS.txt
 win32 {
-DEFINES += NO_PCRE NO_POSIX
+DEFINES += NO_PCRE NO_POSIX NO_ICU
 }

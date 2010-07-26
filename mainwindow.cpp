@@ -238,14 +238,22 @@ void MainWindow::createMenuBar()
     QActionGroup *formatGroup = new QActionGroup(formatMenu);
 
 #ifndef NO_PCRE
-    // [Edit -> Format] Perl Style Action:
-    pcreStyleAction = new QAction(tr("Perl Compatible"), this);
+    // [Edit -> Format] PCRE Style Action:
+    pcreStyleAction = new QAction("PCRE", this);
     pcreStyleAction->setCheckable(true);
     pcreStyleAction->setChecked(true);
     pcreStyleAction->setActionGroup(formatGroup);
     pcreStyleAction->setStatusTip("Use PCRE Format Expressions");
         connect(pcreStyleAction, SIGNAL(triggered()), this, SLOT(setFormatPcre()));
     formatMenu->addAction(pcreStyleAction);
+
+    // [Edit -> Format] Perl Style Action
+    perlStyleAction = new QAction(tr("Perl Emulation"), this);
+    perlStyleAction->setCheckable(true);
+    perlStyleAction->setActionGroup(formatGroup);
+    perlStyleAction->setStatusTip(tr("Use Perl Emulation Mode"));
+        connect(perlStyleAction, SIGNAL(triggered()), this, SLOT(setFormatPerlEmulation()));
+    formatMenu->addAction(perlStyleAction);
 #endif // NO_PCRE
 
     // [Edit -> Format] Qt4 Style Action:
@@ -265,6 +273,16 @@ void MainWindow::createMenuBar()
         connect(posixStyleAction, SIGNAL(triggered()), this, SLOT(setFormatPosix()));
     formatMenu->addAction(posixStyleAction);
 #endif // NO_POSIX
+
+#ifndef NO_ICU
+    // [Edit -> Format] ICU Style Action
+    icuStyleAction = new QAction(tr("ICU Format"), this);
+    icuStyleAction->setCheckable(true);
+    icuStyleAction->setActionGroup(formatGroup);
+    icuStyleAction->setStatusTip(tr("Use ICU Format Expressions"));
+        connect(icuStyleAction, SIGNAL(triggered()), this, SLOT(setFormatIcu()));
+    formatMenu->addAction(icuStyleAction);
+#endif // NO_ICU
 
     // [Edit] ----------------
     editMenu->addSeparator();
@@ -564,6 +582,14 @@ void MainWindow::setFormatPcre()
     format = "pcre";
     pcreStyleAction->setChecked(true);
 }
+
+void MainWindow::setFormatPerlEmulation()
+{
+    editor->setFormat(RegexFactory::PerlEmulation);
+    formatLabel->setText("Perl Emulation");
+    format = "perl";
+    perlStyleAction->setChecked(true);
+}
 #endif // NO_PCRE
 
 void MainWindow::setFormatQt()
@@ -583,6 +609,16 @@ void MainWindow::setFormatPosix()
     posixStyleAction->setChecked(true);
 }
 #endif // NO_POSIX
+
+#ifndef NO_ICU
+void MainWindow::setFormatIcu()
+{
+    editor->setFormat(RegexFactory::ICU);
+    formatLabel->setText("ICU Format");
+    format = "icu";
+    icuStyleAction->setChecked(true);
+}
+#endif // NO_ICU
 
 void MainWindow::showSettings()
 {
