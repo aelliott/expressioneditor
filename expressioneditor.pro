@@ -87,7 +87,8 @@ LIBS += -lpcre \
 }
 OTHER_FILES += README.txt \
     gpl.txt \
-    CREDITS.txt
+    CREDITS.txt \
+    CMakeLists.txt
 win32 {
 DEFINES += NO_PCRE NO_POSIX NO_ICU
 }
