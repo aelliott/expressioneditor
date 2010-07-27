@@ -43,8 +43,8 @@ QString IcuRegex::cap(int offset)
     UnicodeString val = matcher->group(offset, status);
 
     UConverter *conv = ucnv_open("iso-8859-1", &status);
-    char *dest = new char[1000];
-    int32_t targetsize = val.extract(dest, sizeof(dest), conv, status);
+    char *dest = new char[1001];
+    int32_t targetsize = val.extract(dest, 1000, conv, status);
     dest[targetsize] = 0;
 
     return QString(dest);
