@@ -1,34 +1,49 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
-PROJECT(ExpressionEditor)
+PROJECT(expressioneditor)
 # The version number.
-SET(ExpressionEditor_VERSION_MAJOR 0)
-SET(ExpressionEditor_VERSION_MINOR 1)
+SET(expressioneditor_VERSION_MAJOR 0)
+SET(expressioneditor_VERSION_MINOR 1)
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR} ${ExpressionEditor_SOURCE_DIR})
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR} ${expressioneditor_SOURCE_DIR})
 
 INCLUDE(CheckIncludeFiles)
 #INCLUDE(CheckLibraryExists)
 
 # Check for regex.h
-CHECK_INCLUDE_FILES(regex.h HAVE_REGEX_H)
-#if(NOT HAVE_REGEX_H)
-#    set(NO_POSIX "Not building POSIX support" ON)
-#endif(NOT HAVE_REGEX_H)
+FIND_FILE(HAVE_REGEX_H regex.h)
+if(NOT HAVE_REGEX_H)
+    message(STATUS "[Optional] Not building POSIX support")
+    set(NO_POSIX true)
+else()
+    message(STATUS "[Optional] Building POSIX support")
+endif(NOT HAVE_REGEX_H)
 
 # Check for ICU files
-CHECK_INCLUDE_FILES(unicode/regex.h HAVE_UNICODE_REGEX_H)
-CHECK_INCLUDE_FILES(unicode/conv.h HAVE_UNICODE_CONV_H)
-#if(NOT HAVE_UNICODE_CONV_H OR NOT HAVE_UNICODE_REGEX_H)
-#    set(NO_ICU "Not building ICU support" ON)
-#endif(NOT HAVE_UNICODE_CONV_H OR NOT HAVE_UNICODE_REGEX_H)
+FIND_LIBRARY(HAVE_ICU_UC icuuc)
+FIND_LIBRARY(HAVE_ICU_I18N icui18n)
+FIND_LIBRARY(HAVE_ICU_DATA icudata)
+if(NOT HAVE_ICU_UC OR NOT HAVE_ICU_I18N OR NOT HAVE_ICU_DATA)
+    message(STATUS "[Optional] Not building ICU support")
+    set(NO_ICU true)
+else()
+    message(STATUS "icuuc found at " ${HAVE_ICU_UC})
+    message(STATUS "icui18n found at " ${HAVE_ICU_I18N})
+    message(STATUS "icudata found at " ${HAVE_ICU_DATA})
+    message(STATUS "[Optional] Building ICU support")
+endif(NOT HAVE_ICU_UC OR NOT HAVE_ICU_I18N OR NOT HAVE_ICU_DATA)
 
 # Check for PCRE
-CHECK_INCLUDE_FILES(pcre.h HAVE_PCRE_H)
-CHECK_INCLUDE_FILES(pcrecpp.h HAVE_PCRECPP_H)
-#if(NOT HAVE_PCRE_H OR NOT HAVE_PCRECPP_H)
-#    set(NO_PCRE "Not building PCRE support" ON)
-#endif(NOT HAVE_PCRE_H OR NOT HAVE_PCRECPP_H)
+FIND_LIBRARY(HAVE_PCRE pcre)
+FIND_LIBRARY(HAVE_PCRECPP pcrecpp)
+if(NOT HAVE_PCRE OR NOT HAVE_PCRECPP)
+    message(STATUS "[Optional] Not building PCRE support")
+    set(NO_PCRE true)
+else()
+    message(STATUS "pcre found at " ${HAVE_PCRE})
+    message(STATUS "pcrecpp found at " ${HAVE_PCRECPP})
+    message(STATUS "[Optional] Building PCRE support")
+endif(NOT HAVE_PCRE OR NOT HAVE_PCRECPP)
 
 SET(QT_MIN_VERSION "4.6.0")
 #INCLUDE(FindQt4)
@@ -44,7 +59,7 @@ SET(QT_USE_QTXML true)
 INCLUDE(${QT_USE_FILE})
 
 # Add .cpp files
-SET(ExpressionEditor_CPP_SRCS
+SET(expressioneditor_CPP_SRCS
     main.cpp
     alternativesgraphicsitem.cpp
     blockhighlighter.cpp
@@ -78,7 +93,7 @@ SET(ExpressionEditor_CPP_SRCS
 )
 
 # Wrap QOBJECT classes
-SET(ExpressionEditor_HPP_SRCS
+SET(expressioneditor_HPP_SRCS
     alternativesgraphicsitem.hpp
     blockhighlighter.hpp
     blocktester.hpp
@@ -109,33 +124,52 @@ SET(ExpressionEditor_HPP_SRCS
 )
 
 # Set link libraries
-SET(ExpressionEditor_LINK_LIBS ${QT_LIBRARIES})
+SET(expressioneditor_LINK_LIBS ${QT_LIBRARIES})
 
+# Configuring project
+CONFIGURE_FILE(cmakeconfig.hpp.in cmakeconfig.hpp @ONLY)
 
+# Output all optional details:
+message("#################################")
+message("##                             ##")
+message("##     Optional Components     ##")
+message("##                             ##")
+message("#################################")
 
 # Add POSIX if available/used
 if(NOT NO_POSIX)
-    LIST(APPEND ExpressionEditor_HPP_SRCS posixregex.hpp)
-    LIST(APPEND ExpressionEditor_CPP_SRCS posixregex.cpp)
+    message("## -- Building POSIX Support   ##")
+    LIST(APPEND expressioneditor_HPP_SRCS posixregex.hpp)
+    LIST(APPEND expressioneditor_CPP_SRCS posixregex.cpp)
+else()
+    message("## NOT Building POSIX Support  ##")
 endif(NOT NO_POSIX)
 
 # Add PCRE if available/used
 if(NOT NO_PCRE)
-    LIST(APPEND ExpressionEditor_HPP_SRCS pcreregex.hpp)
-    LIST(APPEND ExpressionEditor_CPP_SRCS pcreregex.cpp pcrewrapper.cpp)
-    LIST(APPEND ExpressionEditor_LINK_LIBS pcre pcrecpp)
+    message("## -- Building PCRE Support    ##")
+    LIST(APPEND expressioneditor_HPP_SRCS pcreregex.hpp)
+    LIST(APPEND expressioneditor_CPP_SRCS pcreregex.cpp pcrewrapper.cpp)
+    LIST(APPEND expressioneditor_LINK_LIBS pcre pcrecpp)
+else()
+    message("## NOT Building PCRE Support   ##")
 endif(NOT NO_PCRE)
 
 # Add ICU if available/used
 if(NOT NO_ICU)
-    LIST(APPEND ExpressionEditor_HPP_SRCS icuregex.hpp)
-    LIST(APPEND ExpressionEditor_CPP_SRCS icuregex.cpp)
-    LIST(APPEND ExpressionEditor_LINK_LIBS icui18n icuuc icudata)
+    message("## -- Building ICU Support     ##")
+    LIST(APPEND expressioneditor_HPP_SRCS icuregex.hpp)
+    LIST(APPEND expressioneditor_CPP_SRCS icuregex.cpp)
+    LIST(APPEND expressioneditor_LINK_LIBS icui18n icuuc icudata)
+else()
+    message("## NOT Building ICU Support    ##")
 endif(NOT NO_ICU)
 
-QT4_WRAP_CPP(ExpressionEditor_CPP_SRCS ${ExpressionEditor_HPP_SRCS})
+message("#################################")
 
-ADD_EXECUTABLE(ExpressionEditor ${ExpressionEditor_CPP_SRCS})
+QT4_WRAP_CPP(expressioneditor_CPP_SRCS ${expressioneditor_HPP_SRCS})
+
+ADD_EXECUTABLE(expressioneditor ${expressioneditor_CPP_SRCS})
 
 # Link to Qt
-TARGET_LINK_LIBRARIES(ExpressionEditor ${ExpressionEditor_LINK_LIBS})
+TARGET_LINK_LIBRARIES(expressioneditor ${expressioneditor_LINK_LIBS})

@@ -21,6 +21,8 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
+#include "cmakeconfig.hpp"
+
 #include <QMainWindow>
 #include <QVBoxLayout>
 #include <QHBoxLayout>

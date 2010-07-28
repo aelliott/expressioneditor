@@ -2,6 +2,7 @@
 #define REGEXFACTORY_HPP
 
 #include "qtregex.hpp"
+#include "cmakeconfig.hpp"
 
 #ifndef NO_POSIX
 #include "posixregex.hpp"

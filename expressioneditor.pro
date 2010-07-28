@@ -64,7 +64,8 @@ HEADERS += mainwindow.hpp \
     blocktester.hpp \
     blockhighlighter.hpp \
     settingsdialog.hpp \
-    icuregex.hpp
+    icuregex.hpp \
+    cmakeconfig.hpp.in
 win32 {
 SOURCES -= pcreregex.cpp \
     pcrewrapper.cpp \
