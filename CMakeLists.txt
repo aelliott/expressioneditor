@@ -30,6 +30,8 @@ if(NOT HAVE_ICU_UC OR NOT HAVE_ICU_I18N OR NOT HAVE_ICU_DATA)
     message(STATUS "[Optional] Not building ICU support")
     set(NO_ICU true)
 else()
+    FIND_PATH(ICU_PATH unicode/conv.h)
+    LIST(APPEND INCLUDE_DIRECTORIES ICU_PATH)
     message(STATUS "icuuc found at " ${HAVE_ICU_UC})
     message(STATUS "icui18n found at " ${HAVE_ICU_I18N})
     message(STATUS "icudata found at " ${HAVE_ICU_DATA})
@@ -43,6 +45,8 @@ if(NOT HAVE_PCRE OR NOT HAVE_PCRECPP)
     message(STATUS "[Optional] Not building PCRE support")
     set(NO_PCRE true)
 else()
+    FIND_PATH(PCRE_PATH pcre.h)
+    LIST(APPEND INCLUDE_DIRECTORIES PCRE_PATH)
     message(STATUS "pcre found at " ${HAVE_PCRE})
     message(STATUS "pcrecpp found at " ${HAVE_PCRECPP})
     message(STATUS "[Optional] Building PCRE support")
@@ -126,6 +130,11 @@ SET(expressioneditor_HPP_SRCS
     welcome.hpp
 )
 
+# Set resource files
+SET(expressioneditor_QRC_FILES
+    images.qrc
+)
+
 # Set link libraries
 SET(expressioneditor_LINK_LIBS ${QT_LIBRARIES})
 
@@ -170,6 +179,9 @@ endif(NOT NO_ICU)
 
 message("#################################")
 
+# Add resource files
+QT4_ADD_RESOURCES(expressioneditor_CPP_SRCS ${expressioneditor_QRC_FILES})
+
 # Generate MOC files
 QT4_WRAP_CPP(expressioneditor_CPP_SRCS ${expressioneditor_HPP_SRCS})
 
@@ -177,6 +189,7 @@ QT4_WRAP_CPP(expressioneditor_CPP_SRCS ${expressioneditor_HPP_SRCS})
 IF(UNIX)
     ADD_EXECUTABLE(expressioneditor ${expressioneditor_CPP_SRCS})
 ELSEIF(APPLE)
+    SET(CMAKE_OSX_ARCHITECTURES i386)
     ADD_EXECUTABLE(expressioneditor MACOSX_BUNDLE ${expressioneditor_CPP_SRCS})
 ELSEIF(WIN32)
     ADD_EXECUTABLE(expressioneditor WIN32 ${expressioneditor_CPP_SRCS})
@@ -184,3 +197,5 @@ ENDIF()
 
 # Link to Qt and any optional libs
 TARGET_LINK_LIBRARIES(expressioneditor ${expressioneditor_LINK_LIBS})
+
+INSTALL(PROGRAMS expressioneditor DESTINATION bin)
