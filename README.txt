@@ -20,18 +20,16 @@ currently in a pre-alpha state.
 
 [2.0] REQUIREMENTS AND HINTS
 
-At the moment there is no automated build process, so Expression Editor
-requires the development libraries of Qt4.6+ or the Qt4.6+ SDK (which
-contains the required libraries and QtCreator a C++/Qt IDE), the
-development libraries for PCRE (and pcrecpp), and it requires a build
-toolchain (compiler, linker, etc).
+ExpressionEditor requires Qt4.6.0+, a C++ compiler and CMake to build.
+However there are also several other optional dependencies which will be
+included by default if they are found on the system.  These are:
 
-On windows this should be fine if you install the SDK, on Linux many
-distros include the build essentials in the default packages, but there
-are also many that do not include them by default and you will have to
-fetch them via your distributions package management system.  On OSX
-I believe you will need Xcode or Xcode tools to get the build tools for
-QtCreator to compile the application.
+ - POSIX regular expressions via regex.h
+ - PCRE (Perl-Compatible Regular Expressions)
+ - ICU (International Components for Unicode)
+
+Each of these add their respective regular expression engines as options
+within ExpressionEditor.
 
 If the compile fails for some reason, first try "Build > Clean all" in
 QtCreator or "make clean" in a terminal and try the build again.  If it
@@ -73,12 +71,10 @@ the http://git-scm.com/ download page.
 If you have Qt4.6 installed (you can check with "qmake --version") then
 you can just execute:
 
-$ qmake expressioneditor.pro
+$ cd ~/src/expressioneditor # or if you put it elsewhere use that path
+$ cmake .
 $ make
-$ ./expressioneditor
-
-Or if you are using the Qt4.6+ SDK then you can open expressioneditor.pro
-in QtCreator, and then select "Run" (ctrl+r).
+$ sudo make install # or su -c
 
 After the initial run a settings directory will have been created in
 ~/.expressioneditor/ to complete installation copy across the files in
@@ -87,9 +83,8 @@ the source tree's common/ directory into ~/.expressioneditor/common/
 [2.3] WINDOWS
 
 Since there is currently no Windows installer for Expression Editor you
-will need to compile it as in Linux, there are several methods for this
-but I recommend you fetch the Qt4.6+ SDK and open expressioneditor.pro
-in QtCreator, and then select "Run" (ctrl+r).
+will need to compile it as in Linux, you should be able to use cmake-gui
+for this, but I have no further guidance at this time.
 
 After the initial run a settings directory will have been created in
 C:/Documents and Settings/Username/expressioneditor to complete
@@ -99,10 +94,18 @@ to the common/ directory in the settings directory.
 [2.4] MAC OSX
 
 Expression Editor will also compile and run on OSX, since again there is
-no binary to distribute you will need to compile it.  As with the other
-platforms you can do this with the Qt4.6+ SDK by opening
-expressioneditor.pro and then selecting "Run" (ctrl+r).
+no binary to distribute you will need to compile it.  The process for this
+is basically the same as for Linux:
+
+$ cd ~/src/expressioneditor # or if you put it elsewhere use that path
+$ cmake .
+$ make
+$ ./expressioneditor
+
+You may encounter an error regarding Qt being built for a different
+architecture to the one which you are targetting expressioneditor to.  To
+resolve this add -DCMAKE_OSX_ARCHITECTURES=i386 to the cmake command.
 
 After the initial run a settings directory will have been created in
-$HOME/.expressioneditor/ to complete installation copy across the files in
+~/.expressioneditor/ to complete installation copy across the files in
 the source tree's common/ directory into ~/.expressioneditor/common/
