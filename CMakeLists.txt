@@ -1,3 +1,6 @@
+# expressioneditor build script
+#   (this cmake file written with the help of Marc Bowes' mxitc CMakeLists.txt)
+
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 PROJECT(expressioneditor)
@@ -167,9 +170,17 @@ endif(NOT NO_ICU)
 
 message("#################################")
 
+# Generate MOC files
 QT4_WRAP_CPP(expressioneditor_CPP_SRCS ${expressioneditor_HPP_SRCS})
 
-ADD_EXECUTABLE(expressioneditor ${expressioneditor_CPP_SRCS})
+# Build Executable
+IF(UNIX)
+    ADD_EXECUTABLE(expressioneditor ${expressioneditor_CPP_SRCS})
+ELSEIF(APPLE)
+    ADD_EXECUTABLE(expressioneditor MACOSX_BUNDLE ${expressioneditor_CPP_SRCS})
+ELSEIF(WIN32)
+    ADD_EXECUTABLE(expressioneditor WIN32 ${expressioneditor_CPP_SRCS})
+ENDIF()
 
-# Link to Qt
+# Link to Qt and any optional libs
 TARGET_LINK_LIBRARIES(expressioneditor ${expressioneditor_LINK_LIBS})
