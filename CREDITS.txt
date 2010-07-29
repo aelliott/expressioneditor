@@ -7,6 +7,7 @@ Editor depends upon.
 LIBRARIES:
  - Qt Toolkit       http://qt.nokia.com/
  - PCRE             http://www.pcre.org/
+ - ICU              http://site.icu-project.org/
 
 ICON PACKAGES:
  - Oxygen Icons     http://www.oxygen-icons.org/
