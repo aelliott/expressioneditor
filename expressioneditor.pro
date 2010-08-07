@@ -31,7 +31,8 @@ SOURCES += main.cpp \
     blocktester.cpp \
     blockhighlighter.cpp \
     settingsdialog.cpp \
-    icuregex.cpp
+    icuregex.cpp \
+    perlregex.cpp
 HEADERS += mainwindow.hpp \
     welcome.hpp \
     expressioneditor.hpp \
@@ -65,31 +66,31 @@ HEADERS += mainwindow.hpp \
     blockhighlighter.hpp \
     settingsdialog.hpp \
     icuregex.hpp \
-    cmakeconfig.hpp.in
-win32 {
-SOURCES -= pcreregex.cpp \
-    pcrewrapper.cpp \
-    posixregex.cpp
-HEADERS -= pcreregex.hpp \
-    pcrewrapper.hpp \
-    posixregex.hpp
+    cmakeconfig.hpp.in \
+    perlregex.hpp
+win32 { 
+    SOURCES -= pcreregex.cpp \
+        pcrewrapper.cpp \
+        posixregex.cpp
+    HEADERS -= pcreregex.hpp \
+        pcrewrapper.hpp \
+        posixregex.hpp
 }
 RESOURCES += images.qrc
 QT += xml
+
 # Remove this if you want to compile without PCRE
-!win32 {
-LIBS += -lpcre \
+!win32:LIBS += -lpcre \
     -lpcrecpp \
     -L/usr/include \
     -L/usr/lib \
     -licui18n \
     -licuuc \
     -licudata
-}
 OTHER_FILES += README.txt \
     gpl.txt \
     CREDITS.txt \
     CMakeLists.txt
-win32 {
-DEFINES += NO_PCRE NO_POSIX NO_ICU
-}
+win32:DEFINES += NO_PCRE \
+    NO_POSIX \
+    NO_ICU

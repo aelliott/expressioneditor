@@ -49,6 +49,13 @@ QString GraphicalWorkspace::getErrorString() const
 bool GraphicalWorkspace::updateExpression(QString newExpression)
 {
     RegexBase *rx = factory->factory(newExpression);
+
+    if(rx->getExpression().isEmpty())
+        return false;
+
+    expression = rx->getExpression();
+    qDebug() << expression;
+
     if(!rx->isValid())
     {
         errorString = rx->getErrorString();
@@ -66,8 +73,7 @@ bool GraphicalWorkspace::updateExpression(QString newExpression)
         //scene->removeItem(visualisation);
         delete visualisation;
     }
-    expression = newExpression;
-    visualisation = new GraphicalExpression(newExpression);
+    visualisation = new GraphicalExpression(expression);
     connect(visualisation, SIGNAL(dataChanged()), this, SLOT(sceneChanged()));
     scene->addItem(visualisation);
     QRectF sceneArea = scene->itemsBoundingRect();

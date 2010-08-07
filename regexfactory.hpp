@@ -10,6 +10,7 @@
 
 #ifndef NO_PCRE
 #include "pcreregex.hpp"
+#include "perlregex.hpp"
 #endif // NO_PCRE
 
 #ifndef NO_ICU

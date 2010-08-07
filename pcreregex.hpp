@@ -31,7 +31,7 @@ class PcreRegex : public RegexBase
 {
     Q_OBJECT;
 
-private:
+protected:
     PcreWrapper pcre;
 
 public:
