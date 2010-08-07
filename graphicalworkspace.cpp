@@ -54,7 +54,6 @@ bool GraphicalWorkspace::updateExpression(QString newExpression)
         return false;
 
     expression = rx->getExpression();
-    qDebug() << expression;
 
     if(!rx->isValid())
     {
