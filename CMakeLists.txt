@@ -144,7 +144,7 @@ SET(expressioneditor_QRC_FILES
 SET(expressioneditor_LINK_LIBS ${QT_LIBRARIES})
 
 # Configuring project
-CONFIGURE_FILE(cmakeconfig.hpp.in cmakeconfig.hpp @ONLY)
+CONFIGURE_FILE(cmakeconfig.hpp.in ${CMAKE_SOURCE_DIR}/cmakeconfig.hpp @ONLY)
 
 # Output all optional details:
 message("#################################")
