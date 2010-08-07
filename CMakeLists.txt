@@ -203,4 +203,4 @@ ENDIF()
 # Link to Qt and any optional libs
 TARGET_LINK_LIBRARIES(expressioneditor ${expressioneditor_LINK_LIBS})
 
-INSTALL(PROGRAMS expressioneditor DESTINATION bin)
+INSTALL(PROGRAMS ${CMAKE_BINARY_DIR}/expressioneditor DESTINATION bin)
