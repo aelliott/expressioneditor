@@ -27,6 +27,9 @@ ExpressionTester::ExpressionTester(QWidget *parent) : QTabWidget(parent)
 
     block = new BlockTester(this);
     addTab(block, tr("Text Block"));
+
+    searchReplace = new SearchReplaceTester(this);
+    addTab(searchReplace, tr("Search / Replace"));
 }
 
 QString ExpressionTester::getExpression()
@@ -43,6 +46,7 @@ void ExpressionTester::updateExpression(QString exp)
 {
     multiline->updateExpression(exp);
     block->updateExpression(exp);
+    searchReplace->updateExpression(exp);
 }
 
 void ExpressionTester::addTestString(QString testString)
@@ -54,4 +58,5 @@ void ExpressionTester::setFormat(int type)
 {
     multiline->setFormat(type);
     block->setFormat(type);
+    searchReplace->setFormat(type);
 }

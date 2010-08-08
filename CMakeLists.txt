@@ -96,6 +96,7 @@ SET(expressioneditor_CPP_SRCS
     regexgraphicsitem.cpp
     repeatgraphicsitem.cpp
     repeateditdialog.cpp
+    searchreplacetester.cpp
     settingsdialog.cpp
     specialchareditdialog.cpp
     specialchargraphicsitem.cpp
@@ -127,6 +128,7 @@ SET(expressioneditor_HPP_SRCS
     regexgraphicsitem.hpp
     repeatgraphicsitem.hpp
     repeateditdialog.hpp
+    searchreplacetester.hpp
     settingsdialog.hpp
     specialchareditdialog.hpp
     specialchargraphicsitem.hpp

@@ -18,32 +18,45 @@
  *
  */
 
-#ifndef EXPRESSIONTESTER_HPP
-#define EXPRESSIONTESTER_HPP
+#ifndef SEARCHREPLACETESTER_HPP
+#define SEARCHREPLACETESTER_HPP
 
-#include <QTabWidget>
-#include "multilinetester.hpp"
-#include "blocktester.hpp"
-#include "searchreplacetester.hpp"
+#include <QWidget>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QSplitter>
+#include <QTextEdit>
+#include <QLineEdit>
+#include <QLabel>
+#include "blockhighlighter.hpp"
+#include "regexfactory.hpp"
 
-
-class ExpressionTester : public QTabWidget
+class SearchReplaceTester : public QWidget
 {
     Q_OBJECT;
+
 public:
-    explicit ExpressionTester(QWidget *parent = 0);
-    QString getExpression();
-    QStringList getTestStrings();
+    explicit SearchReplaceTester(QWidget *parent = 0);
+    QString text() const;
 
 public slots:
     void updateExpression(QString exp);
-    void addTestString(QString testString);
+    void updateReplacedText();
+    void setText(QString testString);
     void setFormat(int type);
 
 private:
-    MultilineTester *multiline;
-    BlockTester *block;
-    SearchReplaceTester *searchReplace;
+    QVBoxLayout *layout;
+    QHBoxLayout *replaceLayout;
+    QLabel *replaceLabel;
+    QLineEdit *replaceInput;
+    QSplitter *splitter;
+    QTextEdit *text_;
+    QTextEdit *replacedText;
+    BlockHighlighter *highlighter;
+    QString expression_;
+    int type_;
+
 };
 
-#endif // EXPRESSIONTESTER_HPP
+#endif // SEARCHREPLACETESTER_HPP

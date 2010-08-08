@@ -32,7 +32,8 @@ SOURCES += main.cpp \
     blockhighlighter.cpp \
     settingsdialog.cpp \
     icuregex.cpp \
-    perlregex.cpp
+    perlregex.cpp \
+    searchreplacetester.cpp
 HEADERS += mainwindow.hpp \
     welcome.hpp \
     expressioneditor.hpp \
@@ -67,7 +68,8 @@ HEADERS += mainwindow.hpp \
     settingsdialog.hpp \
     icuregex.hpp \
     cmakeconfig.hpp.in \
-    perlregex.hpp
+    perlregex.hpp \
+    searchreplacetester.hpp
 win32 { 
     SOURCES -= pcreregex.cpp \
         pcrewrapper.cpp \

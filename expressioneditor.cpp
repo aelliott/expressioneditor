@@ -102,7 +102,7 @@ void ExpressionEditor::updateExpression(QString regex)
         if(getExpression() != regex)
             expressionInput->setText(regex);
         validIndicator->setPixmap(QPixmap(":/images/valid.png"));
-        validIndicator->setToolTip(tr("The Expression Is Valid"));
+        validIndicator->setToolTip(tr("The expression is valid"));
     }
     else
     {
@@ -132,7 +132,7 @@ QPixmap ExpressionEditor::exportToImage()
  */
 void ExpressionEditor::updateInputHeight()
 {
-    int height = 28;
+    int height = 30;
     if(qApp->fontMetrics().width(getExpression())+20 > expressionInput->width())
         height += qApp->fontMetrics().height()*2;
     if(getExpression().contains("\n"))
