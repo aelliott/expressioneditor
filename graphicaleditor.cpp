@@ -25,6 +25,7 @@ GraphicalEditor::GraphicalEditor(QWidget *parent) : QWidget(parent)
     expression = "";
 
     layout = new QHBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     toolkit = new GraphicalToolkit(this);
     toolkit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Expanding);
