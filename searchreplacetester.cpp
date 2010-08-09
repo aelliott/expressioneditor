@@ -84,7 +84,27 @@ void SearchReplaceTester::updateReplacedText()
         int initialLength = block.length();
         int length = rx->matchedLength();
 
-        replacedText->setText(block.replace(pos, length, replaceInput->text()));
+        QString replacement = replaceInput->text();
+        for(int l = 0; l < replacement.length(); ++l)
+        {
+            int len = replacement.length();
+            QRegExp backreference("\\\\(\\d+)");
+            if(backreference.indexIn(replacement, l) == l)
+            {
+                int ref = backreference.cap(1).toInt();
+                if(ref <= rx->captureCount())
+                    replacement.replace(l, backreference.matchedLength(), rx->cap(ref));
+                else
+                    replacement.replace(l, backreference.matchedLength(), tr("[Unknown Capture: #")
+                                                                            + backreference.cap(1)
+                                                                            + "]");
+                l += replacement.length() - len;
+            }
+            else if(QString(replacement.at(l)) == "\\") // next character is escaped
+                ++l;
+        }
+
+        replacedText->setText(block.replace(pos, length, replacement));
         int newOffset = pos + length + block.length() - initialLength;
         if(newOffset <= offset)
             return;
