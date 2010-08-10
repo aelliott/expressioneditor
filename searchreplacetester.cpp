@@ -30,6 +30,7 @@ SearchReplaceTester::SearchReplaceTester(QWidget *parent) : QWidget(parent), typ
     replaceLayout->addWidget(replaceLabel);
 
     replaceInput = new QLineEdit;
+        connect(replaceInput, SIGNAL(textChanged(QString)), this, SLOT(updateReplacedText()));
     replaceLayout->addWidget(replaceInput);
 
     layout->addLayout(replaceLayout);
@@ -42,7 +43,7 @@ SearchReplaceTester::SearchReplaceTester(QWidget *parent) : QWidget(parent), typ
     splitter->addWidget(text_);
 
     replacedText = new QTextEdit(splitter);
-    replacedText->setEnabled(false);
+    replacedText->setTextInteractionFlags(Qt::TextSelectableByKeyboard | Qt::TextSelectableByMouse);
     splitter->addWidget(replacedText);
 
     layout->addWidget(splitter);
@@ -65,7 +66,7 @@ void SearchReplaceTester::updateExpression(QString exp)
 
 void SearchReplaceTester::updateReplacedText()
 {
-    QString block = text();
+    QString block = text_->toHtml();
     RegexFactory *factory = new RegexFactory();
     RegexBase *rx = factory->factory(expression_, type_);
 
@@ -104,7 +105,7 @@ void SearchReplaceTester::updateReplacedText()
                 ++l;
         }
 
-        replacedText->setText(block.replace(pos, length, replacement));
+        replacedText->setHtml(block.replace(pos, length, QString("<span style='font-weight: bold; color: red;'>") + replacement + "</span>"));
         int newOffset = pos + length + block.length() - initialLength;
         if(newOffset <= offset)
             return;
