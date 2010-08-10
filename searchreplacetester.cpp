@@ -82,6 +82,9 @@ void SearchReplaceTester::updateReplacedText()
     int pos = 0;
     while((pos = rx->indexIn(block, offset)) >= 0)
     {
+        if(i > 0 && pos == 0 || rx->matchedLength() == 0)
+            break;
+
         int initialLength = block.length();
         int length = rx->matchedLength();
 
