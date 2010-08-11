@@ -1,7 +1,12 @@
-/**
+/*!
+ * \file
+ * \author Alex Elliott <alex@alex-elliott.co.uk>
+ * \version 0.1pre
+ *
+ * \section LICENSE
  * This file is part of Expression editor
  *
- * Expression editor is Copyright 2009 Alex Elliott <alex@alex-elliott.co.uk>
+ * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +20,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
+ */
+/*!
+ * \brief   This class represents an alternation "|" in a regexp.
  *
+ * This class is used to produce the graphical represntation of an alternation
+ * by vertically stacking each possible alternation path.
  */
 
 #ifndef ALTERNATIVESGRAPHICSITEM_HPP
@@ -41,6 +51,10 @@ public:
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
 signals:
+    /*!
+     * Signal triggered when any child items (and therefore the overall
+     * value of this item) have changed.
+     */
     void dataChanged();
 
 public slots:

@@ -92,7 +92,8 @@ QT += xml
 OTHER_FILES += README.txt \
     gpl.txt \
     CREDITS.txt \
-    CMakeLists.txt
+    CMakeLists.txt \
+    doxy.conf
 win32:DEFINES += NO_PCRE \
     NO_POSIX \
     NO_ICU

@@ -577,7 +577,7 @@ void MainWindow::exportToImage()
 #ifndef NO_PCRE
 void MainWindow::setFormatPcre()
 {
-    editor->setFormat(RegexFactory::PCRE);
+    editor->setRegexpFormat(RegexFactory::PCRE);
     formatLabel->setText("PCRE Format");
     format = "pcre";
     pcreStyleAction->setChecked(true);
@@ -585,7 +585,7 @@ void MainWindow::setFormatPcre()
 
 void MainWindow::setFormatPerlEmulation()
 {
-    editor->setFormat(RegexFactory::PerlEmulation);
+    editor->setRegexpFormat(RegexFactory::PerlEmulation);
     formatLabel->setText("Perl Emulation");
     format = "perl";
     perlStyleAction->setChecked(true);
@@ -594,7 +594,7 @@ void MainWindow::setFormatPerlEmulation()
 
 void MainWindow::setFormatQt()
 {
-    editor->setFormat(RegexFactory::Qt);
+    editor->setRegexpFormat(RegexFactory::Qt);
     formatLabel->setText("Qt4 Format");
     format = "qt";
     qt4StyleAction->setChecked(true);
@@ -603,7 +603,7 @@ void MainWindow::setFormatQt()
 #ifndef NO_POSIX
 void MainWindow::setFormatPosix()
 {
-    editor->setFormat(RegexFactory::POSIX);
+    editor->setRegexpFormat(RegexFactory::POSIX);
     formatLabel->setText("POSIX Format");
     format = "posix";
     posixStyleAction->setChecked(true);
@@ -613,7 +613,7 @@ void MainWindow::setFormatPosix()
 #ifndef NO_ICU
 void MainWindow::setFormatIcu()
 {
-    editor->setFormat(RegexFactory::ICU);
+    editor->setRegexpFormat(RegexFactory::ICU);
     formatLabel->setText("ICU Format");
     format = "icu";
     icuStyleAction->setChecked(true);

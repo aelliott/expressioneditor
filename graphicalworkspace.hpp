@@ -1,7 +1,12 @@
-/**
+/*!
+ * \file
+ * \author Alex Elliott <alex@alex-elliott.co.uk>
+ * \version 0.1pre
+ *
+ * \section LICENSE
  * This file is part of Expression editor
  *
- * Expression editor is Copyright 2009 Alex Elliott <alex@alex-elliott.co.uk>
+ * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +20,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
- *
+ */
+/*!
+ * \brief   The Workspace is a subclass of QGraphicsView and contains the
+ *          scene on which the visualisation is drawn.
  */
 
 #ifndef GRAPHICALWORKSPACE_HPP
@@ -28,20 +36,31 @@
 
 class GraphicalWorkspace : public QGraphicsView
 {
-    Q_OBJECT
+    Q_OBJECT;
 
 public:
+    //! Creates a new GraphicalWorkspace
     explicit GraphicalWorkspace(QWidget *parent = 0);
+
+    //! Get the error string from the regexp backend
     QString getErrorString() const;
 
 signals:
+    //! Signal triggered whenever the expression is graphically altered
     void expressionChanged(QString newExpression);
 
 public slots:
+    //! Update the expression
     bool updateExpression(QString expression);
+
+    //! React to the a scene change
     void sceneChanged();
+
+    //! Return a QPixmap representation of the current visualisation
     QPixmap exportToImage();
-    void setFormat(int type);
+
+    //! Set the current regexp format in use
+    void setRegexpFormat(int type);
 
 private:
     RegexFactory *factory;

@@ -1,7 +1,12 @@
-/**
+/*!
+ * \file
+ * \author Alex Elliott <alex@alex-elliott.co.uk>
+ * \version 0.1pre
+ *
+ * \section LICENSE
  * This file is part of Expression editor
  *
- * Expression editor is Copyright 2010 Alex Elliott <alex@alex-elliott.co.uk>
+ * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +20,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 #include "expressiontester.hpp"
@@ -54,9 +58,9 @@ void ExpressionTester::addTestString(QString testString)
     multiline->addTestString(testString);
 }
 
-void ExpressionTester::setFormat(int type)
+void ExpressionTester::setRegexpFormat(int type)
 {
-    multiline->setFormat(type);
-    block->setFormat(type);
-    searchReplace->setFormat(type);
+    multiline->setRegexpFormat(type);
+    block->setRegexpFormat(type);
+    searchReplace->setRegexpFormat(type);
 }

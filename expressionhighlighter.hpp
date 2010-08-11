@@ -1,7 +1,12 @@
-/**
+/*!
+ * \file
+ * \author Alex Elliott <alex@alex-elliott.co.uk>
+ * \version 0.1pre
+ *
+ * \section LICENSE
  * This file is part of Expression editor
  *
- * Expression editor is Copyright 2009 Alex Elliott <alex@alex-elliott.co.uk>
+ * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +20,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
+ */
+/*!
+ * \brief   ExpressionHighlighter provides syntax highlighting for
+ *          regular expressions
  *
+ * Regular expressions are highlighted by multi-pass pattern matching
+ * heuristics, fittingly perhaps implemented with regular expressions.
  */
 
 #ifndef EXPRESSIONHIGHLIGHTER_HPP
@@ -35,11 +46,17 @@ class ExpressionHighlighter : public QSyntaxHighlighter
     Q_OBJECT;
 
 public:
+    //! Creates an ExpressionHighlighter highlighting the provided QTextEdit
     explicit ExpressionHighlighter(QTextEdit *parent = 0);
+
+    //! Reimplemented method, highlights blocks of the regexp
     void highlightBlock(const QString &text);
 
 private:
+    //! Vector keeping track of all escaped characters \.
     QVector<int> escapedChars;
+
+    //! Vector keeping track of all character ranges
     QVector<int> characterRanges;
 };
 

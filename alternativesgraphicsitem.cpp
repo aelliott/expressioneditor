@@ -1,7 +1,12 @@
-/**
+/*!
+ * \file
+ * \author Alex Elliott <alex@alex-elliott.co.uk>
+ * \version 0.1pre
+ *
+ * \section LICENSE
  * This file is part of Expression editor
  *
- * Expression editor is Copyright 2009 Alex Elliott <alex@alex-elliott.co.uk>
+ * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,11 +20,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 #include "alternativesgraphicsitem.hpp"
 
+/*!
+ * Creates a new AlternativesGraphicsItem
+ *
+ * \param   parent  The item's parent
+ */
 AlternativesGraphicsItem::AlternativesGraphicsItem(QGraphicsItem *parent) : RegexGraphicsItem(parent)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -28,11 +37,18 @@ AlternativesGraphicsItem::AlternativesGraphicsItem(QGraphicsItem *parent) : Rege
     updateData();
 }
 
+/*!
+ * Returns the geometry of the graphical object
+ */
 QRectF AlternativesGraphicsItem::boundingRect() const
 {
     // Items are stacked vertically
     double width = 0;
     double height = 0;
+
+    // The size of this element depends on its children, we must calculate:
+    //  - the sum of the item heights plus title height and padding/spacing
+    //  - the maximum width of the items plus padding
     for(int i = 0; i < childItems().size(); ++i)
     {
         QRectF rect = childItems().at(i)->boundingRect();
@@ -40,24 +56,39 @@ QRectF AlternativesGraphicsItem::boundingRect() const
             width = rect.width();
         height += rect.height() + 2*verticalPadding;
     }
-    // Width of heading
+
+    // If the heading is wider than any of the elements then we'll take that
+    // width instead.
     if(qApp->fontMetrics().width(tr("Alternatives")) > width)
         width = qApp->fontMetrics().width(tr("Alternatives"));
+
     // Height of heading:
     height += qApp->fontMetrics().height() + verticalPadding;
     width +=  2*horizontalPadding;
+
     return QRectF(0, 0, width, height);
 }
 
+/*!
+ * Paints the object on the canvas and lays out child items
+ *
+ * \param   painter QPainter used to draw the item
+ * \param   option  Unused
+ * \param   widget  Unused
+ */
 void AlternativesGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
+    // If we're not currently selecting this object use the stored
+    // background colour.
     if(!isSelected())
         painter->setBrush(backgroundColour);
     else
         painter->setBrush(QColor(245, 245, 180));
+
+    // Draw the main item background
     painter->drawRoundedRect(boundingRect(), 8.0, 8.0);
 
     // Draw heading
@@ -72,7 +103,7 @@ void AlternativesGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphi
     {
         QRectF rect = childItems().at(i)->boundingRect();
 
-        // Draw lines
+        // Draw lines between the child items
         if(i != childItems().size()-1)
         {
             lineHeight += rect.height();
@@ -87,6 +118,13 @@ void AlternativesGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphi
     }
 }
 
+/*!
+ * This method adds a new alternation (and a new item) to the
+ * AlternativesGraphicsItem, this will be maintained as a new
+ * vertically stacked item within the visualisation
+ *
+ * \param   item    A regular expression segment
+ */
 void AlternativesGraphicsItem::addChildItem(QGraphicsObject *item)
 {
     item->setParentItem(this);
@@ -97,6 +135,11 @@ void AlternativesGraphicsItem::addChildItem(QGraphicsObject *item)
     updateData();
 }
 
+/*!
+ * Hover over listener, triggers the hover state (colour change)
+ *
+ * \param   event   The hover event
+ */
 void AlternativesGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     event->accept();
@@ -104,6 +147,11 @@ void AlternativesGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     update();
 }
 
+/*!
+ * Hover exit listener, triggers a return to the normal state
+ *
+ * \param   event   The hover event
+ */
 void AlternativesGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     event->accept();
@@ -111,8 +159,9 @@ void AlternativesGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     update();
 }
 
-/**
- * Private methods
+/*!
+ * Update the object's internal data, trigger dataChanged on any changes
+ * in state.
  */
 void AlternativesGraphicsItem::updateData()
 {

@@ -145,9 +145,9 @@ void MultilineTester::addTestString(QString testString)
     }
 }
 
-void MultilineTester::setFormat(int type)
+void MultilineTester::setRegexpFormat(int type)
 {
-    factory->setType(type);
+    factory->setRegexpFormat(type);
     updateExpression(rx->getExpression());
 }
 

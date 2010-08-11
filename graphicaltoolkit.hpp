@@ -1,7 +1,12 @@
-/**
+/*!
+ * \file
+ * \author Alex Elliott <alex@alex-elliott.co.uk>
+ * \version 0.1pre
+ *
+ * \section LICENSE
  * This file is part of Expression editor
  *
- * Expression editor is Copyright 2009 Alex Elliott <alex@alex-elliott.co.uk>
+ * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +20,11 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
- *
+ */
+/*!
+ * \brief   The graphical toolkit contains the component parts of regular
+ *          expressions to be dragged into the visualisation to facilitate
+ *          drag and drop editing.
  */
 
 #ifndef GRAPHICALTOOLKIT_HPP
@@ -29,8 +38,10 @@
 
 class GraphicalToolkit : public QWidget
 {
-    Q_OBJECT
+    Q_OBJECT;
+
 public:
+    //! Creates a new GraphicalToolkit
     explicit GraphicalToolkit(QWidget *parent = 0);
 
 private:

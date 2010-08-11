@@ -1,7 +1,12 @@
-/**
+/*!
+ * \file
+ * \author Alex Elliott <alex@alex-elliott.co.uk>
+ * \version 0.1pre
+ *
+ * \section LICENSE
  * This file is part of Expression editor
  *
- * Expression editor is Copyright 2010 Alex Elliott <alex@alex-elliott.co.uk>
+ * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +20,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
+ */
+/*!
+ * \brief   This class represents a comment block (?#...) in a regexp.
  *
+ * This class is used to produce the graphical represntation of a comment block
+ * within the regexp visualisation.
  */
 
 #ifndef COMMENTGRAPHICSITEM_HPP
@@ -32,20 +42,40 @@ class CommentGraphicsItem : public RegexGraphicsItem
     Q_OBJECT;
 
 public:
+    //! Produces a new CommentGraphicsItem
     explicit CommentGraphicsItem(QString comment = QString(), QGraphicsItem *parent = 0);
+
+    //! Setter method, sets the comment string
     void setComment(QString comment);
+
+    //! Convenience method, appends a string on to the end of the existing comment string
     void appendText(QString append);
+
+    //! Returns the geometry of the graphical object
     QRectF boundingRect() const;
+
+    //! Paints the object on the canvas and lays out child items
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+
+    //! Hover over listener, triggers the hover state (colour change)
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+
+    //! Hover exit listener, triggers a return to the normal state
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
     //void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 signals:
+    //! Signal triggered when the value of this item has changed.
     void dataChanged();
 
-private:
+public slots:
+    /*!
+     * \brief   Update the object's internal data, trigger dataChanged on any changes
+     *          in state.
+     */
     void updateData();
+
+private:
     QString commentString;
     QColor backgroundColour;
     static const int horizontalPadding = 10;

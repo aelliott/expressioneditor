@@ -127,7 +127,7 @@ void SearchReplaceTester::setText(QString testString)
     updateReplacedText();
 }
 
-void SearchReplaceTester::setFormat(int type)
+void SearchReplaceTester::setRegexpFormat(int type)
 {
     type_ = type;
     highlighter->setRegexpFormat(type);

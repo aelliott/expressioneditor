@@ -1,7 +1,12 @@
-/**
+/*!
+ * \file
+ * \author Alex Elliott <alex@alex-elliott.co.uk>
+ * \version 0.1pre
+ *
+ * \section LICENSE
  * This file is part of Expression editor
  *
- * Expression editor is Copyright 2009 Alex Elliott <alex@alex-elliott.co.uk>
+ * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +20,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 #include "charrangegraphicsitem.hpp"
@@ -25,9 +29,16 @@ CharRangeGraphicsItem::CharRangeGraphicsItem(QString initContents, int regexType
     initialised = false;
     contents = initContents;
     parseContents(contents);
+
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setAcceptHoverEvents(true);
     backgroundColour = QColor(240, 240, 255);
+}
+
+CharRangeGraphicsItem::~CharRangeGraphicsItem()
+{
+    if(initialised)
+        delete contentsItem;
 }
 
 void CharRangeGraphicsItem::parseContents(QString string)
@@ -48,7 +59,6 @@ void CharRangeGraphicsItem::parseContents(QString string)
     QRegExp charClass("\\[:(alnum|word|alpha|blank|cntrl|digit|graph|lower|print|punct|space|upper|xdigit):\\]");
 
     // Parsing logic
-    //TODO: Actually parse the string ;)
     bool negated = false;
     int offset = 0;
     if(string.startsWith("^"))
@@ -113,6 +123,8 @@ void CharRangeGraphicsItem::parseContents(QString string)
 
 QRectF CharRangeGraphicsItem::boundingRect() const
 {
+    // The height and width of this item depend entirely on the height and width
+    // of the QGraphicsTextItem child item
     double width = contentsItem->boundingRect().width()+2*horizontalPadding;
     double height = contentsItem->boundingRect().height()+2*verticalPadding;
     return QRectF(0, 0, width, height);
@@ -154,9 +166,6 @@ void CharRangeGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *even
     qDebug() << "CharRange: I've been double clicked";
 }
 
-/**
- * Private methods
- */
 void CharRangeGraphicsItem::updateData()
 {
     QString expression = QString("[") + contents + "]";

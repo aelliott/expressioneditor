@@ -1,7 +1,12 @@
-/**
+/*!
+ * \file
+ * \author Alex Elliott <alex@alex-elliott.co.uk>
+ * \version 0.1pre
+ *
+ * \section LICENSE
  * This file is part of Expression editor
  *
- * Expression editor is Copyright 2010 Alex Elliott <alex@alex-elliott.co.uk>
+ * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +20,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 #include "configgraphicsitem.hpp"
@@ -31,17 +35,17 @@ void ConfigGraphicsItem::setFlag(QString confFlag)
 {
     flag = confFlag;
     if(flag == "i")
-        displayText = "PCRE_CASELESS";
+        displayText = "Case Insensitive";
     else if(flag == "s")
-        displayText = "PCRE_DOTALL";
+        displayText = "\".\" matches all";
     else if(flag == "x")
         displayText = "PCRE_EXTENDED";
     else if(flag == "X")
         displayText = "PCRE_EXTRA";
     else if(flag == "m")
-        displayText = "PCRE_MULTILINE";
+        displayText = "Multiline Matching";
     else if(flag == "U")
-        displayText = "PCRE_UNGREEDY";
+        displayText = "Ungreedy Capturing";
     else
         displayText = "Unrecognised Flag";
 }
@@ -52,7 +56,7 @@ QRectF ConfigGraphicsItem::boundingRect() const
     boldFont.setBold(true);
     QFontMetrics bold(boldFont);
     int height = 3*verticalPadding + 2*qApp->fontMetrics().height();
-    int width  = 2*horizontalPadding + qMax(qApp->fontMetrics().width(tr("PCRE Flag")), bold.width(displayText));
+    int width  = 2*horizontalPadding + qMax(qApp->fontMetrics().width(tr("Configuration Flag")), bold.width(displayText));
 
     return QRectF(0, 0, width, height);
 }
@@ -67,7 +71,9 @@ void ConfigGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
     else
         painter->setBrush(QColor(210, 210, 210));
     painter->drawRoundedRect(boundingRect(), 8.0, 8.0);
-    painter->drawText(horizontalPadding, 2.5*verticalPadding, tr("PCRE Flag"));
+
+    painter->drawText(horizontalPadding, 2.5*verticalPadding, tr("Configuration Flag"));
+
     QFont bold = painter->font();
     bold.setBold(true);
     painter->setFont(bold);
