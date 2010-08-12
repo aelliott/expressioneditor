@@ -7,8 +7,9 @@
         <file alias="document-save.png">images/document-save.png</file>
         <file alias="application-exit.png">images/application-exit.png</file>
         <file alias="text.png">images/text.png</file>
-        <file alias="expressioneditor.png">images/icon.png</file>
         <file alias="valid.png">images/accept.png</file>
         <file alias="invalid.png">images/exclamation.png</file>
+        <file alias="expressioneditor.png">images/application-icon/16x16.png</file>
+        <file alias="expressioneditor-large.png">images/application-icon/64x64.png</file>
     </qresource>
 </RCC>

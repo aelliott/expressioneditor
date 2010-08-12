@@ -50,13 +50,7 @@ public slots:
     void setRegexpFormat(int type);
 
 private:
-    /*!
-     * \brief   Regular expression factory to create the correct regular
-     *          expression engine.
-     */
     RegexFactory *factory;
-
-    //! The current regular expression engine
     RegexBase *rx;
 };
 

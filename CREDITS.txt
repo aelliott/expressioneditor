@@ -12,3 +12,7 @@ LIBRARIES:
 ICON PACKAGES:
  - Oxygen Icons     http://www.oxygen-icons.org/
  - FamFamFam Silk   http://www.famfamfam.com/lab/icons/silk/
+
+APPLICATION ICON:
+    Thanks to Kevin DiGennaro for taking on the job of producing this
+at a very affordable rate, and a very nice result too. :)

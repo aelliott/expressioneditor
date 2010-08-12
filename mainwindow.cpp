@@ -562,7 +562,7 @@ void MainWindow::showAboutApp()
                       "<br></p>"
                       "<p>Expression Editor was written by Alex Elliott "
                       "&lt;alex@alex-elliott.co.uk&gt;"));
-    msgBox.setIconPixmap(QPixmap(":/images/expressioneditor.png"));
+    msgBox.setIconPixmap(QPixmap(":/images/expressioneditor-large.png"));
     msgBox.exec();
 }
 
