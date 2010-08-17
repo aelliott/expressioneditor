@@ -25,20 +25,20 @@
 #ifndef REGEXFACTORY_HPP
 #define REGEXFACTORY_HPP
 
-#include "qtregex.hpp"
+#include "RegexModules/qtregex.hpp"
 #include "cmakeconfig.hpp"
 
 #ifndef NO_POSIX
-#include "posixregex.hpp"
+#include "RegexModules/posixregex.hpp"
 #endif
 
 #ifndef NO_PCRE
-#include "pcreregex.hpp"
-#include "perlregex.hpp"
+#include "RegexModules/pcreregex.hpp"
+#include "RegexModules/perlregex.hpp"
 #endif // NO_PCRE
 
 #ifndef NO_ICU
-#include "icuregex.hpp"
+#include "RegexModules/icuregex.hpp"
 #endif // NO_ICU
 
 class RegexFactory

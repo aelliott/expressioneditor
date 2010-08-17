@@ -143,7 +143,7 @@ int PcreWrapper::capturingCount() const
 std::string PcreWrapper::cap(unsigned int offset)
 {
     if(offset < captureGroups.size())
-        return captureGroups.at(offset).text();
+        return captureGroups.at(offset).getText();
     else
         return "";
 }

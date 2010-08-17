@@ -24,35 +24,66 @@
 
 #include "blocktester.hpp"
 
+/*!
+ * Creates a new BlockTester
+ *
+ * \param   parent  The parent of the widget
+ */
 BlockTester::BlockTester(QWidget *parent) : QWidget(parent)
 {
     layout = new QVBoxLayout(this);
 
-    _text = new QTextEdit(this);
-    highlighter = new BlockHighlighter(_text);
-    layout->addWidget(_text);
+    text = new QTextEdit(this);
+    highlighter = new BlockHighlighter(text);
+    layout->addWidget(text);
 
     setLayout(layout);
 }
 
-QString BlockTester::text() const
+
+/*!
+ * Access method, allows access to the plain text being tested against
+ *
+ * \return  Returns the block of text being tested against
+ */
+QString BlockTester::getText() const
 {
-    return _text->toPlainText();
+    return text->toPlainText();
 }
 
+/*!
+ * Slot to receive any changes to the current expression, passes along the
+ * signal to the BlockHighlighter highlighting the object and triggers the
+ * highlighter to highlight the object again.
+ *
+ * \param   exp The new expression
+ */
 void BlockTester::updateExpression(QString exp)
 {
     highlighter->updateExpression(exp);
-    _text->setText(text());
+    highlighter->rehighlight();
 }
 
+/*!
+ * Slot to update the block of text being tested against, used in file
+ * loading.
+ *
+ * \param   testString  The block of text to test matches against
+ */
 void BlockTester::setText(QString testString)
 {
-    _text->setText(testString);
+    text->setText(testString);
 }
 
+/*!
+ * Slot to receive any changes to the regular expression format used.
+ * Sets the regexp format in the highlighter and triggers a full
+ * rehighlight of the text.
+ *
+ * \param   type    The regular expression format to use
+ */
 void BlockTester::setRegexpFormat(int type)
 {
     highlighter->setRegexpFormat(type);
-    _text->setText(text());
+    highlighter->rehighlight();
 }

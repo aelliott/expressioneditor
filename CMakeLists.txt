@@ -73,68 +73,68 @@ INCLUDE(${QT_USE_FILE})
 # Add .cpp files
 SET(expressioneditor_CPP_SRCS
     main.cpp
-    alternativesgraphicsitem.cpp
-    blockhighlighter.cpp
-    blocktester.cpp
-    capturedstring.cpp
-    charrangegraphicsitem.cpp
-    commentgraphicsitem.cpp
-    configgraphicsitem.cpp
+    mainwindow.cpp
+    welcome.cpp
     expressioneditor.cpp
+    multilinetester.cpp
     expressionhighlighter.cpp
-    expressiontester.cpp
     graphicaleditor.cpp
-    graphicalexpression.cpp
     graphicaltoolkit.cpp
     graphicalworkspace.cpp
-    groupinggraphicsitem.cpp
-    mainwindow.cpp
-    multilinetester.cpp
-    qtregex.cpp
-    regexbase.cpp
-    regexfactory.cpp
-    regexgraphicsitem.cpp
-    repeatgraphicsitem.cpp
+    graphicalexpression.cpp
     repeateditdialog.cpp
-    searchreplacetester.cpp
-    settingsdialog.cpp
-    specialchareditdialog.cpp
-    specialchargraphicsitem.cpp
     texteditdialog.cpp
-    textgraphicsitem.cpp
-    welcome.cpp
+    specialchareditdialog.cpp
+    regexfactory.cpp
+    capturedstring.cpp
+    expressiontester.cpp
+    blocktester.cpp
+    blockhighlighter.cpp
+    settingsdialog.cpp
+    searchreplacetester.cpp
+    GraphicsItems/textgraphicsitem.cpp
+    GraphicsItems/specialchargraphicsitem.cpp
+    GraphicsItems/repeatgraphicsitem.cpp
+    GraphicsItems/regexgraphicsitem.cpp
+    GraphicsItems/groupinggraphicsitem.cpp
+    GraphicsItems/configgraphicsitem.cpp
+    GraphicsItems/commentgraphicsitem.cpp
+    GraphicsItems/charrangegraphicsitem.cpp
+    GraphicsItems/alternativesgraphicsitem.cpp
+    RegexModules/regexbase.cpp
+    RegexModules/qtregex.cpp
 )
 
 # Wrap QOBJECT classes
 SET(expressioneditor_HPP_SRCS
-    alternativesgraphicsitem.hpp
-    blockhighlighter.hpp
-    blocktester.hpp
-    charrangegraphicsitem.hpp
-    commentgraphicsitem.hpp
-    configgraphicsitem.hpp
+    mainwindow.hpp
+    welcome.hpp
     expressioneditor.hpp
+    multilinetester.hpp
     expressionhighlighter.hpp
-    expressiontester.hpp
     graphicaleditor.hpp
-    graphicalexpression.hpp
     graphicaltoolkit.hpp
     graphicalworkspace.hpp
-    groupinggraphicsitem.hpp
-    mainwindow.hpp
-    multilinetester.hpp
-    qtregex.hpp
-    regexbase.hpp
-    regexgraphicsitem.hpp
-    repeatgraphicsitem.hpp
+    graphicalexpression.hpp
     repeateditdialog.hpp
-    searchreplacetester.hpp
-    settingsdialog.hpp
-    specialchareditdialog.hpp
-    specialchargraphicsitem.hpp
     texteditdialog.hpp
-    textgraphicsitem.hpp
-    welcome.hpp
+    specialchareditdialog.hpp
+    expressiontester.hpp
+    blocktester.hpp
+    blockhighlighter.hpp
+    settingsdialog.hpp
+    searchreplacetester.hpp
+    GraphicsItems/textgraphicsitem.hpp
+    GraphicsItems/specialchargraphicsitem.hpp
+    GraphicsItems/repeatgraphicsitem.hpp
+    GraphicsItems/regexgraphicsitem.hpp
+    GraphicsItems/groupinggraphicsitem.hpp
+    GraphicsItems/configgraphicsitem.hpp
+    GraphicsItems/commentgraphicsitem.hpp
+    GraphicsItems/charrangegraphicsitem.hpp
+    GraphicsItems/alternativesgraphicsitem.hpp
+    RegexModules/regexbase.hpp
+    RegexModules/qtregex.hpp
 )
 
 # Set resource files
@@ -158,8 +158,8 @@ message("#################################")
 # Add POSIX if available/used
 if(NOT NO_POSIX)
     message("## -- Building POSIX Support   ##")
-    LIST(APPEND expressioneditor_HPP_SRCS posixregex.hpp)
-    LIST(APPEND expressioneditor_CPP_SRCS posixregex.cpp)
+    LIST(APPEND expressioneditor_HPP_SRCS RegexModules/posixregex.hpp)
+    LIST(APPEND expressioneditor_CPP_SRCS RegexModules/posixregex.cpp)
 else()
     message("## NOT Building POSIX Support  ##")
 endif(NOT NO_POSIX)
@@ -167,8 +167,8 @@ endif(NOT NO_POSIX)
 # Add PCRE if available/used
 if(NOT NO_PCRE)
     message("## -- Building PCRE Support    ##")
-    LIST(APPEND expressioneditor_HPP_SRCS pcreregex.hpp perlregex.hpp)
-    LIST(APPEND expressioneditor_CPP_SRCS pcreregex.cpp pcrewrapper.cpp perlregex.cpp)
+    LIST(APPEND expressioneditor_HPP_SRCS RegexModules/pcreregex.hpp RegexModules/perlregex.hpp)
+    LIST(APPEND expressioneditor_CPP_SRCS RegexModules/pcreregex.cpp RegexModules/perlregex.cpp pcrewrapper.cpp)
     LIST(APPEND expressioneditor_LINK_LIBS pcre pcrecpp)
 else()
     message("## NOT Building PCRE Support   ##")
@@ -177,8 +177,8 @@ endif(NOT NO_PCRE)
 # Add ICU if available/used
 if(NOT NO_ICU)
     message("## -- Building ICU Support     ##")
-    LIST(APPEND expressioneditor_HPP_SRCS icuregex.hpp)
-    LIST(APPEND expressioneditor_CPP_SRCS icuregex.cpp)
+    LIST(APPEND expressioneditor_HPP_SRCS RegexModules/icuregex.hpp)
+    LIST(APPEND expressioneditor_CPP_SRCS RegexModules/icuregex.cpp)
     LIST(APPEND expressioneditor_LINK_LIBS icui18n icuuc icudata)
 else()
     message("## NOT Building ICU Support    ##")

@@ -33,7 +33,22 @@ SOURCES += main.cpp \
     settingsdialog.cpp \
     icuregex.cpp \
     perlregex.cpp \
-    searchreplacetester.cpp
+    searchreplacetester.cpp \
+    GraphicsItems/textgraphicsitem.cpp \
+    GraphicsItems/specialchargraphicsitem.cpp \
+    GraphicsItems/repeatgraphicsitem.cpp \
+    GraphicsItems/regexgraphicsitem.cpp \
+    GraphicsItems/groupinggraphicsitem.cpp \
+    GraphicsItems/configgraphicsitem.cpp \
+    GraphicsItems/commentgraphicsitem.cpp \
+    GraphicsItems/charrangegraphicsitem.cpp \
+    GraphicsItems/alternativesgraphicsitem.cpp \
+    RegexModules/regexbase.cpp \
+    RegexModules/qtregex.cpp \
+    RegexModules/posixregex.cpp \
+    RegexModules/perlregex.cpp \
+    RegexModules/pcreregex.cpp \
+    RegexModules/icuregex.cpp
 HEADERS += mainwindow.hpp \
     welcome.hpp \
     expressioneditor.hpp \
@@ -69,7 +84,22 @@ HEADERS += mainwindow.hpp \
     icuregex.hpp \
     cmakeconfig.hpp.in \
     perlregex.hpp \
-    searchreplacetester.hpp
+    searchreplacetester.hpp \
+    GraphicsItems/textgraphicsitem.hpp \
+    GraphicsItems/specialchargraphicsitem.hpp \
+    GraphicsItems/repeatgraphicsitem.hpp \
+    GraphicsItems/regexgraphicsitem.hpp \
+    GraphicsItems/groupinggraphicsitem.hpp \
+    GraphicsItems/configgraphicsitem.hpp \
+    GraphicsItems/commentgraphicsitem.hpp \
+    GraphicsItems/charrangegraphicsitem.hpp \
+    GraphicsItems/alternativesgraphicsitem.hpp \
+    RegexModules/regexbase.hpp \
+    RegexModules/qtregex.hpp \
+    RegexModules/posixregex.hpp \
+    RegexModules/perlregex.hpp \
+    RegexModules/pcreregex.hpp \
+    RegexModules/icuregex.hpp
 win32 { 
     SOURCES -= pcreregex.cpp \
         pcrewrapper.cpp \

@@ -545,7 +545,7 @@ void MainWindow::showAppHelp()
     msgBox.setWindowTitle(tr("Expression Editor Manual"));
     msgBox.setText(tr("<h2>Documentation</h2>"
                       "<p>Documentation is available at http://wiki.github.com/aelliott/expressioneditor"));
-    msgBox.setIconPixmap(QPixmap(":/images/expressioneditor.png"));
+    msgBox.setIconPixmap(QPixmap(":/images/expressioneditor-shadow.png"));
     msgBox.exec();
 }
 
@@ -558,11 +558,11 @@ void MainWindow::showAboutApp()
                       "which provides text-based and GUI-based editing tools and "
                       "a testing element to ensure validity.</p>"
                       "<p>The editor supports several regexp formats including "
-                      "perl-compatible, POSIX extended and Qt4's internal format."
+                      "perl-compatible, POSIX extended, ICU and Qt4's internal format."
                       "<br></p>"
                       "<p>Expression Editor was written by Alex Elliott "
                       "&lt;alex@alex-elliott.co.uk&gt;"));
-    msgBox.setIconPixmap(QPixmap(":/images/expressioneditor-large.png"));
+    msgBox.setIconPixmap(QPixmap(":/images/expressioneditor-shadow.png"));
     msgBox.exec();
 }
 

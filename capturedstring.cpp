@@ -24,26 +24,53 @@
 
 #include "capturedstring.hpp"
 
-CapturedString::CapturedString(const std::string &text, const int &startpos, const int &endpos) : text_(text), position_(startpos,endpos)
+/*!
+ * Constructs a new CapturedString representation with a string, start and end position
+ *
+ * \param   text    The string that has been captured/matched
+ * \param   startpos    The starting position of the matched text within the whole
+ * \param   endpos  The end position of the matched text within the whole
+ */
+CapturedString::CapturedString(const std::string &text, const int &startpos, const int &endpos) : text(text), position(startpos,endpos)
 {
 }
 
-std::string CapturedString::text() const
+/*!
+ * Returns the captured string
+ *
+ * \return  Returns the captured text as an std::string
+ */
+std::string CapturedString::getText() const
 {
-    return text_;
+    return text;
 }
 
+/*! Returns the start and end position together as a pair<start,end>
+ *
+ * \return  Returns an std::pair of the stard and end positions where
+ *          start is at pair.first and end is at pair.second
+ */
 std::pair<int,int> CapturedString::pos() const
 {
-    return position_;
+    return position;
 }
 
+/*!
+ * Return the captured string's starting position
+ *
+ * \return  Returns the starting position of the matched string
+ */
 int CapturedString::start() const
 {
-    return position_.first;
+    return position.first;
 }
 
+/*!
+ * Return the captured string's ending position
+ *
+ * \return  Returns the ending position of the matched string
+ */
 int CapturedString::end() const
 {
-    return position_.second;
+    return position.second;
 }

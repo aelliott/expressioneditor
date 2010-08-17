@@ -39,6 +39,8 @@ AlternativesGraphicsItem::AlternativesGraphicsItem(QGraphicsItem *parent) : Rege
 
 /*!
  * Returns the geometry of the graphical object
+ *
+ * \return Returns a QRectF containing the object's geometry
  */
 QRectF AlternativesGraphicsItem::boundingRect() const
 {

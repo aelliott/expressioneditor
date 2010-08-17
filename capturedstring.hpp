@@ -42,24 +42,15 @@
 class CapturedString
 {
 public:
-    //! Constructs a new CapturedString representation with a string, start and end position
     CapturedString(const std::string &text, const int &startpos, const int &endpos);
-
-    //! Returns the captured string
-    std::string text() const;
-
-    //! Returns the start and end position together as a pair<start,end>
+    std::string getText() const;
     std::pair<int,int> pos() const;
-
-    //! Return the captured string's starting position
     int start() const;
-
-    //! Return the captured string's ending position
     int end() const;
 
 private:
-    std::string text_;
-    std::pair<int,int> position_;
+    std::string text;
+    std::pair<int,int> position;
 };
 
 #endif // CAPTUREDSTRING_HPP

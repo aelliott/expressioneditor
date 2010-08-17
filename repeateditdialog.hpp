@@ -34,7 +34,7 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QDialogButtonBox>
-#include "repeatgraphicsitem.hpp"
+#include "GraphicsItems/repeatgraphicsitem.hpp"
 
 class RepeatEditDialog : public QDialog
 {

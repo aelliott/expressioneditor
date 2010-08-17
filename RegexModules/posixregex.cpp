@@ -41,7 +41,7 @@ QString PosixRegex::cap(int offset)
     if(offset >= captureCount())
         return QString();
 
-    return QString(captured.at(offset).text().c_str());
+    return QString(captured.at(offset).getText().c_str());
 }
 
 int PosixRegex::captureCount() const

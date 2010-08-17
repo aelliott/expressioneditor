@@ -44,25 +44,17 @@ class BlockTester : public QWidget
     Q_OBJECT;
 
 public:
-    //! Creates a new BlockTester
     explicit BlockTester(QWidget *parent = 0);
-
-    //! Access method, allows access to the plain text being tested against
-    QString text() const;
+    QString getText() const;
 
 public slots:
-    //! Slot to receive any changes to the current expression
     void updateExpression(QString exp);
-
-    //! Slot to update the block of text being tested against, used in file loading
     void setText(QString testString);
-
-    //! Slot to receive any changes to the regular expression format used
     void setRegexpFormat(int type);
 
 private:
     QVBoxLayout *layout;
-    QTextEdit *_text;
+    QTextEdit *text;
     BlockHighlighter *highlighter;
 };
 

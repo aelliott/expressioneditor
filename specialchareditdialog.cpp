@@ -19,7 +19,7 @@
  */
 
 #include "specialchareditdialog.hpp"
-#include "specialchargraphicsitem.hpp"
+#include "GraphicsItems/specialchargraphicsitem.hpp"
 
 SpecialCharEditDialog::SpecialCharEditDialog(QString setContents, QWidget *parent) : QDialog(parent)
 {

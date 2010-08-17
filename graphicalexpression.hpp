@@ -35,14 +35,14 @@
 #include <QGraphicsObject>
 #include <QGraphicsScene>
 #include <QDebug>
-#include "groupinggraphicsitem.hpp"
-#include "alternativesgraphicsitem.hpp"
-#include "charrangegraphicsitem.hpp"
-#include "commentgraphicsitem.hpp"
-#include "configgraphicsitem.hpp"
-#include "repeatgraphicsitem.hpp"
-#include "specialchargraphicsitem.hpp"
-#include "textgraphicsitem.hpp"
+#include "GraphicsItems/groupinggraphicsitem.hpp"
+#include "GraphicsItems/alternativesgraphicsitem.hpp"
+#include "GraphicsItems/charrangegraphicsitem.hpp"
+#include "GraphicsItems/commentgraphicsitem.hpp"
+#include "GraphicsItems/configgraphicsitem.hpp"
+#include "GraphicsItems/repeatgraphicsitem.hpp"
+#include "GraphicsItems/specialchargraphicsitem.hpp"
+#include "GraphicsItems/textgraphicsitem.hpp"
 
 class GraphicalExpression : public QGraphicsObject
 {
