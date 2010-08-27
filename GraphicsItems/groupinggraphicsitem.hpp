@@ -42,40 +42,17 @@ class GroupingGraphicsItem : public QGraphicsObject
     Q_OBJECT;
 
 public:
-    //! Creates a new GroupingGraphicsItem
     GroupingGraphicsItem(bool brackets = false, bool outer = false, bool capturing = true, QGraphicsItem *parent = 0);
-
-    //! Returns the geometry of the graphical object
     QRectF boundingRect() const;
-
-    //! Paints the object on the canvas and lays out child items
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-
-    //! Adds an item to be a child of the group
     void addChildItem(QGraphicsObject *item, bool updateFlag = true);
-
-    //! Set a name for the capture group
     void setCapturingName(QString name);
-
-    //! True if this group should have no horizontal padding (for layout reasons)
     void setOuterGroup(bool outer);
-
-    //! Determines whether this group is capturing (default) or non-capturing
     void setCapturing(bool capturing);
-
-    //! Determines whether the data returned should have parentheses
     void setBrackets(bool brackets);
-
-    //! Sets up the item for a drag/drop, and painting of valid drop-zones
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
-
-    //! Updates state based on current co-ordinates of mouse within the item
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
-
-    //! Returns the item to its previous state
     void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
-
-    //! Handles a drop event
     void dropEvent(QGraphicsSceneDragDropEvent *event);
 
 signals:
@@ -89,13 +66,8 @@ signals:
     void editComplete();
 
 public slots:
-    //! Updates the item's data
     void updateData();
-
-    //! Removes a given child item
     void removeChild(QGraphicsObject *item);
-
-    //! Uh... I should remember this...
     void editCompleted();
 
 private:

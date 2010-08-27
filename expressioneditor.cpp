@@ -24,6 +24,11 @@
 
 #include "expressioneditor.hpp"
 
+/*!
+ * Creates a new ExpressionEditor widget
+ *
+ * \param   parent  The parent of this widget
+ */
 ExpressionEditor::ExpressionEditor(QWidget *parent) : QWidget(parent)
 {
     mainLayout = new QVBoxLayout(this);
@@ -67,19 +72,28 @@ ExpressionEditor::ExpressionEditor(QWidget *parent) : QWidget(parent)
     mainLayout->addWidget(splitter);
 }
 
+/*!
+ * Get the expression that is currently in use
+ *
+ * \return  Returns the expression within the editor
+ */
 QString ExpressionEditor::getExpression()
 {
     return expressionInput->toPlainText();
 }
 
+/*!
+ * Get the test strings from the testing widget
+ *
+ * \return  A QStringList containing all of the test strings
+ *          used by the default testing widget
+ */
 QStringList ExpressionEditor::getTestStrings()
 {
     return tester->getTestStrings();
 }
 
-/**
- * Reimplemented protected methods
- */
+//! Reimplemented resize handler, triggers a height update of the regexp text input
 void ExpressionEditor::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
@@ -87,9 +101,7 @@ void ExpressionEditor::resizeEvent(QResizeEvent *event)
     updateInputHeight();
 }
 
-/**
- * Public Slots
- */
+//! Slots for any updates to the regular expression
 void ExpressionEditor::updateExpression()
 {
     updateInputHeight();
@@ -98,6 +110,7 @@ void ExpressionEditor::updateExpression()
         updateExpression(getExpression());
 }
 
+//! Slots for any updates to the regular expression
 void ExpressionEditor::updateExpression(QString regex)
 {
     tester->updateExpression(regex);
@@ -115,25 +128,27 @@ void ExpressionEditor::updateExpression(QString regex)
     }
 }
 
+
+//! Adds a test string to the expression test widget
 void ExpressionEditor::addTestString(QString testString)
 {
     tester->addTestString(testString);
 }
 
+//! Sets the regexp format
 void ExpressionEditor::setRegexpFormat(int type)
 {
     tester->setRegexpFormat(type);
     graphicalEditor->setRegexpFormat(type);
 }
 
+//! Produces a QPixmap of the expression visualisation to export to PNG
 QPixmap ExpressionEditor::exportToImage()
 {
     return graphicalEditor->exportToImage();
 }
 
-/**
- * Private methods
- */
+//! Updates the height of the regexp text input to fit the expression.
 void ExpressionEditor::updateInputHeight()
 {
     int height = 30;

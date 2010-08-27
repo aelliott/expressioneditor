@@ -50,39 +50,25 @@
 
 class ExpressionEditor : public QWidget
 {
-    Q_OBJECT
+    Q_OBJECT;
 
 public:
-    //! Creates a new ExpressionEditor widget
     explicit ExpressionEditor(QWidget *parent = 0);
 
-    //! Get the expression that is currently in use
     QString getExpression();
-
-    //! Get the test strings from the testing widget
     QStringList getTestStrings();
 
 protected:
-    //! Reimplemented resize handler, triggers a height update of the regexp text input
     void resizeEvent(QResizeEvent *event);
 
 public slots:
-    //! Slots for any updates to the regular expression
     void updateExpression();
-    //! Slots for any updates to the regular expression
     void updateExpression(QString regex);
-
-    //! Adds a test string to the expression test widget
     void addTestString(QString testString);
-
-    //! Sets the regexp format
     void setRegexpFormat(int type);
-
-    //! Produces a QPixmap of the expression visualisation to export to PNG
     QPixmap exportToImage();
 
 private:
-    //! Updates the height of the regexp text input to fit the expression.
     void updateInputHeight();
     QVBoxLayout *mainLayout;
     QSplitter *splitter;

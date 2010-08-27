@@ -45,22 +45,11 @@ class ConfigGraphicsItem : public RegexGraphicsItem
     Q_OBJECT;
 
 public:
-    //! Produces a new ConfigGraphicsItem
     explicit ConfigGraphicsItem(QString confFlag = QString(), QGraphicsItem *parent = 0);
-
-    //! Setter, sets the configuration flag (i, m, etc)
     void setFlag(QString confFlag);
-
-    //! Returns the geometry of the graphical object
     QRectF boundingRect() const;
-
-    //! Paints the object on the canvas and lays out child items
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-
-    //! Hover over listener, triggers the hover state (colour change)
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-
-    //! Hover exit listener, triggers a return to the normal state
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
     //void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
@@ -69,10 +58,6 @@ signals:
     void dataChanged();
 
 public slots:
-    /*!
-     * \brief   Update the object's internal data, trigger dataChanged on any changes
-     *          in state.
-     */
     void updateData();
 
 private:

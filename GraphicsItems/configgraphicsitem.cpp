@@ -24,6 +24,13 @@
 
 #include "configgraphicsitem.hpp"
 
+/*!
+ * Produces a new ConfigGraphicsItem
+ *
+ * \param   confFlag    The configuration flag set (i.e. "i"
+ *                      for (?i))
+ * \param   parent      The item's parent
+ */
 ConfigGraphicsItem::ConfigGraphicsItem(QString confFlag, QGraphicsItem *parent) : RegexGraphicsItem(parent)
 {
     setFlag(confFlag);
@@ -31,6 +38,12 @@ ConfigGraphicsItem::ConfigGraphicsItem(QString confFlag, QGraphicsItem *parent) 
     updateData();
 }
 
+/*!
+ * Setter, sets the configuration flag (i, m, etc)
+ *
+ * \param   confFlag    The configuration flag set (i.e. "i"
+ *                      for (?i))
+ */
 void ConfigGraphicsItem::setFlag(QString confFlag)
 {
     flag = confFlag;
@@ -50,6 +63,11 @@ void ConfigGraphicsItem::setFlag(QString confFlag)
         displayText = "Unrecognised Flag";
 }
 
+/*!
+ * Returns the geometry of the graphical object
+ *
+ * \return  Returns a QRectF containing the object's geometry
+ */
 QRectF ConfigGraphicsItem::boundingRect() const
 {
     QFont boldFont = qApp->font();
@@ -61,6 +79,13 @@ QRectF ConfigGraphicsItem::boundingRect() const
     return QRectF(0, 0, width, height);
 }
 
+/*!
+ * Paints the object on the canvas and lays out child items
+ *
+ * \param   painter The QPainter used to draw the graphics item
+ * \param   option  Unused
+ * \param   widget  Unused
+ */
 void ConfigGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
@@ -80,6 +105,11 @@ void ConfigGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
     painter->drawText(horizontalPadding, boundingRect().height()-(1.5*verticalPadding), displayText);
 }
 
+/*!
+ * Hover over listener, triggers the hover state (colour change)
+ *
+ * \param   event   The hover event that has been triggered
+ */
 void ConfigGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     event->accept();
@@ -87,6 +117,11 @@ void ConfigGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     update();
 }
 
+/*!
+ * Hover exit listener, triggers a return to the normal state
+ *
+ * \param   event   The hover event that has been triggered
+ */
 void ConfigGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     event->accept();
@@ -94,6 +129,10 @@ void ConfigGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     update();
 }
 
+/*!
+ * Update the object's internal data, trigger dataChanged on any changes
+ * in state.
+ */
 void ConfigGraphicsItem::updateData()
 {
     QString data = QString("(?") + flag + ")";

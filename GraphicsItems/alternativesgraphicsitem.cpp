@@ -29,7 +29,8 @@
  *
  * \param   parent  The item's parent
  */
-AlternativesGraphicsItem::AlternativesGraphicsItem(QGraphicsItem *parent) : RegexGraphicsItem(parent)
+AlternativesGraphicsItem::AlternativesGraphicsItem(QGraphicsItem *parent)
+    : RegexGraphicsItem(parent)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
     setAcceptHoverEvents(true);

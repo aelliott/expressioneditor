@@ -24,10 +24,15 @@
 
 #include "charrangegraphicsitem.hpp"
 
-CharRangeGraphicsItem::CharRangeGraphicsItem(QString initContents, int regexType, QGraphicsItem *parent) : RegexGraphicsItem(parent), regexFormat(regexType)
+/*!
+ * Creates a new CharRangeGraphicsItem
+ */
+CharRangeGraphicsItem::CharRangeGraphicsItem(QString initContents, int regexType, QGraphicsItem *parent)
+    : RegexGraphicsItem(parent)
+    , regexFormat(regexType)
+    , initialised(false)
+    , contents(initContents)
 {
-    initialised = false;
-    contents = initContents;
     parseContents(contents);
 
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -35,14 +40,31 @@ CharRangeGraphicsItem::CharRangeGraphicsItem(QString initContents, int regexType
     backgroundColour = QColor(240, 240, 255);
 }
 
+/*!
+ * Cleans up dynamically allocated memory
+ */
 CharRangeGraphicsItem::~CharRangeGraphicsItem()
 {
     if(initialised)
         delete contentsItem;
 }
 
+/*!
+ * Parses the contents of the character range to produce a neat list of
+ * the allowed characters.
+ *
+ * This method parses out any ranges (a-z, etc), special characters (\w etc),
+ * POSIX character classes ([:alpha:] etc), and anything not treated as a literal
+ * and places all left-over characters in a simple stringlist to produce a final
+ * comma-delimited list of characters allowed in addition to the special chars.
+ *
+ * \param   string  The string contents of the character range (that between [
+ *                  and a closing ])
+ */
 void CharRangeGraphicsItem::parseContents(QString string)
 {
+    // If we already have a QGraphicsTextItem then we need to free
+    // the memory before we create a new one
     if(initialised)
         delete contentsItem;
     else
@@ -61,10 +83,13 @@ void CharRangeGraphicsItem::parseContents(QString string)
     // Parsing logic
     bool negated = false;
     int offset = 0;
+    // Check if we're negating the following characters
     if(string.startsWith("^"))
     {
         negated = true;
         ++offset;
+        // "[^]...]" is allowed, will match anything but "]" and any
+        // further contents
         if(QString(string.at(offset)) == "]")
         {
             characters << "]";
@@ -72,11 +97,13 @@ void CharRangeGraphicsItem::parseContents(QString string)
         }
     }
 
+    // Loop while there are still characters to read in
     bool workDone = true;
     while(workDone)
     {
         workDone = false;
 
+        // Match POSIX character classes (like [:alpha:])
         if(!workDone && charClass.indexIn(string, offset) == offset)
         {
             elements.push_back(charClass.cap(0) + " POSIX Class");
@@ -84,6 +111,7 @@ void CharRangeGraphicsItem::parseContents(QString string)
             workDone = true;
         }
 
+        // Match a range (like a-z)
         if(!workDone && rangePattern.indexIn(string, offset) == offset)
         {
             elements.push_back(rangePattern.cap(0));
@@ -91,6 +119,7 @@ void CharRangeGraphicsItem::parseContents(QString string)
             workDone = true;
         }
 
+        // Match anything else, including escaped strings or special characters
         if(!workDone && charPattern.indexIn(string, offset) == offset)
         {
             if(QRegExp("\\.|\\\\[bBwWdDsSntafrv]|\\\\x[0-9a-fA-F]{4}|\\\\0?[0-3][0-7]{2}|\\\\[1-9][0-9]*").exactMatch(charPattern.cap(0)))
@@ -121,6 +150,12 @@ void CharRangeGraphicsItem::parseContents(QString string)
     updateData();
 }
 
+
+/*!
+ * Returns the geometry of the graphical object
+ *
+ * \return  A QRectF describing the dimensions of the object
+ */
 QRectF CharRangeGraphicsItem::boundingRect() const
 {
     // The height and width of this item depend entirely on the height and width
@@ -130,6 +165,14 @@ QRectF CharRangeGraphicsItem::boundingRect() const
     return QRectF(0, 0, width, height);
 }
 
+
+/*!
+ * Paints the object on the canvas and lays out child items
+ *
+ * \param   painter QPainter used to paint the scene
+ * \param   options Unused
+ * \param   widget  Unused
+ */
 void CharRangeGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
@@ -146,6 +189,11 @@ void CharRangeGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsI
     contentsItem->setPos(horizontalPadding, verticalPadding);
 }
 
+/*!
+ * Hover over listener, triggers the hover state (colour change)
+ *
+ * \param   event   The hover event received
+ */
 void CharRangeGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     event->accept();
@@ -153,6 +201,11 @@ void CharRangeGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     update();
 }
 
+/*!
+ * Hover exit listener, triggers a return to the normal state
+ *
+ * \param   event   The hover event received
+ */
 void CharRangeGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     event->accept();
@@ -160,12 +213,23 @@ void CharRangeGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     update();
 }
 
+/*!
+ * Mouse double-click listener.  Produces a GUI editing dialog for the regexp element.
+ *
+ * NOTE: this method is incomplete as there is not currently a CharRangeEditDialog
+ *
+ * \param   event   The mouse click event received
+ */
 void CharRangeGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     event->accept();
     qDebug() << "CharRange: I've been double clicked";
 }
 
+/*!
+ * Update the object's internal data, trigger dataChanged on any changes
+ * in state.
+ */
 void CharRangeGraphicsItem::updateData()
 {
     QString expression = QString("[") + contents + "]";

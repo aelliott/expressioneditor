@@ -24,24 +24,47 @@
 
 #include "commentgraphicsitem.hpp"
 
+/*!
+ * Produces a new CommentGraphicsItem
+ *
+ * \param   comment The regexp comment string to represent
+ * \param   parent  The item's parent
+ */
 CommentGraphicsItem::CommentGraphicsItem(QString comment, QGraphicsItem *parent) : RegexGraphicsItem(parent), commentString(comment)
 {
     backgroundColour = QColor(230, 230, 230);
     updateData();
 }
 
+/*!
+ * Setter method, sets the comment string
+ *
+ * \param   comment Comment string to set
+ */
 void CommentGraphicsItem::setComment(QString comment)
 {
     commentString = comment;
     updateData();
 }
 
+/*!
+ * Convenience method, appends a string on to the end of
+ * the existing comment string
+ *
+ * \param   append  String to append onto the existing
+ *                  comment string.
+ */
 void CommentGraphicsItem::appendText(QString append)
 {
     commentString += append;
     updateData();
 }
 
+/*!
+ * Returns the geometry of the graphical object
+ *
+ * \return  Returns a QRectF containing the object's geometry
+ */
 QRectF CommentGraphicsItem::boundingRect() const
 {
     int width = 2*horizontalPadding + qApp->fontMetrics().width(commentString);
@@ -49,6 +72,13 @@ QRectF CommentGraphicsItem::boundingRect() const
     return QRectF(0, 0, width, height);
 }
 
+/*!
+ * Paints the object on the canvas and lays out child items
+ *
+ * \param   painter The QPainter used to draw the graphics item
+ * \param   option  Unused
+ * \param   widget  Unused
+ */
 void CommentGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
@@ -62,6 +92,11 @@ void CommentGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     painter->drawText(horizontalPadding, boundingRect().height()-(1.5*verticalPadding), commentString);
 }
 
+/*!
+ * Hover over listener, triggers the hover state (colour change)
+ *
+ * \param   event   The hover event that has been triggered
+ */
 void CommentGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     event->accept();
@@ -69,6 +104,11 @@ void CommentGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     update();
 }
 
+/*!
+ * Hover exit listener, triggers a return to the normal state
+ *
+ * \param   event   The hover event that has been triggered
+ */
 void CommentGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     event->accept();
@@ -76,6 +116,10 @@ void CommentGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     update();
 }
 
+/*!
+ * Update the object's internal data, trigger dataChanged on any changes
+ * in state.
+ */
 void CommentGraphicsItem::updateData()
 {
     QString text = QString("(?#") + commentString + ")";
