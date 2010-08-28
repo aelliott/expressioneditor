@@ -184,6 +184,19 @@ else()
     message("## NOT Building ICU Support    ##")
 endif(NOT NO_ICU)
 
+# Disabled for now, if this becomes available the application is ready for it
+# but it will require some testing because as of now the implementation for
+# GCC is incomplete meaning no code could be tested.
+# Add C++0x if requested
+#if(WITH_CPP0X)
+#    message("## -- Building C++0x Support   ##")
+#    LIST(APPEND expressioneditor_HPP_SRCS RegexModules/cpp0xregex.hpp)
+#    LIST(APPEND expressioneditor_CPP_SRCS RegexModules/cpp0xregex.cpp)
+#    LIST(APPEND CMAKE_CXX_FLAGS "--std=c++0x")
+#else()
+#    message("## NOT Building C++0x Support  ##")
+#endif(WITH_CPP0X)
+
 message("#################################")
 
 # Add resource files

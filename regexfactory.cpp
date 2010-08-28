@@ -64,6 +64,11 @@ RegexBase* RegexFactory::factory(QString pattern, int format)
             return new IcuRegex(pattern);
             break;
 #endif // NO_ICU
+#ifdef WITH_CPP0X
+        case CPP0X:
+            return new Cpp0xRegex(pattern);
+            break;
+#endif // WITH_CPP0X
         default:
             // This should never happen
             return new QtRegex(pattern);

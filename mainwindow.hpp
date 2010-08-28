@@ -80,6 +80,9 @@ public slots:
 #ifndef NO_ICU
     void setFormatIcu();
 #endif // NO_ICU
+#ifdef WITH_CPP0X
+    void setFormatCpp0x();
+#endif // WITH_CPP0X
     void showSettings();
 
 private:
@@ -111,6 +114,9 @@ private:
 #ifndef NO_ICU
             QAction *icuStyleAction;
 #endif // NO_ICU
+#ifdef WITH_CPP0X
+            QAction *cpp0xStyleAction;
+#endif // WITH_CPP0X
         // ----
         QAction *preferencesAction;
     QMenu *helpMenu;

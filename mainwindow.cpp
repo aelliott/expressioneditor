@@ -288,6 +288,16 @@ void MainWindow::createMenuBar()
     formatMenu->addAction(icuStyleAction);
 #endif // NO_ICU
 
+#ifdef WITH_CPP0X
+    // [Edit -> Format] C++0x Style Action
+    cpp0xStyleAction = new QAction(tr("C++0x Format"), this);
+    cpp0xStyleAction->setCheckable(true);
+    cpp0xStyleAction->setActionGroup(formatGroup);
+    cpp0xStyleAction->setStatusTip(tr("Use C++0x Format Expressions"));
+        connect(cpp0xStyleAction, SIGNAL(triggered()), this, SLOT(setFormatCpp0x()));
+    formatMenu->addAction(cpp0xStyleAction);
+#endif // WITH_CPP0X
+
     // [Edit] ----------------
     editMenu->addSeparator();
 
@@ -623,6 +633,16 @@ void MainWindow::setFormatIcu()
     icuStyleAction->setChecked(true);
 }
 #endif // NO_ICU
+
+#ifdef WITH_CPP0X
+void MainWindow::setFormatCpp0x()
+{
+    editor->setRegexpFormat(RegexFactory::CPP0X);
+    formatLabel->setText("C++0x Format");
+    format = "cpp0x";
+    cpp0xStyleAction->setChecked(true);
+}
+#endif // WITH_CPP0X
 
 void MainWindow::showSettings()
 {

@@ -31,5 +31,7 @@
 #cmakedefine NO_PCRE
 //! Compiles out support for ICU
 #cmakedefine NO_ICU
+//! Compiles in support for C++0x
+#cmakedefine WITH_CPP0X
 
 #endif // CMAKECONFIG_HPP_IN

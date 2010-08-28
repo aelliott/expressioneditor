@@ -48,7 +48,8 @@ SOURCES += main.cpp \
     RegexModules/posixregex.cpp \
     RegexModules/perlregex.cpp \
     RegexModules/pcreregex.cpp \
-    RegexModules/icuregex.cpp
+    RegexModules/icuregex.cpp \
+    RegexModules/cpp0xregex.cpp
 HEADERS += mainwindow.hpp \
     welcome.hpp \
     expressioneditor.hpp \
@@ -99,7 +100,8 @@ HEADERS += mainwindow.hpp \
     RegexModules/posixregex.hpp \
     RegexModules/perlregex.hpp \
     RegexModules/pcreregex.hpp \
-    RegexModules/icuregex.hpp
+    RegexModules/icuregex.hpp \
+    RegexModules/cpp0xregex.hpp
 win32 { 
     SOURCES -= pcreregex.cpp \
         pcrewrapper.cpp \

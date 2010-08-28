@@ -41,6 +41,10 @@
 #include "RegexModules/icuregex.hpp"
 #endif // NO_ICU
 
+#ifdef WITH_CPP0X
+#include "RegexModules/cpp0xregex.hpp"
+#endif // WITH_CPP0X
+
 class RegexFactory
 {
 public:
@@ -50,7 +54,8 @@ public:
         PCRE,
         POSIX,
         ICU,
-        PerlEmulation
+        PerlEmulation,
+        CPP0X
     };
 
     RegexFactory(int type = 0);

@@ -29,7 +29,8 @@
  *
  * \param   parent  The item's parent item
  */
-RegexGraphicsItem::RegexGraphicsItem(QGraphicsItem *parent) : QGraphicsObject(parent)
+RegexGraphicsItem::RegexGraphicsItem(QGraphicsItem *parent)
+    : QGraphicsObject(parent)
 {
     setCursor(Qt::OpenHandCursor);
     setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
