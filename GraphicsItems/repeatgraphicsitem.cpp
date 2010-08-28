@@ -25,7 +25,22 @@
 #include "repeatgraphicsitem.hpp"
 #include "repeateditdialog.hpp"
 
-RepeatGraphicsItem::RepeatGraphicsItem(RepeatGraphicsItem::Type type, int minimum, int maximum, QGraphicsItem *parent) : RegexGraphicsItem(parent), greedy(true)
+/*!
+ * Creates a new RepeatGraphicsItem
+ *
+ * \param   type    The type of repeat to represent
+ * \param   minimum Minimum repeats possible, used when
+ *                  a number of repeats is specified
+ * \param   maximum Maximum repeats possible, used when
+ *                  a number of repeats is specified
+ * \param   parent  This item's parent item
+ */
+RepeatGraphicsItem::RepeatGraphicsItem(RepeatGraphicsItem::Type type,
+                                       int minimum,
+                                       int maximum,
+                                       QGraphicsItem *parent )
+    : RegexGraphicsItem(parent)
+    , greedy(true)
 {
     setRepeat(type, minimum, maximum);
 
@@ -34,7 +49,18 @@ RepeatGraphicsItem::RepeatGraphicsItem(RepeatGraphicsItem::Type type, int minimu
     backgroundColour = QColor(255, 230, 230);
 }
 
-void RepeatGraphicsItem::setRepeat(RepeatGraphicsItem::Type type, int minimum, int maximum)
+/*!
+ * Sets the internal data to properly represent the specified repeat
+ *
+ * \param   type    The type of repeat to represent
+ * \param   minimum Minimum repeats possible, used when
+ *                  a number of repeats is specified
+ * \param   maximum Maximum repeats possible, used when
+ *                  a number of repeats is specified
+ */
+void RepeatGraphicsItem::setRepeat(RepeatGraphicsItem::Type type,
+                                   int minimum,
+                                   int maximum )
 {
     setType = type;
     setMinimum = minimum;
@@ -55,25 +81,47 @@ void RepeatGraphicsItem::setRepeat(RepeatGraphicsItem::Type type, int minimum, i
                 title += tr(" (non-greedy)");
             break;
         case RepeatGraphicsItem::ExactValue:
-            title = tr("Repeated Exactly ") + QVariant(minimum).toString() + tr(" Times");
+            title = tr("Repeated Exactly ")
+                    + QVariant(minimum).toString()
+                    + tr(" Times");
             break;
         case RepeatGraphicsItem::SpecifiedRange:
             if(maximum == -1)
-                title = tr("Repeated At Least ") + QVariant(minimum).toString() + tr(" Times");
+                title = tr("Repeated At Least ")
+                + QVariant(minimum).toString()
+                + tr(" Times");
             else if(minimum == -1)
-                title = tr("Repeated At Most ") + QVariant(maximum).toString() + tr(" Times");
+                title = tr("Repeated At Most ")
+                + QVariant(maximum).toString()
+                + tr(" Times");
             else
-                title = tr("Repeated Between ") + QVariant(minimum).toString() + tr(" And ") + QVariant(maximum).toString() + tr(" Times");
+                title = tr("Repeated Between ")
+                        + QVariant(minimum).toString()
+                        + tr(" And ")
+                        + QVariant(maximum).toString()
+                        + tr(" Times");
             break;
     }
 }
 
+/*!
+ * Sets the flag determining whether this repeat is greedy or
+ * non-greedy (i.e. ()+ versus ()+?)
+ *
+ * \param newGreedy True if it should be greedy, false if not
+ */
 void RepeatGraphicsItem::setGreedy(bool newGreedy)
 {
     greedy = newGreedy;
     setRepeat(setType, setMinimum, setMaximum);
 }
 
+/*!
+ * Sets the child item which has this repeat quantifier
+ * applied to it
+ *
+ * \param   item    The regexp item which should be the child
+ */
 void RepeatGraphicsItem::setChildItem(QGraphicsObject *item)
 {
     // There can only be one child item
@@ -85,33 +133,58 @@ void RepeatGraphicsItem::setChildItem(QGraphicsObject *item)
     updateData();
 }
 
+/*!
+ * Returns the geometry of the graphical object
+ *
+ * \return  Returns a QRectF containing the object's geometry
+ */
 QRectF RepeatGraphicsItem::boundingRect() const
 {
     double width = 0;
     double height = 0;
+
+    // If there is a child item
     if(childItems().size() > 0)
     {
+        // Take the maximum of the width of the title and the width of the
+        // child item
         if(childItems().at(0)->boundingRect().width() > qApp->fontMetrics().width(title))
             width  = childItems().at(0)->boundingRect().width()  + 2*horizontalPadding;
         else
             width = qApp->fontMetrics().width(title) + 2*horizontalPadding;
-        height = childItems().at(0)->boundingRect().height() + qApp->fontMetrics().height() + 2.5*verticalPadding;
+
+        // Cumulative height of the title, child item and padding
+        height = childItems().at(0)->boundingRect().height()
+                 + qApp->fontMetrics().height()
+                 + 2.5*verticalPadding;
     }
+
     return QRectF(0, 0, width, height);
 }
 
+/*!
+ * Paints the object on the canvas and lays out child items
+ *
+ * \param   painter The QPainter used to draw the graphics item
+ * \param   option  Unused
+ * \param   widget  Unused
+ */
 void RepeatGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
+
     if(!isSelected())
         painter->setBrush(backgroundColour);
     else
         painter->setBrush(QColor(235, 210, 210));
 
+    // Draw the item background
     painter->drawRoundedRect(boundingRect(), 8.0, 8.0);
+    // Draw the repeat item heading
     painter->drawText(horizontalPadding, 0.5*qApp->fontMetrics().height()+verticalPadding, title);
 
+    // Place the item within the repeat item, respecting padding
     if(childItems().size() > 0 && !childItems().at(0)->isSelected())
     {
         double verticalOffset = qApp->fontMetrics().height() + 1.5*verticalPadding;
@@ -120,6 +193,11 @@ void RepeatGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
     }
 }
 
+/*!
+ * Hover over listener, triggers the hover state (colour change)
+ *
+ * \param   event   The hover event that has been triggered
+ */
 void RepeatGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     event->accept();
@@ -127,6 +205,11 @@ void RepeatGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     update();
 }
 
+/*!
+ * Hover exit listener, triggers a return to the normal state
+ *
+ * \param   event   The hover event that has been triggered
+ */
 void RepeatGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     event->accept();
@@ -134,22 +217,34 @@ void RepeatGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     update();
 }
 
+/*!
+ * Double click event handler, present a dialog allowing GUI editing of the
+ * regexp element
+ *
+ * \param   event   The double click event captured
+ */
 void RepeatGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     event->accept();
+
+    // Create the edit dialog and display it with the current details
     RepeatEditDialog dialog(setType, setMinimum, setMaximum);
     int response = dialog.exec();
 
+    // If they pressed cancel, no need to make any changes
     if(response == QDialog::Rejected)
         return;
 
+    // If they pressed ok then collect the values selected and pass them to
+    // setRepeat to update the item's details
     setRepeat(dialog.getType(), dialog.getMinimum(), dialog.getMaximum());
     updateData();
     update();
 }
 
-/**
- * Public slots
+/*!
+ * Update the object's internal data, trigger dataChanged on any changes
+ * in state.
  */
 void RepeatGraphicsItem::updateData()
 {
@@ -182,7 +277,8 @@ void RepeatGraphicsItem::updateData()
             else if(setMinimum == -1)
                 expression += "{," + QVariant(setMaximum).toString() + "}";
             else
-                expression += "{" + QVariant(setMinimum).toString() + "," + QVariant(setMaximum).toString() + "}";
+                expression += "{" + QVariant(setMinimum).toString() + ","
+                              + QVariant(setMaximum).toString() + "}";
             break;
         }
     }
@@ -191,10 +287,19 @@ void RepeatGraphicsItem::updateData()
     emit dataChanged();
 }
 
+/*!
+ * Removes the repeat's child item
+ *
+ * NOTE: This could be simplified, since there is only ever one child item
+ *
+ * \param   item    Pointer to the item to delete
+ */
 void RepeatGraphicsItem::removeChild(QGraphicsObject *item)
 {
+    // Check if we have ownership of this pointer
     if(isAncestorOf(item))
         delete item;
+
     // Since the repeat item can only have one child, this is now empty
     emit removeItem(this);
 }

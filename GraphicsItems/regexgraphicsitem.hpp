@@ -21,6 +21,12 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*!
+ * \brief   The base class for graphical regexp visualisation items.
+ *
+ * This class is a common base class for all elements of the graphical
+ * visualisation, providing all of the common functionality required.
+ */
 #ifndef REGEXGRAPHICSITEM_HPP
 #define REGEXGRAPHICSITEM_HPP
 
@@ -44,15 +50,18 @@ public:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
 signals:
+    //! Sends a signal to remove an item
     void removeItem(QGraphicsObject *item);
+
+    //! Signal sent if any items have changed
     void editComplete();
 
 public slots:
-    void removeChild(QGraphicsObject *item);
+    virtual void removeChild(QGraphicsObject *item);
     void editCompleted();
 
 protected:
-    void updateData();
+    virtual void updateData();
     static const int expressionData = 0;
     QPointF dragStartPosition;
 };

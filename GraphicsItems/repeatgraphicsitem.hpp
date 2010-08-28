@@ -21,6 +21,13 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*!
+ * \brief   This class represents a repeated item within a regexp.
+ *
+ * This class is used to produce the graphical representation of a repeat
+ * within a regular expression.  For example (foo)+ is (foo) repeated
+ * "one or more" times.
+ */
 
 #ifndef REPEATGRAPHICSITEM_HPP
 #define REPEATGRAPHICSITEM_HPP
@@ -38,13 +45,17 @@ class RepeatGraphicsItem : public RegexGraphicsItem
     Q_OBJECT;
 
 public:
+    /*!
+     * This enumerates the different types of repeats
+     * allowed by the RepeatGraphicsItem
+     */
     enum Type
     {
-        ZeroOrOne,
-        ZeroOrMore,
-        OneOrMore,
-        ExactValue,
-        SpecifiedRange
+        ZeroOrOne, //!< Zero or one repeats - ?
+        ZeroOrMore, //!< Zero or more repeats - *
+        OneOrMore, //!< One or more repeats - +
+        ExactValue, //!< An exact value of repeats - {n}
+        SpecifiedRange //!< A specified range of repeats - {n,m}
     };
 
     RepeatGraphicsItem(RepeatGraphicsItem::Type type, int minimum = -1, int maximum = -1, QGraphicsItem *parent = 0);
@@ -58,6 +69,7 @@ public:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 signals:
+    //! Signal sent if any items have changed
     void dataChanged();
 
 public slots:

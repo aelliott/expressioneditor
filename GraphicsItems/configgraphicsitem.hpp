@@ -24,7 +24,7 @@
 /*!
  * \brief   This class represents a configuration flag (i.e. (?i)) within a regexp.
  *
- * This class is used to produce the graphical represntation of a configuration
+ * This class is used to produce the graphical representation of a configuration
  * option passed into a regular expression.  It matches the character within (?..)
  * and displays the plain text version of that configuration flag.
  *
