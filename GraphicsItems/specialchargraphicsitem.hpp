@@ -21,6 +21,13 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*!
+ * \brief   This class represents a special character class within a regexp.
+ *
+ * This class is used to produce the graphical representation of a special
+ * character, typically a combination of an escape and a normal character like
+ * \\w \\W \\s etc which denote character classes.
+ */
 
 #ifndef SPECIALCHARGRAPHICSITEM_HPP
 #define SPECIALCHARGRAPHICSITEM_HPP
@@ -38,8 +45,7 @@ class SpecialCharGraphicsItem : public RegexGraphicsItem
     Q_OBJECT;
 
 public:
-    SpecialCharGraphicsItem(QGraphicsItem *parent = 0);
-    SpecialCharGraphicsItem(QString text, QGraphicsItem *parent = 0);
+    SpecialCharGraphicsItem(QString text = QString(), QGraphicsItem *parent = 0);
     void setContents(QString text);
     static QString parseString(QString text);
     QRectF boundingRect() const;

@@ -21,6 +21,12 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*!
+ * \brief   This class represents a plain text segment within a regexp.
+ *
+ * This class is used to represent a plain literal string within the regular
+ * expression visualisation.
+ */
 
 #ifndef TEXTGRAPHICSITEM_HPP
 #define TEXTGRAPHICSITEM_HPP
@@ -39,8 +45,7 @@ class TextGraphicsItem : public RegexGraphicsItem
     Q_OBJECT;
 
 public:
-    TextGraphicsItem(QGraphicsItem * parent = 0);
-    TextGraphicsItem(QString text, QGraphicsItem * parent = 0);
+    TextGraphicsItem(QString text = QString(), QGraphicsItem * parent = 0);
     void setText(QString text);
     void appendText(QString append);
     QRectF boundingRect() const;

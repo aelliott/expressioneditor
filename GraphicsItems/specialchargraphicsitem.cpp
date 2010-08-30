@@ -24,12 +24,14 @@
 
 #include "specialchargraphicsitem.hpp"
 
-SpecialCharGraphicsItem::SpecialCharGraphicsItem(QGraphicsItem *parent)
-{
-    SpecialCharGraphicsItem("", parent);
-}
-
-SpecialCharGraphicsItem::SpecialCharGraphicsItem(QString text, QGraphicsItem *parent) : RegexGraphicsItem(parent)
+/*!
+ * Creates a new SpecialCharGraphicsItem
+ *
+ * \param   text    The special item matched (i.e. \\w)
+ * \param   parent  This item's parent item
+ */
+SpecialCharGraphicsItem::SpecialCharGraphicsItem(QString text, QGraphicsItem *parent)
+    : RegexGraphicsItem(parent)
 {
     contents = new QGraphicsTextItem;
     contents->setParentItem(this);
@@ -37,6 +39,12 @@ SpecialCharGraphicsItem::SpecialCharGraphicsItem(QString text, QGraphicsItem *pa
     backgroundColour = QColor(255, 220, 255);
 }
 
+
+/*!
+ * Set the special character that should be displayed
+ *
+ * \param   text    The special item to represent (i.e. \\w)
+ */
 void SpecialCharGraphicsItem::setContents(QString text)
 {
     plainContents = text;
@@ -48,6 +56,12 @@ void SpecialCharGraphicsItem::setContents(QString text)
     updateData();
 }
 
+/*!
+ * Produce a human readable string from a given special character
+ *
+ * \param   text    The special character to describe (i.e \\w)
+ * \return  A human readable representation of the special character provided
+ */
 QString SpecialCharGraphicsItem::parseString(QString text)
 {
     if(text == ".")
@@ -87,11 +101,13 @@ QString SpecialCharGraphicsItem::parseString(QString text)
 
     QRegExp unicode("\\\\x([0-9a-fA-F]{2,4})");
     if(unicode.exactMatch(text))
-        return tr("Unicode<br>char ") + unicode.cap(1) + " \"" + QString(QChar(unicode.cap(1).toInt(0, 16))) + "\"";
+        return tr("Unicode<br>char ") + unicode.cap(1) + " \""
+                + QString(QChar(unicode.cap(1).toInt(0, 16))) + "\"";
 
     QRegExp octal("\\\\(0?[0-3][0-7]{2})");
     if(octal.exactMatch(text))
-        return tr("Octal<br>char ") + octal.cap(1) + " \"" + QString(QChar::fromAscii(octal.cap(1).toInt(0, 8))) + "\"";
+        return tr("Octal<br>char ") + octal.cap(1) + " \""
+                + QString(QChar::fromAscii(octal.cap(1).toInt(0, 8))) + "\"";
 
     QRegExp backreference("\\\\([1-9][0-9]*)");
     if(backreference.exactMatch(text))
@@ -100,11 +116,23 @@ QString SpecialCharGraphicsItem::parseString(QString text)
     return "";
 }
 
+/*!
+ * Returns the geometry of the graphical object
+ *
+ * \return  Returns a QRectF containing the object's geometry
+ */
 QRectF SpecialCharGraphicsItem::boundingRect() const
 {
     return QRectF(0, 0, contents->boundingRect().width()+2*horizontalPadding, contents->boundingRect().height()+2*verticalPadding);
 }
 
+/*!
+ * Paints the object on the canvas and lays out child items
+ *
+ * \param   painter The QPainter used to draw the graphics item
+ * \param   option  Unused
+ * \param   widget  Unused
+ */
 void SpecialCharGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
@@ -119,6 +147,11 @@ void SpecialCharGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphic
     contents->setPos(horizontalPadding, verticalPadding);
 }
 
+/*!
+ * Hover over listener, triggers the hover state (colour change)
+ *
+ * \param   event   The hover event that has been triggered
+ */
 void SpecialCharGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     event->accept();
@@ -126,6 +159,11 @@ void SpecialCharGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     update();
 }
 
+/*!
+ * Hover exit listener, triggers a return to the normal state
+ *
+ * \param   event   The hover event that has been triggered
+ */
 void SpecialCharGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     event->accept();
@@ -133,6 +171,12 @@ void SpecialCharGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     update();
 }
 
+/*!
+ * Double click event handler, present a dialog allowing GUI editing of the
+ * regexp element
+ *
+ * \param   event   The double click event captured
+ */
 void SpecialCharGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     event->accept();
@@ -143,8 +187,9 @@ void SpecialCharGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *ev
         return;
 }
 
-/**
- * Private methods
+/*!
+ * Update the object's internal data, trigger dataChanged on any changes
+ * in state.
  */
 void SpecialCharGraphicsItem::updateData()
 {

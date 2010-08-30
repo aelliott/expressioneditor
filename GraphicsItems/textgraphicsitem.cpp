@@ -24,12 +24,14 @@
 
 #include "textgraphicsitem.hpp"
 
-TextGraphicsItem::TextGraphicsItem(QGraphicsItem * parent)
-{
-    TextGraphicsItem("", parent);
-}
-
-TextGraphicsItem::TextGraphicsItem(QString text, QGraphicsItem * parent) : RegexGraphicsItem(parent)
+/*!
+ * Creates a new TextGraphicsItem with the specified text
+ *
+ * \param   text    The text content of the item
+ * \param   parent  This item's parent item
+ */
+TextGraphicsItem::TextGraphicsItem(QString text, QGraphicsItem *parent)
+    : RegexGraphicsItem(parent)
 {
     setText(text);
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
@@ -37,6 +39,10 @@ TextGraphicsItem::TextGraphicsItem(QString text, QGraphicsItem * parent) : Regex
     backgroundColour = QColor(220,255,220);
 }
 
+/*!
+ * Sets the text content of the graphics item and creates a "display safe"
+ * internal string for use in drawing
+ */
 void TextGraphicsItem::setText(QString text)
 {
     textString = text;
@@ -45,11 +51,21 @@ void TextGraphicsItem::setText(QString text)
     updateData();
 }
 
+/*!
+ * Appends the given string to the currently stored string
+ *
+ * \param   append  The string to append
+ */
 void TextGraphicsItem::appendText(QString append)
 {
     setText(textString + append);
 }
 
+/*!
+ * Returns the geometry of the graphical object
+ *
+ * \return  Returns a QRectF containing the object's geometry
+ */
 QRectF TextGraphicsItem::boundingRect() const
 {
     double width = qApp->fontMetrics().width(displayText)+(2*horizontalPadding);
@@ -57,6 +73,13 @@ QRectF TextGraphicsItem::boundingRect() const
     return QRectF(0, 0, width, height);
 }
 
+/*!
+ * Paints the object on the canvas and lays out child items
+ *
+ * \param   painter The QPainter used to draw the graphics item
+ * \param   option  Unused
+ * \param   widget  Unused
+ */
 void TextGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
@@ -70,6 +93,11 @@ void TextGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->drawText(horizontalPadding, boundingRect().height()-(1.5*verticalPadding), displayText);
 }
 
+/*!
+ * Hover over listener, triggers the hover state (colour change)
+ *
+ * \param   event   The hover event that has been triggered
+ */
 void TextGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     event->accept();
@@ -77,6 +105,11 @@ void TextGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     update();
 }
 
+/*!
+ * Hover exit listener, triggers a return to the normal state
+ *
+ * \param   event   The hover event that has been triggered
+ */
 void TextGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     event->accept();
@@ -84,6 +117,12 @@ void TextGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
     update();
 }
 
+/*!
+ * Double click event handler, present a dialog allowing GUI editing of the
+ * regexp element
+ *
+ * \param   event   The double click event captured
+ */
 void TextGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     event->accept();
@@ -97,8 +136,9 @@ void TextGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     update();
 }
 
-/**
- * Private methods
+/*!
+ * Update the object's internal data, trigger dataChanged on any changes
+ * in state.
  */
 void TextGraphicsItem::updateData()
 {
