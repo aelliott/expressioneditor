@@ -79,8 +79,6 @@ public:
 
 private:
     QString expression;
-    QStringList matches;
-    int matchLength;
     bool valid;
     std::regex *regexp;
 };

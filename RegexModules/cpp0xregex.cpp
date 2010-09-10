@@ -90,7 +90,7 @@ int Cpp0xRegex::captureCount() const
  */
 QStringList Cpp0xRegex::capturedTexts()
 {
-    return matches;
+    return captured;
 }
 
 /*!
