@@ -41,13 +41,13 @@ class SearchReplaceTester : public QWidget
 
 public:
     explicit SearchReplaceTester(QWidget *parent = 0);
-    QString text() const;
+    QString getText() const;
 
 public slots:
     void updateExpression(QString exp);
     void updateReplacedText();
     void setText(QString testString);
-    void setRegexpFormat(int type);
+    void setRegexpFormat(int newType);
 
 private:
     QVBoxLayout *layout;
@@ -55,11 +55,11 @@ private:
     QLabel *replaceLabel;
     QLineEdit *replaceInput;
     QSplitter *splitter;
-    QTextEdit *text_;
+    QTextEdit *testText;
     QTextEdit *replacedText;
     BlockHighlighter *highlighter;
-    QString expression_;
-    int type_;
+    QString expression;
+    int type;
 
 };
 

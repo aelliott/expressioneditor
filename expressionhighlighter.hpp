@@ -46,14 +46,11 @@ class ExpressionHighlighter : public QSyntaxHighlighter
     Q_OBJECT;
 
 public:
-    //! Creates an ExpressionHighlighter highlighting the provided QTextEdit
     explicit ExpressionHighlighter(QTextEdit *parent = 0);
-
-    //! Reimplemented method, highlights blocks of the regexp
     void highlightBlock(const QString &text);
 
 private:
-    //! Vector keeping track of all escaped characters \.
+    //! Vector keeping track of all escaped characters (such as "\.")
     QVector<int> escapedChars;
 
     //! Vector keeping track of all character ranges

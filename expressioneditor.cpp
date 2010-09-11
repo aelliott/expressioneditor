@@ -51,6 +51,10 @@ ExpressionEditor::ExpressionEditor(QWidget *parent) : QWidget(parent)
 
     expressionInput = new QTextEdit;
     expressionInput->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    connect(
+            expressionInput, SIGNAL(textChanged()),
+            this, SLOT(updateExpression())
+           );
     // Initialise the height correctly at the start, this will be called again
     // whenever the text changes or a resize event is triggered to ensure the
     // whole expression is visible
@@ -75,10 +79,6 @@ ExpressionEditor::ExpressionEditor(QWidget *parent) : QWidget(parent)
 
     // Add the test widgets
     tester = new ExpressionTester(this);
-        connect(
-                expressionInput, SIGNAL(textChanged()),
-                this, SLOT(updateExpression())
-               );
 
     splitter->addWidget(workspaceLayout);
     splitter->addWidget(tester);

@@ -67,6 +67,7 @@ bool GraphicalWorkspace::updateExpression(QString newExpression)
         return false;
     }
     delete rx;
+
     if(!editingStarted)
     {
         scene->removeItem(welcomeMessage);

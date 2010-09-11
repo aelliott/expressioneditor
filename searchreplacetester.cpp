@@ -24,7 +24,7 @@
 
 #include "searchreplacetester.hpp"
 
-SearchReplaceTester::SearchReplaceTester(QWidget *parent) : QWidget(parent), type_(-1)
+SearchReplaceTester::SearchReplaceTester(QWidget *parent) : QWidget(parent), type(-1)
 {
     layout = new QVBoxLayout(this);
 
@@ -41,10 +41,10 @@ SearchReplaceTester::SearchReplaceTester(QWidget *parent) : QWidget(parent), typ
 
     splitter = new QSplitter(Qt::Horizontal);
 
-    text_ = new QTextEdit(splitter);
-        highlighter = new BlockHighlighter(text_);
-        connect(text_, SIGNAL(textChanged()), this, SLOT(updateReplacedText()));
-    splitter->addWidget(text_);
+    testText = new QTextEdit(splitter);
+        highlighter = new BlockHighlighter(testText);
+        connect(testText, SIGNAL(textChanged()), this, SLOT(updateReplacedText()));
+    splitter->addWidget(testText);
 
     replacedText = new QTextEdit(splitter);
     replacedText->setTextInteractionFlags(Qt::TextSelectableByKeyboard | Qt::TextSelectableByMouse);
@@ -55,24 +55,23 @@ SearchReplaceTester::SearchReplaceTester(QWidget *parent) : QWidget(parent), typ
     setLayout(layout);
 }
 
-QString SearchReplaceTester::text() const
+QString SearchReplaceTester::getText() const
 {
-    return text_->toPlainText();
+    return testText->toPlainText();
 }
 
 void SearchReplaceTester::updateExpression(QString exp)
 {
     highlighter->updateExpression(exp);
-    expression_ = exp;
-    text_->setText(text());
+    expression = exp;
     updateReplacedText();
 }
 
 void SearchReplaceTester::updateReplacedText()
 {
-    QString block = text_->toHtml();
+    QString block = testText->toPlainText();
     RegexFactory *factory = new RegexFactory();
-    RegexBase *rx = factory->factory(expression_, type_);
+    RegexBase *rx = factory->factory(expression, type);
 
     if(rx->indexIn(block, 0) < 0)
     {
@@ -84,7 +83,7 @@ void SearchReplaceTester::updateReplacedText()
     int offset = 0;
     int i = 0;
     int pos = 0;
-    while((pos = rx->indexIn(block, offset)) >= 0)
+    while((pos = rx->indexIn(block, offset)) >= 0 && pos <= block.length())
     {
         if(i > 0 && pos == 0 || rx->matchedLength() == 0)
             break;
@@ -127,13 +126,13 @@ void SearchReplaceTester::updateReplacedText()
 
 void SearchReplaceTester::setText(QString testString)
 {
-    text_->setText(testString);
+    testText->setText(testString);
     updateReplacedText();
 }
 
-void SearchReplaceTester::setRegexpFormat(int type)
+void SearchReplaceTester::setRegexpFormat(int newType)
 {
-    type_ = type;
+    type = newType;
     highlighter->setRegexpFormat(type);
-    text_->setText(text());
+    updateReplacedText();
 }

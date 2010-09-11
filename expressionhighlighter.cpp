@@ -24,10 +24,21 @@
 
 #include "expressionhighlighter.hpp"
 
-ExpressionHighlighter::ExpressionHighlighter(QTextEdit *parent) : QSyntaxHighlighter(parent)
+/*!
+ * Creates an ExpressionHighlighter highlighting the provided QTextEdit
+ *
+ * \param   parent  The QTextEdit to highlight
+ */
+ExpressionHighlighter::ExpressionHighlighter(QTextEdit *parent)
+    : QSyntaxHighlighter(parent)
 {
 }
 
+/*!
+ * Reimplemented method, highlights blocks of the regexp
+ *
+ * \param   text    The block of text to highlight
+ */
 void ExpressionHighlighter::highlightBlock(const QString &text)
 {
     // Set the general format, monospace in black.
@@ -93,16 +104,23 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
         {
             if(QString(text.at(startOffset)) == "[")
             {
+                // Check if this is the start of a character range
                 if(currentBlockState() == 0)
                 {
                     ++openingSquareBraces;
                     lastOpeningBrace = startOffset;
+                    // Indicate we are within a character range now
                     setCurrentBlockState(1);
                     setFormat(startOffset, 1, braceFormat);
                 }
-                // if the block state was 1 then it's a literal [
+                // if the block state was 1 then it's a literal [ and we need
+                // not do anything
             }
-            if(QString(text.at(startOffset)) == "]" && startOffset > 1 && QString(text.at(startOffset-1)) != "^")
+
+            // Check if the character is a ] and that it was not preceded by
+            // just [^
+            if(QString(text.at(startOffset)) == "]" && startOffset > 1
+               && (QString(text.at(startOffset-1)) != "^" || startOffset-2 != lastOpeningBrace))
             {
                 if(currentBlockState() == 1)
                 {
