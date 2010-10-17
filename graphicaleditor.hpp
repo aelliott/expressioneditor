@@ -43,13 +43,8 @@ class GraphicalEditor : public QWidget
     Q_OBJECT;
 
 public:
-    //! Creates a new GraphicalEditor
     explicit GraphicalEditor(QWidget *parent = 0);
-
-    //! Getter, retrieves the expression
     QString getExpression();
-
-    //! Getter, retrieves any error string from the regexp backend
     QString getErrorString() const;
 
 signals:
@@ -57,16 +52,9 @@ signals:
     void expressionChanged(QString newExpression);
 
 public slots:
-    //! Slot which udpates the expression when a new one is available
     bool updateExpression(QString newExpression);
-
-    //! Slot which recieves data when the QGraphicsScene has changed, meaning a graphical edit
     void sceneChanged(QString newExpression);
-
-    //! Slot returning a QPixmap of the current regexp visualisation
     QPixmap exportToImage();
-
-    //! Setter, sets the regexp format
     void setRegexpFormat(int type);
 
 private:

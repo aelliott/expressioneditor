@@ -24,6 +24,11 @@
 
 #include "graphicaleditor.hpp"
 
+/*!
+ * Creates a new GraphicalEditor
+ *
+ * \param   parent  This item's parent
+ */
 GraphicalEditor::GraphicalEditor(QWidget *parent) : QWidget(parent)
 {
     expression = "";
@@ -40,18 +45,32 @@ GraphicalEditor::GraphicalEditor(QWidget *parent) : QWidget(parent)
     layout->addWidget(workspace);
 }
 
+/*!
+ * Retrieves the current regular expression
+ *
+ * \return  The current regular expression
+ */
 QString GraphicalEditor::getExpression()
 {
     return expression;
 }
 
+/*!
+ * Retrieves any error string from the regular expression backend
+ *
+ * \return  The current error string (if any) from the regular expression engine
+ */
 QString GraphicalEditor::getErrorString() const
 {
     return workspace->getErrorString();
 }
 
-/**
- * Public Slots
+/*!
+ * Udpates the regular expression when a new one is available
+ *
+ * \param   newExpression   The new regular expression
+ * \return  Returns true if a new regular expression has been set, false
+ *          otherwise
  */
 bool GraphicalEditor::updateExpression(QString newExpression)
 {
@@ -59,16 +78,35 @@ bool GraphicalEditor::updateExpression(QString newExpression)
     return workspace->updateExpression(newExpression);
 }
 
+/*!
+ * Internal slot which recieves data when the QGraphicsScene has changed,
+ * meaning a graphical edit of the current regular expression has taken place.
+ * This signal should be passed up the chain to be properly handled along with
+ * the regular expression that the graphical editor now contains.
+ *
+ * \param   newExpression   The new regular expression from the graphical editor
+ */
 void GraphicalEditor::sceneChanged(QString newExpression)
 {
     emit expressionChanged(newExpression);
 }
 
+/*!
+ * Return a QPixmap of the current regular expression's visualisation for and
+ * export into an image format.
+ *
+ * \return A QPixmap of the current regular expression's visualisation
+ */
 QPixmap GraphicalEditor::exportToImage()
 {
     return workspace->exportToImage();
 }
 
+/*!
+ * Sets which regular expression backend should be use in the graphical editor
+ *
+ * \param   type    The regular expression format to use
+ */
 void GraphicalEditor::setRegexpFormat(int type)
 {
     workspace->setRegexpFormat(type);

@@ -49,38 +49,23 @@ class GraphicalExpression : public QGraphicsObject
     Q_OBJECT;
 
 public:
-    //! Creates a new GraphicalExpression
     GraphicalExpression(QString expression = QString());
-
-    //! Updates the expression and forces a recalculation of the visualisation
     void updateExpression(QString expression);
-
-    //! Gets the current expression from the GraphicalExpression
     QString getExpression() const;
-
-    //! Returns the geometry of the graphical object
     QRectF boundingRect() const;
-
-    //! Paints the object on the canvas and lays out child items
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-
-    //! Adds an item to be a regexp element
     void addChildItem(QGraphicsObject *item);
-
-    //! Parses out a full section of regexp (usually a capture group or an alternation)
-    static QGraphicsObject* parseSection(QString expression, int &offset, bool inAlternatives = false, bool outerFlag = false);
-
-    //! Parses a repeated section, one with a quantifier (? + * etc)
+    static QGraphicsObject* parseSection(
+            QString expression,
+            int &offset,
+            bool inAlternatives = false,
+            bool outerFlag = false
+            );
     static RepeatGraphicsItem* parseRepeat(QString repeatString, QGraphicsObject* repeatItem);
-
-    //! Parses a single capture group
     static QGraphicsObject* parseCapture(QString expression, int &offset);
-
-    //! Parses an alternation
     static AlternativesGraphicsItem* parseAlternatives(QString expression, int &offset, QGraphicsObject* firstItem);
 
 public slots:
-    //! Slot triggered when the expression has changed
     void expressionChanged();
 
 signals:
@@ -88,7 +73,6 @@ signals:
     void dataChanged();
 
 private:
-    //! Root of the parsing process (internal)
     void parseExpression(QString expression);
     static const int expressionData = 0;
     static const int itemSpacing = 8;

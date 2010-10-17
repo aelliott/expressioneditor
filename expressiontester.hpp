@@ -42,23 +42,13 @@ class ExpressionTester : public QTabWidget
     Q_OBJECT;
 
 public:
-    //! Creates a new ExpressionTester
     explicit ExpressionTester(QWidget *parent = 0);
-
-    //! Getter, gets the expression being tested against
     QString getExpression();
-
-    //! Getter, retrieves the test strings used in testing
     QStringList getTestStrings();
 
 public slots:
-    //! Setter, sets the expression to the new content
     void updateExpression(QString exp);
-
-    //! Adds a test string to the testing widget
     void addTestString(QString testString);
-
-    //! Setter, updates the regexp format in use
     void setRegexpFormat(int type);
 
 private:

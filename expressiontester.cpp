@@ -24,6 +24,12 @@
 
 #include "expressiontester.hpp"
 
+/*!
+ * Creates a new ExpressionTester, populating it with all of the available
+ * test widgets
+ *
+ * \param   parent  This widget's parent widget
+ */
 ExpressionTester::ExpressionTester(QWidget *parent) : QTabWidget(parent)
 {
     multiline = new MultilineTester(this);
@@ -36,16 +42,33 @@ ExpressionTester::ExpressionTester(QWidget *parent) : QTabWidget(parent)
     addTab(searchReplace, tr("Search / Replace"));
 }
 
+/*!
+ * Getter, gets the expression being tested against
+ *
+ * \return  The current expression in the test widgets
+ */
 QString ExpressionTester::getExpression()
 {
+    // Relying on an assumed invariant that all test widgets contain the same
+    // expression at all times (barring mid-update)
     return multiline->getExpression();
 }
 
+/*!
+ * Getter, retrieves the test strings used in testing
+ *
+ * \return  Returns the test strings used in the multiline test widget
+ */
 QStringList ExpressionTester::getTestStrings()
 {
     return multiline->getTestStrings();
 }
 
+/*!
+ * Setter, sets the expression to the new content
+ *
+ * \param   exp The new regular expression to test against
+ */
 void ExpressionTester::updateExpression(QString exp)
 {
     multiline->updateExpression(exp);
@@ -53,11 +76,21 @@ void ExpressionTester::updateExpression(QString exp)
     searchReplace->updateExpression(exp);
 }
 
+/*!
+ * Adds a test string to the testing widget
+ *
+ * \param   testString  The test string to add to the multiline testing widget
+ */
 void ExpressionTester::addTestString(QString testString)
 {
     multiline->addTestString(testString);
 }
 
+/*!
+ * Setter, updates the regexp format in use
+ *
+ * \param   type    The format of regular expressions to use when testing
+ */
 void ExpressionTester::setRegexpFormat(int type)
 {
     multiline->setRegexpFormat(type);
