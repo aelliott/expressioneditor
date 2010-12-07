@@ -25,6 +25,13 @@
 #include <QtGui>
 #include "mainwindow.hpp"
 
+/*!
+ * The main function, initialises the application and starts the event loop
+ *
+ * \param   argc    Command line argument count
+ * \param   argv    Vector of command line arguments
+ * \return  Status, 0 for success anything else indicates a failure
+ */
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);

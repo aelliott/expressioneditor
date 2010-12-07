@@ -21,6 +21,14 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*!
+ * \brief   This class provides an interface to the ICU regular expression
+ *          implementation
+ *
+ * The class inherits RegexBase and provides a polymorphic class providing the
+ * same access functions and behavior for ICU features as for the other regular
+ * expression libraries.
+ */
 
 #ifndef ICUREGEX_HPP
 #define ICUREGEX_HPP

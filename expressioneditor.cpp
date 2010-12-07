@@ -189,7 +189,7 @@ void ExpressionEditor::setRegexpFormat(int type)
 /*!
  * Produces a QPixmap of the expression visualisation to export to PNG
  *
- * \param   A QPixmap of the graphical regular expression visualisation
+ * \return   A QPixmap of the graphical regular expression visualisation
  */
 QPixmap ExpressionEditor::exportToImage()
 {

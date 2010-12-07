@@ -39,10 +39,7 @@ class GraphicalWorkspace : public QGraphicsView
     Q_OBJECT;
 
 public:
-    //! Creates a new GraphicalWorkspace
     explicit GraphicalWorkspace(QWidget *parent = 0);
-
-    //! Get the error string from the regexp backend
     QString getErrorString() const;
 
 signals:
@@ -50,16 +47,9 @@ signals:
     void expressionChanged(QString newExpression);
 
 public slots:
-    //! Update the expression
     bool updateExpression(QString expression);
-
-    //! React to the a scene change
     void sceneChanged();
-
-    //! Return a QPixmap representation of the current visualisation
     QPixmap exportToImage();
-
-    //! Set the current regexp format in use
     void setRegexpFormat(int type);
 
 private:

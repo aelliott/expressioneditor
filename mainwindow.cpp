@@ -24,6 +24,9 @@
 
 #include "mainwindow.hpp"
 
+/*!
+ * Create a new MainWindow
+ */
 MainWindow::MainWindow()
 {
     importSettings();
@@ -43,11 +46,20 @@ MainWindow::MainWindow()
     setCentralWidget(welcome);
 }
 
+/*!
+ * Get the list of recently used files
+ *
+ * \return  The list of recently open files
+ */
 QStringList MainWindow::getRecentFiles()
 {
     return recentFiles;
 }
 
+/*!
+ * Read in the application's settings such as recently open files and the
+ * provided common files
+ */
 void MainWindow::importSettings()
 {
     // Check if we have a home dir folder
@@ -106,6 +118,9 @@ void MainWindow::importSettings()
     }
 }
 
+/*!
+ * Update the settings
+ */
 void MainWindow::updateSettings()
 {
     QString settingsDirname = ".expressioneditor";
@@ -132,8 +147,12 @@ void MainWindow::updateSettings()
     recentFile.write(recent.toByteArray());
 }
 
+/*!
+ * Create the application's menu bar
+ */
 void MainWindow::createMenuBar()
 {
+    // Start from a clean slate in case we're updating the menu bar
     menuBar()->clear();
 
     // File Menu:
@@ -333,11 +352,12 @@ void MainWindow::createMenuBar()
     helpMenu->addAction(aboutAction);
 }
 
-/**
- * Public Slots
+/*!
+ * Create a new expression
  */
 void MainWindow::newFile()
 {
+    // If there is already a file open ask if they want to discard changes
     if(fileOpen)
     {
         int response = QMessageBox::question(this, tr("Open a New File?"),
@@ -348,12 +368,13 @@ void MainWindow::newFile()
             return;
     }
 
-    saveAction->setDisabled(false);
-    saveAsAction->setDisabled(false);
-    exportToImageAction->setDisabled(false);
-    formatMenu->setDisabled(false);
+    // Update the application status and refresh the menu bar to reflect this
     fileOpen = true;
+    createMenuBar();
+
     openFilePath = "";
+
+    // Set the application up to create a new expression
     editor = new ExpressionEditor(this);
     setCentralWidget(editor);
 #ifndef NO_PCRE
@@ -363,8 +384,12 @@ void MainWindow::newFile()
 #endif
 }
 
+/*!
+ * Open an existing expression
+ */
 void MainWindow::openFile()
 {
+    // If there is already a file open ask if they want to discard changes
     if(fileOpen)
     {
         int response = QMessageBox::question(this, tr("Open a New File?"),
@@ -380,13 +405,27 @@ void MainWindow::openFile()
         openFile(fileName, false);
 }
 
+/*!
+ * Open the existing file specified
+ *
+ * \param   item    The file to open (taken from a list)
+ */
 void MainWindow::openFile(QListWidgetItem *item)
 {
     openFile(item->data(Qt::UserRole).toString());
 }
 
+/*!
+ * Open the existing file specified
+ *
+ * \param   fileName    The file to open
+ * \param   warnOnOpen  Whether to warn the user about discarding changes or not
+ *                      as they may have been warned previously.  Default to
+ *                      true (display a warning)
+ */
 void MainWindow::openFile(QString fileName, bool warnOnOpen)
 {
+    // If there is already a file open ask if they want to discard changes
     if(fileOpen && warnOnOpen)
     {
         int response = QMessageBox::question(this, tr("Open a New File?"),
@@ -406,7 +445,6 @@ void MainWindow::openFile(QString fileName, bool warnOnOpen)
 
         QDomDocument document("expression");
         document.setContent(fileContents);
-
 
         editor = new ExpressionEditor(this);
         setCentralWidget(editor);
@@ -454,11 +492,8 @@ void MainWindow::openFile(QString fileName, bool warnOnOpen)
             editor->addTestString(testElem.text());
         }
 
-        saveAction->setDisabled(false);
-        saveAsAction->setDisabled(false);
-        exportToImageAction->setDisabled(false);
-        formatMenu->setDisabled(false);
         fileOpen = true;
+        createMenuBar();
         openFilePath = fileName;
         addRecentFile(fileName);
     }
@@ -466,6 +501,9 @@ void MainWindow::openFile(QString fileName, bool warnOnOpen)
         QMessageBox::warning(this, tr("File Not Found"), tr("The requested file: \"")+fileName+tr("\" was not found."));
 }
 
+/*!
+ * Save the current file, to the existing file if one exists
+ */
 void MainWindow::saveFile()
 {
     QString fileName;
@@ -477,6 +515,11 @@ void MainWindow::saveFile()
         saveFile(fileName);
 }
 
+/*!
+ * Perform the save method, save to the specified file name
+ *
+ * \param   fileName    The location to save the file to
+ */
 void MainWindow::saveFile(QString fileName)
 {
     QDomDocument saveDocument("expression");
@@ -515,6 +558,9 @@ void MainWindow::saveFile(QString fileName)
     openFilePath = fileName;
 }
 
+/*!
+ * Save the file in a new location
+ */
 void MainWindow::saveFileAs()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save Expression"), QDir::homePath(), tr("Expression files (*.regex)"));
@@ -522,6 +568,12 @@ void MainWindow::saveFileAs()
         saveFile(fileName);
 }
 
+/*!
+ * Add the provided file path to recent files if it isn't already in the list.
+ * If the file is present in the list move it to the top
+ *
+ * \param   fileName    The file path to add to the recent files list
+ */
 void MainWindow::addRecentFile(QString fileName)
 {
     if(recentFiles.contains(fileName))
@@ -548,11 +600,17 @@ void MainWindow::addRecentFile(QString fileName)
     }
 }
 
+/*!
+ * Show some kind of regex help dialog
+ */
 void MainWindow::showRegexHelp()
 {
     // I should perhaps ask to borrow a cheat sheet, or produce one
 }
 
+/*!
+ * Show details of how to get expression editor assistance
+ */
 void MainWindow::showAppHelp()
 {
     QMessageBox msgBox(this);
@@ -563,6 +621,9 @@ void MainWindow::showAppHelp()
     msgBox.exec();
 }
 
+/*!
+ * Provide details about this application
+ */
 void MainWindow::showAboutApp()
 {
     QMessageBox msgBox(this);
@@ -580,6 +641,9 @@ void MainWindow::showAboutApp()
     msgBox.exec();
 }
 
+/*!
+ * Export the current regular expression visualisation to a saved PNG file
+ */
 void MainWindow::exportToImage()
 {
     QPixmap image = editor->exportToImage();
@@ -589,6 +653,10 @@ void MainWindow::exportToImage()
 }
 
 #ifndef NO_PCRE
+/*!
+ * Set the current regular expression format to PCRE mode and update the
+ * interface to reflect this
+ */
 void MainWindow::setFormatPcre()
 {
     editor->setRegexpFormat(RegexFactory::PCRE);
@@ -597,6 +665,10 @@ void MainWindow::setFormatPcre()
     pcreStyleAction->setChecked(true);
 }
 
+/*!
+ * Set the current regular expression format to PERL emulation mode and update
+ * the interface to reflect this
+ */
 void MainWindow::setFormatPerlEmulation()
 {
     editor->setRegexpFormat(RegexFactory::PerlEmulation);
@@ -606,6 +678,10 @@ void MainWindow::setFormatPerlEmulation()
 }
 #endif // NO_PCRE
 
+/*!
+ * Set the current regular expression format to Qt4 mode and update the
+ * interface to reflect this
+ */
 void MainWindow::setFormatQt()
 {
     editor->setRegexpFormat(RegexFactory::Qt);
@@ -615,6 +691,10 @@ void MainWindow::setFormatQt()
 }
 
 #ifndef NO_POSIX
+/*!
+ * Set the current regular expression format to POSIX mode and update the
+ * interface to reflect this
+ */
 void MainWindow::setFormatPosix()
 {
     editor->setRegexpFormat(RegexFactory::POSIX);
@@ -625,6 +705,10 @@ void MainWindow::setFormatPosix()
 #endif // NO_POSIX
 
 #ifndef NO_ICU
+/*!
+ * Set the current regular expression format to ICU regex mode and update the
+ * interface to reflect this
+ */
 void MainWindow::setFormatIcu()
 {
     editor->setRegexpFormat(RegexFactory::ICU);
@@ -635,6 +719,10 @@ void MainWindow::setFormatIcu()
 #endif // NO_ICU
 
 #ifdef WITH_CPP0X
+/*!
+ * Set the current regular expression format to C++0x mode and update the
+ * interface to reflect this
+ */
 void MainWindow::setFormatCpp0x()
 {
     editor->setRegexpFormat(RegexFactory::CPP0X);
@@ -644,6 +732,9 @@ void MainWindow::setFormatCpp0x()
 }
 #endif // WITH_CPP0X
 
+/*!
+ * Show the applications settings dialog
+ */
 void MainWindow::showSettings()
 {
     SettingsDialog *s = new SettingsDialog(this);

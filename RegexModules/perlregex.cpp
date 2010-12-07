@@ -1,7 +1,12 @@
-/**
+/*!
+ * \file
+ * \author Alex Elliott <alex@alex-elliott.co.uk>
+ * \version 0.1pre
+ *
+ * \section LICENSE
  * This file is part of Expression editor
  *
- * Expression editor is Copyright 2010 Alex Elliott <alex@alex-elliott.co.uk>
+ * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,19 +20,31 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
- *
  */
 
 #include "perlregex.hpp"
 
+/*!
+ * Create a new PerlRegex backend
+ *
+ * \param   expression  The expression to translate into PCRE format and compile
+ * \param   parent      This object's parent object
+ */
 PerlRegex::PerlRegex(QString expression, QObject *parent) : _valid(true)
 {
     expression = parseExpression(expression);
     PcreRegex(expression, parent);
     regexp = expression;
-    pcre.setExpression(expression.toStdString());
+    PcreRegex::setExpression(expression);
 }
 
+/*!
+ * Parse the provided expression from perl-style into a more standard PCRE form
+ * which can be compiled and used
+ *
+ * \param   expression  The regular expression in perl-emulation format
+ * \return  A PCRE translation of the perl-emulation format expression
+ */
 QString PerlRegex::parseExpression(QString expression)
 {
     if(expression.isEmpty())
@@ -55,11 +72,11 @@ QString PerlRegex::parseExpression(QString expression)
 
 bool PerlRegex::isValid() const
 {
-    return (pcre.isValid() && _valid);
+    return (PcreRegex::isValid() && _valid);
 }
 
 void PerlRegex::setExpression(QString expression)
 {
     regexp = expression;
-    pcre.setExpression(parseExpression(expression).toStdString());
+    PcreRegex::setExpression(parseExpression(expression));
 }

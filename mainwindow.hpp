@@ -21,28 +21,18 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*!
+ * \brief   This class implements the main window of expression editor, and
+ * controls the window icon, title bar, menu bar, etc.
+ */
 
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
 #include "cmakeconfig.hpp"
 
-#include <QMainWindow>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QMenuBar>
-#include <QStatusBar>
-#include <QMenu>
-#include <QAction>
-#include <QPushButton>
-#include <QListWidgetItem>
-#include <QString>
-#include <QFile>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QDomDocument>
-#include <QDomElement>
-#include <QSignalMapper>
+#include <QtGui>
+#include <QtXml>
 #include "welcome.hpp"
 #include "expressioneditor.hpp"
 #include "regexfactory.hpp"

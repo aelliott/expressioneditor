@@ -21,6 +21,16 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*!
+ * \brief   This class provides an interface to an implementation which attempts
+ * to provide a "Perl style" regular expression backend via the use of PCRE - in
+ * a very similar way to how PHP handles regular expressions via the preg_*
+ * family of functions
+ *
+ * The class inherits RegexBase and provides a polymorphic class providing the
+ * same access functions and behavior for perl features as for the other regular
+ * expression libraries.
+ */
 
 #ifndef PERLREGEX_H
 #define PERLREGEX_H
@@ -31,7 +41,7 @@ class PerlRegex : public PcreRegex
 {
     Q_OBJECT;
 
-protected:
+private:
     bool _valid;
 
 public:

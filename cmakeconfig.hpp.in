@@ -23,6 +23,7 @@
  */
 
 #ifndef CMAKECONFIG_HPP_IN
+//! File header guard
 #define CMAKECONFIG_HPP_IN
 
 //! Compiles out support for POSIX (regex.h)

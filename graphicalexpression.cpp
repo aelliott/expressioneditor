@@ -27,7 +27,7 @@
 /*!
  * Creates a new GraphicalExpression
  *
- * \param   The expression to parse and create a visualisation for
+ * \param expression    The expression to parse and create a visualisation for
  */
 GraphicalExpression::GraphicalExpression(QString expression)
 {
@@ -477,7 +477,7 @@ AlternativesGraphicsItem* GraphicalExpression::parseAlternatives(
 /*!
  * Updates the expression and forces a recalculation of the visualisation
  *
- * \param   The new expression
+ * \param expression    The new expression
  */
 void GraphicalExpression::updateExpression(QString expression)
 {

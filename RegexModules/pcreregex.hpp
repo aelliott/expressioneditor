@@ -21,6 +21,14 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*!
+ * \brief   This class provides an interface to the PCRE regular expression
+ * implementation
+ *
+ * The class inherits RegexBase and provides a polymorphic class providing the
+ * same access functions and behavior for PCRE features as for the other regular
+ * expression libraries.
+ */
 
 #ifndef PCREREGEX_HPP
 #define PCREREGEX_HPP
@@ -35,7 +43,7 @@ class PcreRegex : public RegexBase
 {
     Q_OBJECT;
 
-protected:
+private:
     PcreWrapper pcre;
 
 public:

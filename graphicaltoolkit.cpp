@@ -24,6 +24,11 @@
 
 #include "graphicaltoolkit.hpp"
 
+/*!
+ * Creates a new GraphicalToolkit
+ *
+ * \param   parent  This widget's parent widget
+ */
 GraphicalToolkit::GraphicalToolkit(QWidget *parent) : QWidget(parent)
 {
     layout = new QVBoxLayout(this);

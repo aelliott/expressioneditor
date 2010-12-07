@@ -41,7 +41,6 @@ class GraphicalToolkit : public QWidget
     Q_OBJECT;
 
 public:
-    //! Creates a new GraphicalToolkit
     explicit GraphicalToolkit(QWidget *parent = 0);
 
 private:

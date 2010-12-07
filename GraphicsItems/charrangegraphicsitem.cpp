@@ -26,6 +26,10 @@
 
 /*!
  * Creates a new CharRangeGraphicsItem
+ *
+ * \param   initContents    String of the contents to initialise with
+ * \param   regexType       The type of regular expression in use
+ * \param   parent          This item's parent item
  */
 CharRangeGraphicsItem::CharRangeGraphicsItem(QString initContents, int regexType, QGraphicsItem *parent)
     : RegexGraphicsItem(parent)
@@ -53,7 +57,7 @@ CharRangeGraphicsItem::~CharRangeGraphicsItem()
  * Parses the contents of the character range to produce a neat list of
  * the allowed characters.
  *
- * This method parses out any ranges (a-z, etc), special characters (\w etc),
+ * This method parses out any ranges (a-z, etc), special characters (\\w etc),
  * POSIX character classes ([:alpha:] etc), and anything not treated as a literal
  * and places all left-over characters in a simple stringlist to produce a final
  * comma-delimited list of characters allowed in addition to the special chars.
@@ -170,7 +174,7 @@ QRectF CharRangeGraphicsItem::boundingRect() const
  * Paints the object on the canvas and lays out child items
  *
  * \param   painter QPainter used to paint the scene
- * \param   options Unused
+ * \param   option Unused
  * \param   widget  Unused
  */
 void CharRangeGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

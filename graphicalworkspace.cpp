@@ -24,6 +24,11 @@
 
 #include "graphicalworkspace.hpp"
 
+/*!
+ * Creates a new GraphicalWorkspace
+ *
+ * \param   parent  This item's parent widget
+ */
 GraphicalWorkspace::GraphicalWorkspace(QWidget *parent) : QGraphicsView(parent)
 {
     setRenderHint(QPainter::Antialiasing);
@@ -43,13 +48,21 @@ GraphicalWorkspace::GraphicalWorkspace(QWidget *parent) : QGraphicsView(parent)
     scene->addItem(welcomeMessage);
 }
 
+/*!
+ * Get the error string from the regexp backend
+ *
+ * \return  The regular expression backend's reported error string
+ */
 QString GraphicalWorkspace::getErrorString() const
 {
     return errorString;
 }
 
-/**
- * Public slots
+/*!
+ * Update the expression
+ *
+ * \param   newExpression   The new regular expression to use
+ * \return  True if the new expression has been accepted, false otherwise
  */
 bool GraphicalWorkspace::updateExpression(QString newExpression)
 {
@@ -87,6 +100,11 @@ bool GraphicalWorkspace::updateExpression(QString newExpression)
     return true;
 }
 
+/*!
+ * Return a QPixmap representation of the current visualisation
+ *
+ * \return  The exported QPixmap from the graphics scene
+ */
 QPixmap GraphicalWorkspace::exportToImage()
 {
     QPixmap image(scene->width(), scene->height());
@@ -98,6 +116,10 @@ QPixmap GraphicalWorkspace::exportToImage()
     return image;
 }
 
+/*!
+ * React to the a scene change, check if the expression has been modified and if
+ * it has propagate the change via the expressionChanged() signal
+ */
 void GraphicalWorkspace::sceneChanged()
 {
     if(editingStarted)
@@ -111,6 +133,11 @@ void GraphicalWorkspace::sceneChanged()
     }
 }
 
+/*!
+ * Set the current regexp format in use
+ *
+ * \param   type    The regular expression format to use
+ */
 void GraphicalWorkspace::setRegexpFormat(int type)
 {
     factory->setRegexpFormat(type);
