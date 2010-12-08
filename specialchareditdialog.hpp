@@ -21,6 +21,11 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*!
+ * \brief   This class provides a modal dialog for use in editing special
+ *          character items from the graphical editor on double clicking the
+ *          item in question
+ */
 
 #ifndef SPECIALCHAREDITDIALOG_HPP
 #define SPECIALCHAREDITDIALOG_HPP

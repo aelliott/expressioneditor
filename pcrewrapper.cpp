@@ -24,7 +24,17 @@
 
 #include "pcrewrapper.hpp"
 
-PcreWrapper::PcreWrapper(std::string expression) : valid(false), failed(false), errorStr(""), options_(0), matchLength(0)
+/*!
+ * Create a new PcreWrapper object using the provided expression (if present)
+ *
+ * \param   expression  The regular expression to compile and use
+ */
+PcreWrapper::PcreWrapper(std::string expression)
+    : valid(false)
+    , failed(false)
+    , errorStr("")
+    , options_(0)
+    , matchLength(0)
 {
     if(!expression.empty())
     {
@@ -32,6 +42,11 @@ PcreWrapper::PcreWrapper(std::string expression) : valid(false), failed(false), 
     }
 }
 
+/*!
+ * Set the regular expression to use
+ *
+ * \param   expression  The regular expression to compile and use
+ */
 void PcreWrapper::setExpression(const std::string &expression)
 {
     pattern = expression;
@@ -48,12 +63,24 @@ void PcreWrapper::setExpression(const std::string &expression)
         valid = true;
 }
 
+/*!
+ * Initialisation to perform before each match, clear out and set up some
+ * variables
+ */
 void PcreWrapper::InitMatch()
 {
     captureGroups.clear();
     failed = false;
 }
 
+/*!
+ * Attempt to perform an exact match of the current regular expression on the
+ * provided string.  This is achieved by wrapping the expression in a
+ * non-capturing group and appending \\Z
+ *
+ * \param   string  The string to attempt a complete match on
+ * \return  True if a full match can be found, false otherwise
+ */
 bool PcreWrapper::ExactMatch(const std::string &string)
 {
     // Make sure it matches the full string if possible.
@@ -72,6 +99,15 @@ bool PcreWrapper::ExactMatch(const std::string &string)
     return (match && string.length() == matchedLength());
 }
 
+/*!
+ * Attempt to match any portion of the provided string using the current
+ * regular expression, starting at "offset" within the string if one has been
+ * provided
+ *
+ * \param   string  The string to perform our partial match against
+ * \param   offset  The offset at which to start matching
+ * \return  True if any partial match is found, false otherwise
+ */
 bool PcreWrapper::PartialMatch(const std::string &string, int offset)
 {
     if(!isValid())
@@ -114,26 +150,54 @@ bool PcreWrapper::PartialMatch(const std::string &string, int offset)
     return (rc >= 0);
 }
 
+/*!
+ * Use pcrecpp to escape the current regular expression and return it as a
+ * pattern-format literal
+ *
+ * \return  The current regular expression in escaped form
+ */
 std::string PcreWrapper::escape()
 {
     return pcrecpp::RE::QuoteMeta(pattern);
 }
 
+/*!
+ * Use pcrecpp to escape the provided regular expression and return it as a
+ * pattern-format literal
+ *
+ * \return  The provided regular expression in escaped form
+ */
 std::string PcreWrapper::escape(const std::string &string)
 {
     return pcrecpp::RE::QuoteMeta(string);
 }
 
+/*!
+ * Return the valid flag which determines whether the last attempt to compile a
+ * regular expression to use was successful or not
+ *
+ * \return  True if the last compile was successful, false otherwise
+ */
 bool PcreWrapper::isValid() const
 {
     return valid;
 }
 
+/*!
+ * Return the length of the last match (capture group \0, the full match)
+ *
+ * \return  The length of the matched text
+ */
 unsigned int PcreWrapper::matchedLength() const
 {
     return matchLength;
 }
 
+/*!
+ * Return the number of capture groups in the current pattern
+ *
+ * \return  The number of capture groups contained in the current regular expression
+ */
 int PcreWrapper::capturingCount() const
 {
     if(!isValid())
@@ -144,6 +208,12 @@ int PcreWrapper::capturingCount() const
     return result;
 }
 
+/*!
+ * Return the capture group specified by the offset provided
+ *
+ * \param   offset  The offset determining the capture group requested
+ * \return  The requested capture group, or an empty string on failure
+ */
 std::string PcreWrapper::cap(unsigned int offset)
 {
     if(offset < captureGroups.size())
@@ -152,6 +222,12 @@ std::string PcreWrapper::cap(unsigned int offset)
         return "";
 }
 
+/*!
+ * Returns the starting position of the specified capture group
+ *
+ * \param   offset  The offset determining the capture group queried
+ * \return  The starting position of the queried offset, or -1 on failure
+ */
 int PcreWrapper::startPos(unsigned int offset)
 {
     if(offset < captureGroups.size())
@@ -160,6 +236,12 @@ int PcreWrapper::startPos(unsigned int offset)
         return -1;
 }
 
+/*!
+ * Returns the ending position of the specified capture group
+ *
+ * \param   offset  The offset determining the capture group queried
+ * \return  The ending position of the queried offset, or -1 on failure
+ */
 int PcreWrapper::endPos(unsigned int offset)
 {
     if(offset < captureGroups.size())
@@ -168,6 +250,12 @@ int PcreWrapper::endPos(unsigned int offset)
         return -1;
 }
 
+/*!
+ * Returns any errors from the last attempt to compile the last provided
+ * regular expression
+ *
+ * \return  The last error message encountered
+ */
 std::string PcreWrapper::error() const
 {
     return errorStr;

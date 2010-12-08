@@ -56,13 +56,25 @@ signals:
     //! Signal sent if any items have changed
     void editComplete();
 
+    //! Signal sent if the data stored inside has changed
+    void dataChanged();
+
 public slots:
     virtual void removeChild(QGraphicsObject *item);
     void editCompleted();
 
 protected:
     virtual void updateData();
+    /*!
+     * The offset at which expression data should be stored via setData() and
+     * data()
+     */
     static const int expressionData = 0;
+
+    /*!
+     * The point at which the mouse was first clicked inside the graphics item,
+     * used to determine if the mouse has moved far enough to start a drag
+     */
     QPointF dragStartPosition;
 };
 

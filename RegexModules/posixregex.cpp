@@ -24,12 +24,25 @@
 
 #include "posixregex.hpp"
 
-PosixRegex::PosixRegex(QString expression, QObject *parent) : RegexBase(expression, parent), failed(false), valid(false), matched(-1)
+/*!
+ * Create a new PosixRegex backend
+ *
+ * \param   expression  The regular expression to compile and use
+ * \param   parent      This object's parent object
+ */
+PosixRegex::PosixRegex(QString expression, QObject *parent)
+    : RegexBase(expression, parent)
+    , failed(false)
+    , valid(false)
+    , matched(-1)
 {
     captured.clear();
     setExpression(expression);
 }
 
+/*!
+ * Perform cleanup of memory allocated for POSIX's regex matcher
+ */
 PosixRegex::~PosixRegex()
 {
     regfree(&posix);

@@ -24,6 +24,11 @@
 
 #include "multilinetester.hpp"
 
+/*!
+ * Create and set up a new MultilineTester widget
+ *
+ * \param   parent  This widget's parent widget
+ */
 MultilineTester::MultilineTester(QWidget *parent) : QWidget(parent)
 {
     factory = new RegexFactory();
@@ -48,6 +53,10 @@ MultilineTester::MultilineTester(QWidget *parent) : QWidget(parent)
     mainLayout->addWidget(table);
 }
 
+/*!
+ * If a new empty row is required in the table, add a new one below all of the
+ * existing rows
+ */
 void MultilineTester::addRow()
 {
     table->setRowCount(table->rowCount()+1);
@@ -64,11 +73,22 @@ void MultilineTester::addRow()
     table->resizeColumnToContents(0);
 }
 
+/*!
+ * Return the current regular expression in the regexp backend
+ *
+ * \return  The current regular expression in use
+ */
 QString MultilineTester::getExpression()
 {
     return rx->getExpression();
 }
 
+/*!
+ * Get all of the test strings stored in the table (for saving along with the
+ * expression)
+ *
+ * \return  A list of all of the test strings
+ */
 QStringList MultilineTester::getTestStrings()
 {
     QStringList testStrings;
@@ -78,8 +98,10 @@ QStringList MultilineTester::getTestStrings()
     return testStrings;
 }
 
-/**
- * Public slots
+/*!
+ * Update the current regular expression to use
+ *
+ * \param   exp The new expression to use
  */
 void MultilineTester::updateExpression(QString exp)
 {
@@ -89,6 +111,11 @@ void MultilineTester::updateExpression(QString exp)
         updateRow(i);
 }
 
+/*!
+ * Update the data cells for the specfied row
+ *
+ * \param   row The row to update
+ */
 void MultilineTester::updateRow(int row)
 {
     if(rx->isEmpty() || table->item(row, 0)->text().isEmpty())
@@ -134,6 +161,12 @@ void MultilineTester::updateRow(int row)
     table->resizeColumnToContents(0);
 }
 
+/*!
+ * Add a new test string to the table (usually used when importing from a saved
+ * file)
+ *
+ * \param   testString  The test string to add to the table
+ */
 void MultilineTester::addTestString(QString testString)
 {
     QTableWidgetItem *newTestString = new QTableWidgetItem;
@@ -149,14 +182,28 @@ void MultilineTester::addTestString(QString testString)
     }
 }
 
+/*!
+ * Set the regular expression backend to use
+ *
+ * \param   type    The regular expression backend to use
+ */
 void MultilineTester::setRegexpFormat(int type)
 {
+    // Update the factory and recreate the backend
     factory->setRegexpFormat(type);
     updateExpression(rx->getExpression());
 }
 
-/**
- * Private slots
+/*!
+ * Catch any edits made to the table cells, only the test strings are editable
+ * directly so we only need to care about edits make to column 0
+ *
+ * If an edit has been made to a test string input, then update the row to
+ * reflect the new matching situation and if necessary add a new row to the
+ * table
+ *
+ * \param   row     The index of the edited row
+ * \param   column  The index of the edited column
  */
 void MultilineTester::updateTestCase(int row, int column)
 {
@@ -165,6 +212,7 @@ void MultilineTester::updateTestCase(int row, int column)
 
     updateRow(row);
 
+    // If this was the last row, and it is now not empty, add a new row below it
     if((row+1) == table->rowCount() && !table->item(row, 0)->text().isEmpty())
         addRow();
 }

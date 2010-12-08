@@ -21,6 +21,11 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*!
+ * \brief   The RegexFactory class is a simple implementation of the factory
+ *          pattern used to provide polymorphic instances of regular expression
+ *          backends as a base class pointer
+ */
 
 #ifndef REGEXFACTORY_HPP
 #define REGEXFACTORY_HPP
@@ -48,14 +53,31 @@
 class RegexFactory
 {
 public:
+    /*!
+     * Enum of the supported regular expression formats
+     */
     enum RegexFormat
     {
-        Qt,
+#ifndef NO_PCRE
+        //! PCRE style regular expressions
         PCRE,
-        POSIX,
-        ICU,
+        //! Perl style regular expressions (facilitated by PCRE)
         PerlEmulation,
-        CPP0X
+#endif // NO_PCRE
+#ifndef NO_POSIX
+        //! POSIX style regular expressions
+        POSIX,
+#endif // NO_POSIX
+#ifndef NO_ICU
+        //! ICU style regular expressions
+        ICU,
+#endif // NO_ICU
+#ifdef WITH_CPP0X
+        //! C++0x style regular expressions
+        CPP0X,
+#endif // WITH_CPP0X
+        //! Qt4 style regular expressions
+        Qt
     };
 
     RegexFactory(int type = 0);

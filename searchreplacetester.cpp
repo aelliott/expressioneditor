@@ -24,7 +24,14 @@
 
 #include "searchreplacetester.hpp"
 
-SearchReplaceTester::SearchReplaceTester(QWidget *parent) : QWidget(parent), type(-1)
+/*!
+ * Create a new search & replace testing widget
+ *
+ * \param   parent  This widget's parent widget
+ */
+SearchReplaceTester::SearchReplaceTester(QWidget *parent)
+    : QWidget(parent)
+    , type(-1)
 {
     layout = new QVBoxLayout(this);
 
@@ -55,11 +62,22 @@ SearchReplaceTester::SearchReplaceTester(QWidget *parent) : QWidget(parent), typ
     setLayout(layout);
 }
 
+/*!
+ * Get the block of text which the tester is performing its search and replace
+ * on
+ *
+ * \return The block of text being used to test upon
+ */
 QString SearchReplaceTester::getText() const
 {
     return testText->toPlainText();
 }
 
+/*!
+ * Update the current regular expression
+ *
+ * \param   exp The new regular expression to compile and use
+ */
 void SearchReplaceTester::updateExpression(QString exp)
 {
     highlighter->updateExpression(exp);
@@ -67,6 +85,10 @@ void SearchReplaceTester::updateExpression(QString exp)
     updateReplacedText();
 }
 
+/*!
+ * Perform a search and replace on the block of text and display the resulting
+ * text block in the adjacent read-only text edit
+ */
 void SearchReplaceTester::updateReplacedText()
 {
     QString block = testText->toPlainText();
@@ -124,12 +146,22 @@ void SearchReplaceTester::updateReplacedText()
     delete factory;
 }
 
+/*!
+ * Set the block of text to perform our search and replace testing on
+ *
+ * \param   testString  The new block of text to perform a search and replace on
+ */
 void SearchReplaceTester::setText(QString testString)
 {
     testText->setText(testString);
     updateReplacedText();
 }
 
+/*!
+ * Set the regular expression backend to use
+ *
+ * \param   newType The new regular expression backend that should be used
+ */
 void SearchReplaceTester::setRegexpFormat(int newType)
 {
     type = newType;

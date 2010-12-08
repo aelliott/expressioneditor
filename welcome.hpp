@@ -21,6 +21,11 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*!
+ * \brief   Provides a welcome screen for Expression Editor with quick start
+ *          options like resuming a recent expression, or using a common
+ *          expression
+ */
 
 #ifndef WELCOME_HPP
 #define WELCOME_HPP

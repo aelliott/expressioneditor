@@ -24,7 +24,15 @@
 
 #include "qtregex.hpp"
 
-QtRegex::QtRegex(QString expression, QObject *parent) : RegexBase(expression, parent), qtRegexp(expression)
+/*!
+ * Create a new Qt4 regular expression backend
+ *
+ * \param   expression  The regular expression to compile and use
+ * \param   parent      This object's parent object
+ */
+QtRegex::QtRegex(QString expression, QObject *parent)
+    : RegexBase(expression, parent)
+    , qtRegexp(expression)
 {
 }
 

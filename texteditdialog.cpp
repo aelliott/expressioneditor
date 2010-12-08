@@ -24,7 +24,18 @@
 
 #include "texteditdialog.hpp"
 
-TextEditDialog::TextEditDialog(QString curText, QWidget *parent) : QDialog(parent)
+/*!
+ * Create a new modal dialog to edit the text element that has been double
+ * clicked
+ *
+ * \param   curText The current contents of the text element
+ * \param   parent  This widget's parent widget
+ */
+TextEditDialog::TextEditDialog(
+        QString curText,
+        QWidget *parent
+        )
+    : QDialog(parent)
 {
     text = curText;
 
@@ -52,6 +63,12 @@ TextEditDialog::TextEditDialog(QString curText, QWidget *parent) : QDialog(paren
     mainLayout->addWidget(buttonBox);
 }
 
+/*!
+ * Return the current text string as a literal string (to be used literally in
+ * the regular expression)
+ *
+ * \return  A pattern representing the literal text contained
+ */
 QString TextEditDialog::getText() const
 {
     QStringList specialchars;
@@ -61,8 +78,10 @@ QString TextEditDialog::getText() const
     return tmp.replace(QRegExp(pattern), "\\\\1");
 }
 
-/**
- * Public slots
+/*!
+ * Update the contents of this dialog with new text contents
+ *
+ * \param   newText The new text to be used in the dialog
  */
 void TextEditDialog::updateText(QString newText)
 {

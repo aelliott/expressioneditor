@@ -21,6 +21,11 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*!
+ * \brief   This testing widget allows the testing of a regular expression
+ *          search and replace including the capability to reference captured
+ *          groups in the replacement text
+ */
 
 #ifndef SEARCHREPLACETESTER_HPP
 #define SEARCHREPLACETESTER_HPP

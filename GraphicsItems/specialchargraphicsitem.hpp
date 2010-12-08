@@ -54,9 +54,6 @@ public:
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
-signals:
-    void dataChanged();
-
 private:
     void updateData();
     QString plainContents;

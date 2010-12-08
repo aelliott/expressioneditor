@@ -24,7 +24,19 @@
 
 #include "welcome.hpp"
 
-Welcome::Welcome(QStringList recent, QStringList common, QWidget *parent) : QWidget(parent)
+/*!
+ * Create and set up the welcome screen
+ *
+ * \param   recent  A list of the recent files that have been used
+ * \param   common  A list of common regular expression files
+ * \param   parent  This widget's parent widget
+ */
+Welcome::Welcome(
+        QStringList recent,
+        QStringList common,
+        QWidget *parent
+        )
+    : QWidget(parent)
 {
     recentFiles = recent;
     commonFiles = common;

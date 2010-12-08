@@ -23,7 +23,7 @@
  */
 /*!
  * \brief   This class provides an interface to the PCRE regular expression
- * implementation
+ *          implementation
  *
  * The class inherits RegexBase and provides a polymorphic class providing the
  * same access functions and behavior for PCRE features as for the other regular

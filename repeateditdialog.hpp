@@ -21,6 +21,10 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*!
+ * \brief   This class provides a modal dialog for use in editing repeat items
+ *          from the graphical editor on double clicking the item in question
+ */
 
 #ifndef REPEATEDITDIALOG_HPP
 #define REPEATEDITDIALOG_HPP
@@ -41,7 +45,12 @@ class RepeatEditDialog : public QDialog
     Q_OBJECT;
 
 public:
-    explicit RepeatEditDialog(RepeatGraphicsItem::Type currentType, int currentMinimum, int currentMaximum, QWidget *parent = 0);
+    explicit RepeatEditDialog(
+            RepeatGraphicsItem::Type currentType,
+            int currentMinimum,
+            int currentMaximum,
+            QWidget *parent = 0
+                              );
     void updateDialog();
     RepeatGraphicsItem::Type getType() const;
     int getMinimum() const;

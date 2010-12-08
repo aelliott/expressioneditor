@@ -21,6 +21,15 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*!
+ * \brief   The multiline testing widget takes multiple individual lines to test
+ *          using the current regular expression
+ *
+ * The widget informs the user:
+ *      - whether a match was found at all (yes, no, or partial)
+ *      - if a match was found where it begins in the string (as a char offset)
+ *      - if there was a match what capture groups were collected
+ */
 
 #ifndef MULTILINETESTER_HPP
 #define MULTILINETESTER_HPP

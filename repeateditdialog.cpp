@@ -24,7 +24,21 @@
 
 #include "repeateditdialog.hpp"
 
-RepeatEditDialog::RepeatEditDialog(RepeatGraphicsItem::Type currentType, int currentMinimum, int currentMaximum, QWidget *parent) : QDialog(parent)
+/*!
+ * Create a new repeat edit dialog for the provided repeat item
+ *
+ * \param   currentType     The current type of repeat
+ * \param   currentMinimum  The current minimum number of repeats (if applicable)
+ * \param   currentMaximum  The current maximum number of repeats (if applicable)
+ * \param   parent          This widget's parent widget
+ */
+RepeatEditDialog::RepeatEditDialog(
+        RepeatGraphicsItem::Type currentType,
+        int currentMinimum,
+        int currentMaximum,
+        QWidget *parent
+        )
+    : QDialog(parent)
 {
     setup = false;
     type = currentType;
@@ -112,6 +126,9 @@ RepeatEditDialog::RepeatEditDialog(RepeatGraphicsItem::Type currentType, int cur
     setup = true;
 }
 
+/*!
+ * Update the dialog to keep the display consistent at all times
+ */
 void RepeatEditDialog::updateDialog()
 {
     exactValueInput->setDisabled(true);
@@ -172,39 +189,66 @@ void RepeatEditDialog::updateDialog()
     }
 }
 
+/*!
+ * Return the current value for repeat type
+ *
+ * \return  The current repeat type
+ */
 RepeatGraphicsItem::Type RepeatEditDialog::getType() const
 {
     return type;
 }
 
+/*!
+ * Return the current minimum number of repeats
+ *
+ * \return  The current minimum value for repeats
+ */
 int RepeatEditDialog::getMinimum() const
 {
     return minimum;
 }
 
+/*!
+ * Return the current maximum number of repeats
+ *
+ * \return  The current maximum value for repeats
+ */
 int RepeatEditDialog::getMaximum() const
 {
     return maximum;
 }
 
+/*!
+ * Update the dialog to reflect a selection of a zero or one (?) repeat type
+ */
 void RepeatEditDialog::updateZeroOrOne()
 {
     type = RepeatGraphicsItem::ZeroOrOne;
     updateDialog();
 }
 
+/*!
+ * Update the dialog to reflect a selection of a zero or more (*) repeat type
+ */
 void RepeatEditDialog::updateZeroOrMore()
 {
     type = RepeatGraphicsItem::ZeroOrMore;
     updateDialog();
 }
 
+/*!
+ * Update the dialog to reflect a selection of a one or more (+) repeat type
+ */
 void RepeatEditDialog::updateOneOrMore()
 {
     type = RepeatGraphicsItem::OneOrMore;
     updateDialog();
 }
 
+/*!
+ * Update the dialog to reflect a selection of an exact value repeat type ({n})
+ */
 void RepeatEditDialog::updateExactValue()
 {
     type = RepeatGraphicsItem::ExactValue;
@@ -212,6 +256,9 @@ void RepeatEditDialog::updateExactValue()
     updateDialog();
 }
 
+/*!
+ * Update the dialog to reflect a selection of an minimum repeats type ({n,})
+ */
 void RepeatEditDialog::updateSpecifiedMinimum()
 {
     if(maximum != -1)
@@ -221,6 +268,9 @@ void RepeatEditDialog::updateSpecifiedMinimum()
     updateDialog();
 }
 
+/*!
+ * Update the dialog to reflect a selection of an maximum repeats type ({,n})
+ */
 void RepeatEditDialog::updateSpecifiedMaximum()
 {
     if(minimum != -1)
@@ -230,6 +280,9 @@ void RepeatEditDialog::updateSpecifiedMaximum()
     updateDialog();
 }
 
+/*!
+ * Update the dialog to reflect a selection of a specified range type ({n,n})
+ */
 void RepeatEditDialog::updateSpecifiedRange()
 {
     if(setup)

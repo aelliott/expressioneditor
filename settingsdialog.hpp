@@ -21,6 +21,10 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*!
+ * \brief   The settings dialog for the application, communicates with QSettings
+ *          to produce application-wide settings
+ */
 
 #ifndef SETTINGSDIALOG_HPP
 #define SETTINGSDIALOG_HPP

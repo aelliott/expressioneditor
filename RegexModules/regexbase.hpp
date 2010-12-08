@@ -58,8 +58,19 @@ protected:
         UTF8 = 0x10
     };
 
+    /*!
+     * The regular expression string in use
+     */
     QString regexp;
+
+    /*!
+     * The length of the matched text
+     */
     int matchLength;
+
+    /*!
+     * A list of all of the captured texts
+     */
     QStringList captured;
 
 public:
@@ -187,19 +198,19 @@ public:
 
     // Helpers
     /*!
+     * Escape special characters in the expression currently in use within the
+     * regexp backend
+     *
+     * \return  An escaped version of the current regular expression
+     */
+    virtual QString escape() = 0;
+
+    /*!
      * Escape special characters to return a string which the regular expression
      * backend will interpret as a literal string matching the string provided
      *
      * \param   expression  The expression or fragment of an expression to escape
      * \return  An escaped version of the provided string
-     */
-    virtual QString escape() = 0;
-
-    /*!
-     * Escape special characters in the expression currently in use within the
-     * regexp backend
-     *
-     * \return  An escaped version of the current regular expression
      */
     virtual QString escape(const QString expression) = 0;
 };

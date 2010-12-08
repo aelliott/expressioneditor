@@ -50,13 +50,6 @@ public:
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
-signals:
-    /*!
-     * Signal triggered when any child items (and therefore the overall
-     * value of this item) have changed.
-     */
-    void dataChanged();
-
 public slots:
     void updateData();
 

@@ -57,10 +57,6 @@ public:
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
-signals:
-    //! Signal triggered when the value of this item has changed.
-    void dataChanged();
-
 public slots:
     void updateData();
 

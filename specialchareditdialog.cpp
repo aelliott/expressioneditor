@@ -25,7 +25,18 @@
 #include "specialchareditdialog.hpp"
 #include "GraphicsItems/specialchargraphicsitem.hpp"
 
-SpecialCharEditDialog::SpecialCharEditDialog(QString setContents, QWidget *parent) : QDialog(parent)
+/*!
+ * Create a new special char edit dialog for the double-clicked special
+ * character
+ *
+ * \param   setContents The pattern for the special character
+ * \param   parent      This widget's parent widget
+ */
+SpecialCharEditDialog::SpecialCharEditDialog(
+        QString setContents,
+        QWidget *parent
+        )
+    : QDialog(parent)
 {
     contents = setContents;
 
@@ -75,13 +86,18 @@ SpecialCharEditDialog::SpecialCharEditDialog(QString setContents, QWidget *paren
     mainLayout->addWidget(buttonBox);
 }
 
+/*!
+ * Update the dialog to display the current special character's pattern and the
+ * character/item it represents
+ */
 void SpecialCharEditDialog::updateDialog()
 {
-    currentLabel->setText(tr("Current Character: ") + "\"" + contents + "\" - " + SpecialCharGraphicsItem::parseString(contents).replace("<br>"," "));
+    currentLabel->setText(tr("Current Character: ") + "\"" + contents + "\" - "
+                          + SpecialCharGraphicsItem::parseString(contents).replace("<br>"," "));
 }
 
-/**
- * Public slots
+/*!
+ * Update the special character to be a "match any" item: "."
  */
 void SpecialCharEditDialog::updateMatchAny()
 {
@@ -89,12 +105,18 @@ void SpecialCharEditDialog::updateMatchAny()
     updateDialog();
 }
 
+/*!
+ * Update the special character to be a "line start" item: "^"
+ */
 void SpecialCharEditDialog::updateLineStart()
 {
     contents = "^";
     updateDialog();
 }
 
+/*!
+ * Update the special character to be a "line end" item: "$"
+ */
 void SpecialCharEditDialog::updateLineEnd()
 {
     contents = "$";

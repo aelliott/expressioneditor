@@ -23,9 +23,10 @@
  */
 /*!
  * \brief   This class provides an interface to an implementation which attempts
- * to provide a "Perl style" regular expression backend via the use of PCRE - in
- * a very similar way to how PHP handles regular expressions via the preg_*
- * family of functions
+ *          to provide a "Perl style" regular expression backend
+ *
+ * It attempts to provide this via the use of PCRE - in a very similar way to
+ * how PHP handles regular expressions via the preg_* family of functions
  *
  * The class inherits RegexBase and provides a polymorphic class providing the
  * same access functions and behavior for perl features as for the other regular

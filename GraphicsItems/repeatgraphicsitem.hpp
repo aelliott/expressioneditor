@@ -68,10 +68,6 @@ public:
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
-signals:
-    //! Signal sent if any items have changed
-    void dataChanged();
-
 public slots:
     void updateData();
     void removeChild(QGraphicsObject *item);

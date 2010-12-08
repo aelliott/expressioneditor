@@ -24,7 +24,14 @@
 
 #include "settingsdialog.hpp"
 
-SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), settings()
+/*!
+ * Create a new settings dialog
+ *
+ * \param   parent  This widget's parent widget
+ */
+SettingsDialog::SettingsDialog(QWidget *parent)
+    : QDialog(parent)
+    , settings()
 {
     mainLayout = new QVBoxLayout;
     setLayout(mainLayout);
@@ -35,6 +42,9 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent), settings()
     addRegexSettings();
 }
 
+/*!
+ * Add a regexp settings tab to the settings dialog
+ */
 void SettingsDialog::addRegexSettings()
 {
     regexSettings = new QWidget(tabWidget);

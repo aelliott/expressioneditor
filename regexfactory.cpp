@@ -24,20 +24,47 @@
 
 #include "regexfactory.hpp"
 
+/*!
+ * Create a new RegexFactory
+ *
+ * \param   type    The type of regular expression backend to produce pointers
+ *                  to
+ */
 RegexFactory::RegexFactory(int type) : _format(type)
 {
 }
 
+/*!
+ * Update the type of regular expression backend the factory should provide
+ * pointers to
+ *
+ * \param   type    The type of regular expression backend to produce pointers
+ *                  for
+ */
 void RegexFactory::setRegexpFormat(int type)
 {
     _format = type;
 }
 
+/*!
+ * Return the current regexp backend that is to be produced
+ *
+ * \return  The current type of regular expression backend that is being output
+ */
 int RegexFactory::format() const
 {
     return _format;
 }
 
+/*!
+ * Main implementation of the factory pattern, produce a regular expression
+ * backend optionally using the provided pattern and optionally using a specific
+ * regular expression backend (otherwise the current default setting is used)
+ *
+ * \param   pattern The regular expression to create a backend for
+ * \param   format  The regular expression backend to use
+ * \return  A base class pointer to the requested regular expression backend
+ */
 RegexBase* RegexFactory::factory(QString pattern, int format)
 {
     int usedFormat = (format == -1) ? _format : format;
