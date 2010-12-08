@@ -16,3 +16,9 @@ ICON PACKAGES:
 APPLICATION ICON:
     Thanks to Kevin DiGennaro for taking on the job of producing this
 at a very affordable rate, and a very nice result too. :)
+
+CONTRIBUTORS:
+    Here's a list of any users who've contribute to the development of
+Expression Editor over its lifetime, if you make a commit feel free to add
+yourself here:
+    - Stofke72: https://github.com/Stofke72
