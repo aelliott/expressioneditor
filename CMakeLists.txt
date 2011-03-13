@@ -8,7 +8,7 @@ PROJECT(expressioneditor)
 SET(expressioneditor_VERSION_MAJOR 0)
 SET(expressioneditor_VERSION_MINOR 1)
 
-INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR} ${expressioneditor_SOURCE_DIR})
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR} ${expressioneditor_SOURCE_DIR} ${expressioneditor_BINARY_DIR})
 
 INCLUDE(CheckIncludeFiles)
 #INCLUDE(CheckLibraryExists)
@@ -137,6 +137,11 @@ SET(expressioneditor_HPP_SRCS
     RegexModules/qtregex.hpp
 )
 
+# Set UI form files
+SET(expressioneditor_UI_FILES
+    settingsdialog.ui
+)
+
 # Set resource files
 SET(expressioneditor_QRC_FILES
     images.qrc
@@ -201,6 +206,9 @@ message("#################################")
 
 # Add resource files
 QT4_ADD_RESOURCES(expressioneditor_CPP_SRCS ${expressioneditor_QRC_FILES})
+
+# Add UI form files
+QT4_WRAP_UI(expressioneditor_CPP_SRCS ${expressioneditor_UI_FILES})
 
 # Generate MOC files
 QT4_WRAP_CPP(expressioneditor_CPP_SRCS ${expressioneditor_HPP_SRCS})

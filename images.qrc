@@ -12,5 +12,6 @@
         <file alias="expressioneditor.png">images/application-icon/16x16.png</file>
         <file alias="expressioneditor-large.png">images/application-icon/64x64.png</file>
         <file alias="expressioneditor-shadow.png">images/application-icon/64x64withshadow.png</file>
+        <file alias="color-picker.png">images/color-picker.png</file>
     </qresource>
 </RCC>

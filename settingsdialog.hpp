@@ -29,18 +29,9 @@
 #ifndef SETTINGSDIALOG_HPP
 #define SETTINGSDIALOG_HPP
 
-#include <QDialog>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QGridLayout>
-#include <QTabWidget>
 #include <QSettings>
-#include <QLabel>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QDialogButtonBox>
-
 #include "regexfactory.hpp"
+#include "ui_settingsdialog.h"
 
 class SettingsDialog : public QDialog
 {
@@ -49,21 +40,15 @@ class SettingsDialog : public QDialog
 public:
     SettingsDialog(QWidget *parent = 0);
 
+public slots:
+    void apply();
+    void accept();
+
 private:
     void addRegexSettings();
 
-    QVBoxLayout *mainLayout;
-    QTabWidget *tabWidget;
+    Ui::SettingsDialog ui;
     QSettings settings;
-
-    // Regex Settings
-    QWidget *regexSettings;
-    QGridLayout *regexLayout;
-        QLabel *defaultLabel;
-        QComboBox *defaultCombo;
-        QLabel *caseLabel;
-        QCheckBox *caseCheck;
-        QDialogButtonBox *buttons;
 
 };
 

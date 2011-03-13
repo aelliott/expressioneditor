@@ -129,3 +129,4 @@ OTHER_FILES += README.txt \
 win32:DEFINES += NO_PCRE \
     NO_POSIX \
     NO_ICU
+FORMS += settingsdialog.ui

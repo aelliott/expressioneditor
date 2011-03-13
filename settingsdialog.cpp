@@ -33,57 +33,38 @@ SettingsDialog::SettingsDialog(QWidget *parent)
     : QDialog(parent)
     , settings()
 {
-    mainLayout = new QVBoxLayout;
-    setLayout(mainLayout);
+    ui.setupUi(this);
 
-    tabWidget = new QTabWidget(this);
-    mainLayout->addWidget(tabWidget);
-
-    addRegexSettings();
+    // Conditional dialog elements
+#ifndef NO_PCRE
+    ui.defaultBackendCombo->addItem(tr("PCRE"));
+    ui.defaultBackendCombo->setCurrentIndex(1);
+    ui.defaultBackendCombo->addItem(tr("Perl-emulation"));
+#endif // NO_PCRE
+#ifndef NO_ICU
+    ui.defaultBackendCombo->addItem(tr("ICU"));
+#endif // NO_ICU
+#ifndef NO_POSIX
+    ui.defaultBackendCombo->addItem(tr("POSIX"));
+#endif // NO_POSIX
+#ifdef WITH_CPP0X
+    ui.defaultBackendCombo->addItem(tr("C++0x"));
+#endif // WITH_CPP0X
 }
 
 /*!
- * Add a regexp settings tab to the settings dialog
+ * Apply the current settings to our stored settings
  */
-void SettingsDialog::addRegexSettings()
+void SettingsDialog::apply()
 {
-    regexSettings = new QWidget(tabWidget);
-    tabWidget->addTab(regexSettings, tr("Regex Settings"));
+}
 
-    regexLayout = new QGridLayout(regexSettings);
-    regexSettings->setLayout(regexLayout);
+/*!
+ * Apply the current settings and then exit the current dialog
+ */
+void SettingsDialog::accept()
+{
+    apply();
 
-    defaultLabel = new QLabel(tr("Default Regex Backend: "), regexSettings);
-    defaultCombo = new QComboBox(regexSettings);
-
-    defaultCombo->addItem("PCRE");
-    defaultCombo->addItem("Qt4");
-    defaultCombo->addItem("POSIX ERE");
-
-    QString curType = settings.value("regex/defaultBackend", "pcre").toString();
-    if(curType == "qt4")
-        defaultCombo->setCurrentIndex(1);
-    else if(curType == "posix")
-        defaultCombo->setCurrentIndex(2);
-    settings.setValue("regex/defaultBackend", curType);
-
-    regexLayout->addWidget(defaultLabel, 0, 0);
-    regexLayout->addWidget(defaultCombo, 0, 1);
-
-    caseLabel = new QLabel(tr("Case Sensitive: "), regexSettings);
-    caseCheck = new QCheckBox(regexSettings);
-
-    if(settings.value("regex/caseSensitivity", true).toBool() == true)
-        caseCheck->setDown(true);
-    settings.setValue("regex/caseSensitivity", settings.value("regex/caseSensitivity", true));
-
-    regexLayout->addWidget(caseLabel, 1, 0);
-    regexLayout->addWidget(caseCheck, 1, 1);
-
-    buttons = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Apply
-                                   | QDialogButtonBox::Cancel, Qt::Horizontal, regexSettings);
-
-    connect(buttons, SIGNAL(rejected()), this, SLOT(reject()));
-
-    regexLayout->addWidget(buttons, 2, 0, 1, 2, Qt::AlignRight);
+    close();
 }

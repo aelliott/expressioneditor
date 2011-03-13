@@ -77,7 +77,7 @@ RegexBase* RegexFactory::factory(QString pattern, int format)
         case PCRE:
             return new PcreRegex(pattern);
             break;
-    case PerlEmulation: //TODO: make an actual perl emulator :p
+        case PerlEmulation:
             return new PerlRegex(pattern);
             break;
 #endif // NO_PCRE
