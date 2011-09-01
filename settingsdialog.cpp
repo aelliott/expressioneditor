@@ -169,6 +169,7 @@ void SettingsDialog::visualisationTabChanged(int page)
     case 2:
         // Grouping
         _exampleExpression = "(foo)(?:bar)";
+        break;
     case 3:
         // Alternation
         _exampleExpression = "foo|bar";
@@ -180,7 +181,7 @@ void SettingsDialog::visualisationTabChanged(int page)
     default:
         // General, page 0
         // Grouping, page 2
-        _exampleExpression = "^(?:(foobar)|bork)[^]\wa-z]\\d$";
+        _exampleExpression = "^(?:(foobar)|bork)[^]\\wa-z]\\d$";
     }
 
     rehash();
