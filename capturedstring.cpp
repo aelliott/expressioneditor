@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +19,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include "capturedstring.hpp"
 
 /*!
@@ -31,7 +28,9 @@
  * \param   startpos    The starting position of the matched text within the whole
  * \param   endpos  The end position of the matched text within the whole
  */
-CapturedString::CapturedString(const std::string &text, const int &startpos, const int &endpos) : text(text), position(startpos,endpos)
+CapturedString::CapturedString(const std::string &text, const int &startpos, const int &endpos)
+    : _text(text)
+    , _position(startpos,endpos)
 {
 }
 
@@ -42,7 +41,7 @@ CapturedString::CapturedString(const std::string &text, const int &startpos, con
  */
 std::string CapturedString::getText() const
 {
-    return text;
+    return _text;
 }
 
 /*! Returns the start and end position together as a pair<start,end>
@@ -52,7 +51,7 @@ std::string CapturedString::getText() const
  */
 std::pair<int,int> CapturedString::pos() const
 {
-    return position;
+    return _position;
 }
 
 /*!
@@ -62,7 +61,7 @@ std::pair<int,int> CapturedString::pos() const
  */
 int CapturedString::start() const
 {
-    return position.first;
+    return _position.first;
 }
 
 /*!
@@ -72,5 +71,5 @@ int CapturedString::start() const
  */
 int CapturedString::end() const
 {
-    return position.second;
+    return _position.second;
 }

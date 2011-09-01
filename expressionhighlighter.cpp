@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +19,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include "expressionhighlighter.hpp"
 
 /*!
@@ -55,8 +52,8 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
     //errorFormat.setFont(highlightedFont);
 
     // Clear vectors
-    escapedChars.clear();
-    characterRanges.clear();
+    _escapedChars.clear();
+    _characterRanges.clear();
 
     // So, the idea is we collect all of the characters that are
     // escaped with a \ and keep track of the indexes which are
@@ -79,8 +76,8 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
     while(startOffset >= 0)
     {
         setFormat(startOffset, escaped.cap(0).length(), escapedFormat);
-        escapedChars.push_back(startOffset);
-        escapedChars.push_back(++startOffset);
+        _escapedChars.push_back(startOffset);
+        _escapedChars.push_back(++startOffset);
         startOffset = text.indexOf(escaped, ++startOffset);
     }
 
@@ -100,7 +97,7 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
     startOffset = text.indexOf(bracePattern, 0);
     while(startOffset >= 0)
     {
-        if(!escapedChars.contains(startOffset) && !characterRanges.contains(startOffset))
+        if(!_escapedChars.contains(startOffset) && !_characterRanges.contains(startOffset))
         {
             if(QString(text.at(startOffset)) == "[")
             {
@@ -128,7 +125,7 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
                     // we can set the range of the character set
                     // here from lastOpeningBrace to startOffset.
                     for(int i = lastOpeningBrace; i <= startOffset; ++i)
-                        characterRanges.push_back(i);
+                        _characterRanges.push_back(i);
                     setCurrentBlockState(0);
                     setFormat(startOffset, 1, braceFormat);
                 }
@@ -165,7 +162,7 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
     startOffset = text.indexOf(parenPattern, 0);
     while(startOffset >= 0)
     {
-        if(!escapedChars.contains(startOffset))
+        if(!_escapedChars.contains(startOffset))
         {
             if(QString(text.at(startOffset)) == "(")
             {
@@ -210,7 +207,7 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
     startOffset = text.indexOf(repeatPattern, 0);
     while(startOffset >= 0)
     {
-        if(!escapedChars.contains(startOffset) && !characterRanges.contains(startOffset))
+        if(!_escapedChars.contains(startOffset) && !_characterRanges.contains(startOffset))
         {
             if(QString(text.at(startOffset)) == "{")
             {
@@ -248,7 +245,7 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
     startOffset = text.indexOf(remainingPattern, 0);
     while(startOffset >= 0)
     {
-        if(!escapedChars.contains(startOffset) && !characterRanges.contains(startOffset))
+        if(!_escapedChars.contains(startOffset) && !_characterRanges.contains(startOffset))
             setFormat(startOffset, 1, specialFormat);
         startOffset = text.indexOf(remainingPattern, ++startOffset);
     }

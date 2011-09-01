@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,15 +19,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*!
- * \brief   This class provides an interface to the ICU regular expression
- *          implementation
- *
- * The class inherits RegexBase and provides a polymorphic class providing the
- * same access functions and behavior for ICU features as for the other regular
- * expression libraries.
- */
-
 #ifndef ICUREGEX_HPP
 #define ICUREGEX_HPP
 
@@ -39,18 +28,25 @@
 #include <unicode/ucnv.h>
 #include "regexbase.hpp"
 
+/*!
+ * \brief   This class provides an interface to the ICU regular expression
+ *          implementation
+ *
+ * The class inherits RegexBase and provides a polymorphic class providing the
+ * same access functions and behavior for ICU features as for the other regular
+ * expression libraries.
+ */
 class IcuRegex : public RegexBase
 {
-    Q_OBJECT;
+    Q_OBJECT
 
 private:
-    RegexMatcher *matcher;
-    UErrorCode status;
-    QStringList captures;
-    bool valid;
-    char *patternStr;
-    UnicodeString pattern;
-    UnicodeString targetString;
+    RegexMatcher *_matcher;
+    UErrorCode _status;
+    bool _valid;
+    char *_patternStr;
+    UnicodeString _pattern;
+    UnicodeString _targetString;
 
 public:
     explicit IcuRegex(QString expression = QString(), QObject *parent = 0);

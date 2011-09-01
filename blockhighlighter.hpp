@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +19,12 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef BLOCKHIGHLIGHTER_HPP
+#define BLOCKHIGHLIGHTER_HPP
+
+#include <QSyntaxHighlighter>
+#include "regexfactory.hpp"
+
 /*!
  * \brief This class highlights all matched sections of a block of text
  *        against the current regular expression.
@@ -29,16 +33,9 @@
  * regular expression to highlight all matches within the QTextEdit containing
  * the block of text we are using to test against.
  */
-
-#ifndef BLOCKHIGHLIGHTER_HPP
-#define BLOCKHIGHLIGHTER_HPP
-
-#include <QSyntaxHighlighter>
-#include "regexfactory.hpp"
-
 class BlockHighlighter : public QSyntaxHighlighter
 {
-    Q_OBJECT;
+    Q_OBJECT
 
 public:
     explicit BlockHighlighter(QTextEdit *parent = 0);
@@ -47,11 +44,11 @@ public:
 
 public slots:
     void updateExpression(QString exp);
-    void setRegexpFormat(int type);
+    void setRegexpFormat(RegexFactory::RegexFormat type);
 
 private:
-    RegexFactory *factory;
-    RegexBase *rx;
+    RegexFactory *_factory;
+    RegexBase *_rx;
 };
 
 #endif // BLOCKHIGHLIGHTER_HPP

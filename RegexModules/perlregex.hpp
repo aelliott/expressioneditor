@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +19,11 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef PERLREGEX_H
+#define PERLREGEX_H
+
+#include "pcreregex.hpp"
+
 /*!
  * \brief   This class provides an interface to an implementation which attempts
  *          to provide a "Perl style" regular expression backend
@@ -32,15 +35,9 @@
  * same access functions and behavior for perl features as for the other regular
  * expression libraries.
  */
-
-#ifndef PERLREGEX_H
-#define PERLREGEX_H
-
-#include "pcreregex.hpp"
-
 class PerlRegex : public PcreRegex
 {
-    Q_OBJECT;
+    Q_OBJECT
 
 private:
     bool _valid;

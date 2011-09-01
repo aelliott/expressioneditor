@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,15 +19,10 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*!
- * \brief   The RegexFactory class is a simple implementation of the factory
- *          pattern used to provide polymorphic instances of regular expression
- *          backends as a base class pointer
- */
-
 #ifndef REGEXFACTORY_HPP
 #define REGEXFACTORY_HPP
 
+#include "RegexModules/qtparser.hpp"
 #include "RegexModules/qtregex.hpp"
 #include "cmakeconfig.hpp"
 
@@ -50,6 +43,11 @@
 #include "RegexModules/cpp0xregex.hpp"
 #endif // WITH_CPP0X
 
+/*!
+ * \brief   The RegexFactory class is a simple implementation of the factory
+ *          pattern used to provide polymorphic instances of regular expression
+ *          backends as a base class pointer
+ */
 class RegexFactory
 {
 public:
@@ -77,16 +75,18 @@ public:
         CPP0X,
 #endif // WITH_CPP0X
         //! Qt4 style regular expressions
-        Qt
+        Qt,
+        Default
     };
 
-    RegexFactory(int type = 0);
-    void setRegexpFormat(int type);
-    int format() const;
-    RegexBase* factory(QString pattern = QString(), int type = -1);
+    RegexFactory(RegexFormat type = Qt);
+    void setRegexpFormat(RegexFormat type);
+    RegexFactory::RegexFormat format() const;
+    RegexBase *regexpEngine(QString pattern = QString(), RegexFormat type = Default);
+    Parser *regexpParser(RegexFormat type = Default);
 
 private:
-    int _format;
+    RegexFormat _format;
 };
 
 #endif // REGEXFACTORY_HPP

@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +19,13 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef CPP0XREGEXP_HPP
+#define CPP0XREGEXP_HPP
+
+#include "regexbase.hpp"
+#include <regex>
+#include <string>
+
 /*!
  * \brief   This class provides an interface to the C++0x regular expression
  *          implementation
@@ -37,17 +42,9 @@
  * As of now most GCC versions do not seem to have a complete implementation of
  * regular expressions as part of tr1 or c++0x
  */
-
-#ifndef CPP0XREGEXP_HPP
-#define CPP0XREGEXP_HPP
-
-#include "regexbase.hpp"
-#include <regex>
-#include <string>
-
 class Cpp0xRegex : public RegexBase
 {
-    Q_OBJECT;
+    Q_OBJECT
 
 public:
     explicit Cpp0xRegex(QString expression = QString(), QObject *parent = 0);
@@ -78,9 +75,8 @@ public:
     QString escape(const QString expr);
 
 private:
-    QString expression;
-    bool valid;
-    std::regex *regexp;
+    bool _valid;
+    std::regex *_regexp;
 };
 
 #endif // CPP0XREGEXP_HPP

@@ -1,17 +1,11 @@
 <RCC>
+    <qresource prefix="/icon">
+        <file alias="32x32.png">images/application-icon/32x32.png</file>
+        <file alias="64x64withshadow.png">images/application-icon/64x64withshadow.png</file>
+        <file alias="256x256.png">images/application-icon/256x256.png</file>
+    </qresource>
     <qresource prefix="/images">
-        <file alias="document-new.png">images/document-new.png</file>
-        <file alias="document-open-recent.png">images/document-open-recent.png</file>
-        <file alias="document-open.png">images/document-open.png</file>
-        <file alias="document-save-as.png">images/document-save-as.png</file>
-        <file alias="document-save.png">images/document-save.png</file>
-        <file alias="application-exit.png">images/application-exit.png</file>
-        <file alias="text.png">images/text.png</file>
         <file alias="valid.png">images/accept.png</file>
         <file alias="invalid.png">images/exclamation.png</file>
-        <file alias="expressioneditor.png">images/application-icon/16x16.png</file>
-        <file alias="expressioneditor-large.png">images/application-icon/64x64.png</file>
-        <file alias="expressioneditor-shadow.png">images/application-icon/64x64withshadow.png</file>
-        <file alias="color-picker.png">images/color-picker.png</file>
     </qresource>
 </RCC>

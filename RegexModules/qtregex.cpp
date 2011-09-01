@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +19,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include "qtregex.hpp"
 
 /*!
@@ -32,64 +29,64 @@
  */
 QtRegex::QtRegex(QString expression, QObject *parent)
     : RegexBase(expression, parent)
-    , qtRegexp(expression)
+    , _qtRegexp(expression)
 {
 }
 
 QString QtRegex::getErrorString() const
 {
-    return qtRegexp.errorString();
+    return _qtRegexp.errorString();
 }
 
 QString QtRegex::cap(int offset)
 {
-    return qtRegexp.cap(offset);
+    return _qtRegexp.cap(offset);
 }
 
 int QtRegex::captureCount() const
 {
-    return qtRegexp.captureCount();
+    return _qtRegexp.captureCount();
 }
 
 QStringList QtRegex::capturedTexts()
 {
-    return qtRegexp.capturedTexts();
+    return _qtRegexp.capturedTexts();
 }
 
 int QtRegex::indexIn(QString string, int offset)
 {
-    return qtRegexp.indexIn(string, offset);
+    return _qtRegexp.indexIn(string, offset);
 }
 
 int QtRegex::lastIndexIn(QString string, int offset)
 {
-    return qtRegexp.lastIndexIn(string, offset);
+    return _qtRegexp.lastIndexIn(string, offset);
 }
 
 int QtRegex::matchedLength() const
 {
-    return qtRegexp.matchedLength();
+    return _qtRegexp.matchedLength();
 }
 
 int QtRegex::pos(int offset)
 {
-    return qtRegexp.pos(offset);
+    return _qtRegexp.pos(offset);
 }
 
 bool QtRegex::isValid() const
 {
-    return qtRegexp.isValid();
+    return _qtRegexp.isValid();
 }
 
 bool QtRegex::exactMatch(const QString &string)
 {
-    return qtRegexp.exactMatch(string);
+    return _qtRegexp.exactMatch(string);
 }
 
 void QtRegex::setExpression(QString expression)
 {
-    regexp = expression;
-    qtRegexp.setPattern(expression);
+    _regexp = expression;
+    _qtRegexp.setPattern(expression);
 }
 
 void QtRegex::setOptions(RegexBase::RegexpOptions options)
@@ -103,14 +100,14 @@ void QtRegex::setOptions(RegexBase::RegexpOptions options)
 void QtRegex::setCaseSensitivity(bool caseSensitivity)
 {
     if(caseSensitivity)
-        qtRegexp.setCaseSensitivity(Qt::CaseSensitive);
+        _qtRegexp.setCaseSensitivity(Qt::CaseSensitive);
     else
-        qtRegexp.setCaseSensitivity(Qt::CaseInsensitive);
+        _qtRegexp.setCaseSensitivity(Qt::CaseInsensitive);
 }
 
 QString QtRegex::escape()
 {
-    return QRegExp::escape(regexp);
+    return QRegExp::escape(_regexp);
 }
 
 QString QtRegex::escape(QString expression)

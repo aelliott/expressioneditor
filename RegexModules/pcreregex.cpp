@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +19,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include "pcreregex.hpp"
 
 /*!
@@ -32,48 +29,48 @@
  */
 PcreRegex::PcreRegex(QString expression, QObject *parent)
     : RegexBase(expression, parent)
-    , pcre(expression.toStdString())
+    , _pcre(expression.toStdString())
 {
 }
 
 QString PcreRegex::getErrorString() const
 {
-    return QString(pcre.error().c_str());
+    return QString(_pcre.error().c_str());
 }
 
 QString PcreRegex::cap(int offset)
 {
-    return QString(pcre.cap(offset).c_str());
+    return QString(_pcre.cap(offset).c_str());
 }
 
 int PcreRegex::captureCount() const
 {
-    return pcre.capturingCount();
+    return _pcre.capturingCount();
 }
 
 QStringList PcreRegex::capturedTexts()
 {
     QStringList strings;
     for(int i = 0; i <= captureCount(); ++i)
-        strings << QString(pcre.cap(i).c_str());
+        strings << QString(_pcre.cap(i).c_str());
     return strings;
 }
 
 int PcreRegex::indexIn(QString string, int offset)
 {
-    if(pcre.PartialMatch(string.toStdString(), offset))
-        return pcre.startPos(0);
+    if(_pcre.PartialMatch(string.toStdString(), offset))
+        return _pcre.startPos(0);
     else
         return -1;
 }
 
 int PcreRegex::lastIndexIn(QString string, int offset)
 {
-    if(pcre.PartialMatch(string.toStdString(), offset))
+    if(_pcre.PartialMatch(string.toStdString(), offset))
     {
         int result = -1;
-        for(int i = 0; pcre.startPos(i) != -1; ++i)
-            result = pcre.startPos(i);
+        for(int i = 0; _pcre.startPos(i) != -1; ++i)
+            result = _pcre.startPos(i);
         return result;
     }
     else
@@ -82,27 +79,27 @@ int PcreRegex::lastIndexIn(QString string, int offset)
 
 int PcreRegex::matchedLength() const
 {
-    return pcre.matchedLength();
+    return _pcre.matchedLength();
 }
 
 int PcreRegex::pos(int offset)
 {
-    return pcre.startPos(offset);
+    return _pcre.startPos(offset);
 }
 
 bool PcreRegex::isValid() const
 {
-    return pcre.isValid();
+    return _pcre.isValid();
 }
 
 bool PcreRegex::exactMatch(const QString &string)
 {
-    return pcre.ExactMatch(string.toStdString());
+    return _pcre.ExactMatch(string.toStdString());
 }
 
 void PcreRegex::setExpression(QString expression)
 {
-    pcre.setExpression(expression.toStdString());
+    _pcre.setExpression(expression.toStdString());
 }
 
 void PcreRegex::setOptions(RegexpOptions options)
@@ -117,10 +114,10 @@ void PcreRegex::setCaseSensitivity(bool caseSensitivity)
 
 QString PcreRegex::escape()
 {
-    return QString(pcre.escape().c_str());
+    return QString(_pcre.escape().c_str());
 }
 
 QString PcreRegex::escape(QString expression)
 {
-    return QString(pcre.escape(expression.toStdString()).c_str());
+    return QString(_pcre.escape(expression.toStdString()).c_str());
 }

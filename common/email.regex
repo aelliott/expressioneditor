@@ -1,9 +1,0 @@
-<!DOCTYPE expression>
-<root>
- <format>qt</format>
- <expression><![CDATA[([a-zA-Z][a-zA-Z0-9+\.-]+)@([a-zA-Z][a-zA-Z0-9-]+\.([a-zA-Z]{2,7}|[a-zA-Z]{2,3}\.[a-zA-Z]{2,3}))]]></expression>
- <tests>
-  <test><![CDATA[alex@alex-elliott.co.uk]]></test>
-  <test><![CDATA[edwin@binaryvision.net]]></test>
- </tests>
-</root>

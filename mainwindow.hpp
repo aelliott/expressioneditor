@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,112 +19,73 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*!
- * \brief   This class implements the main window of expression editor, and
- * controls the window icon, title bar, menu bar, etc.
- */
-
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
-#include "cmakeconfig.hpp"
+#include <QMainWindow>
+#include <QFile>
+#include <QLabel>
+#include <QSignalMapper>
+#include <QCloseEvent>
 
-#include <QtGui>
-#include <QtXml>
-#include "welcome.hpp"
-#include "expressioneditor.hpp"
 #include "regexfactory.hpp"
-#include "settingsdialog.hpp"
+#include "GraphicsItems/expressiongraphicsitem.hpp"
 
+#include "settingsdialog.hpp"
+#include "blockhighlighter.hpp"
+#include "expressionedit.hpp"
+
+namespace Ui {
+    class MainWindow;
+}
+
+/*!
+ * \brief The main window of the application
+ */
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT;
+    Q_OBJECT
 
 public:
-    MainWindow();
-    QStringList getRecentFiles();
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
 
 public slots:
-    void newFile();
-    void openFile();
-    void openFile(QListWidgetItem *item);
-    void openFile(QString fileName, bool warnOnOpen = true);
-    void saveFile();
-    void saveFile(QString fileName);
-    void saveFileAs();
-    void addRecentFile(QString fileName);
-    void showRegexHelp();
-    void showAppHelp();
-    void showAboutApp();
-    void exportToImage();
-#ifndef NO_PCRE
-    void setFormatPcre();
-    void setFormatPerlEmulation();
-#endif // NO_PCRE
-    void setFormatQt();
-#ifndef NO_POSIX
-    void setFormatPosix();
-#endif // NO_POSIX
-#ifndef NO_ICU
-    void setFormatIcu();
-#endif // NO_ICU
-#ifdef WITH_CPP0X
-    void setFormatCpp0x();
-#endif // WITH_CPP0X
-    void showSettings();
+    void newExpression();
+    void open();
+    void open(QString path);
+    void save();
+    void saveAs();
+    void save(QString path);
+    void quit();
+
+    void exportAsImage();
+    void setRegexpFormat(int format);
+    void showPreferences();
+
+    void regexpHelp();
+    void applicationHelp();
+    void applicationAbout();
+
+    void updateExpression();
+    void updateExpression(QString expression);
+
+    void closeEvent(QCloseEvent *event);
 
 private:
-    QMenu *fileMenu;
-        QAction *newAction;
-        // ----
-        QAction *openAction;
-        QMenu   *recentMenu;
-        QSignalMapper *recentMap;
-        QMenu   *commonMenu;
-        QSignalMapper *commonMap;
-        // ----
-        QAction *saveAction;
-        QAction *saveAsAction;
-        // ----
-        QAction *quitAction;
-    QMenu *editMenu;
-        QAction *exportToImageAction;
-        // ----
-        QMenu *formatMenu;
-#ifndef NO_PCRE
-            QAction *pcreStyleAction;
-            QAction *perlStyleAction;
-#endif // NO_PCRE
-            QAction *qt4StyleAction;
-#ifndef NO_POSIX
-            QAction *posixStyleAction;
-#endif // NO_POSIX
-#ifndef NO_ICU
-            QAction *icuStyleAction;
-#endif // NO_ICU
-#ifdef WITH_CPP0X
-            QAction *cpp0xStyleAction;
-#endif // WITH_CPP0X
-        // ----
-        QAction *preferencesAction;
-    QMenu *helpMenu;
-        QAction *regexHelpAction;
-        QAction *appHelpAction;
-        // ----
-        QAction *aboutAction;
-    QString format;
-    QLabel *formatLabel;
-    Welcome *welcome;
-    ExpressionEditor *editor;
-    bool fileOpen;
-    QString openFilePath;
-    QStringList recentFiles;
-    QStringList commonFiles;
-    static const int maximumRecentFiles = 10;
+    void updateRecentFiles();
+    void updateCommonFiles();
+    void updateRegexpFormats();
 
-    void updateSettings();
-    void importSettings();
-    void createMenuBar();
+    Ui::MainWindow *_ui;
+    QLabel *_formatLabel;
+    QLabel *_errorLabel;
+    QString _filePath;
+    QString _expression;
+    bool _edited;
+    RegexFactory *_factory;
+    ExpressionGraphicsItem *_visualisation;
+    BlockHighlighter *_blockHighlighter;
 };
 
 #endif // MAINWINDOW_HPP

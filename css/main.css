@@ -1,0 +1,4 @@
+QWidget#welcomeHeader > QLabel
+{
+    font-size: 32px;
+}

@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,16 +19,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*!
- * \brief   A stdlib wrapper mostly built on the C API for PCRE but using
- *          a couple of bits from the C++ API provided by Google
- *
- * This class wraps the C API for PCRE, I decided against using pcrecpp
- * because I couldn't get it to do everything I wanted it to do.
- *
- * For reusability, this doesn't contain Qt Classes.
- */
-
 #ifndef PCREWRAPPER_HPP
 #define PCREWRAPPER_HPP
 
@@ -42,6 +30,15 @@
 #include <utility>
 #include <QDebug>
 
+/*!
+ * \brief   A stdlib wrapper mostly built on the C API for PCRE but using
+ *          a couple of bits from the C++ API provided by Google
+ *
+ * This class wraps the C API for PCRE, I decided against using pcrecpp
+ * because I couldn't get it to do everything I wanted it to do.
+ *
+ * For reusability, this doesn't contain Qt Classes.
+ */
 class PcreWrapper
 {
 public:

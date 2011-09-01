@@ -20,7 +20,7 @@ currently in a pre-alpha state.
 
 [2.0] REQUIREMENTS AND HINTS
 
-ExpressionEditor requires Qt4.6.0+, a C++ compiler and CMake to build.
+Expression Editor requires Qt4.6.0+, a C++ compiler and CMake to build.
 However there are also several other optional dependencies which will be
 included by default if they are found on the system.  These are:
 
@@ -29,7 +29,7 @@ included by default if they are found on the system.  These are:
  - ICU (International Components for Unicode)
 
 Each of these add their respective regular expression engines as options
-within ExpressionEditor.
+within Expression Editor.
 
 If the compile fails for some reason, first try "Build > Clean all" in
 QtCreator or "make clean" in a terminal and try the build again.  If it
@@ -72,7 +72,8 @@ If you have Qt4.6 installed (you can check with "qmake --version") then
 you can just execute:
 
 $ cd ~/src/expressioneditor # or if you put it elsewhere use that path
-$ cmake .
+$ mkdir build && cd build/
+$ cmake ../
 $ make
 $ sudo make install # or su -c
 
@@ -98,7 +99,8 @@ no binary to distribute you will need to compile it.  The process for this
 is basically the same as for Linux:
 
 $ cd ~/src/expressioneditor # or if you put it elsewhere use that path
-$ cmake .
+$ mkdir build && cd build/
+$ cmake ../
 $ make
 $ ./expressioneditor
 

@@ -72,79 +72,66 @@ INCLUDE(${QT_USE_FILE})
 
 # Add .cpp files
 SET(expressioneditor_CPP_SRCS
+    blockhighlighter.cpp
+    capturedstring.cpp
+    expressionedit.cpp
+    expressionhighlighter.cpp
+    graphicsitemsettings.cpp
     main.cpp
     mainwindow.cpp
-    welcome.cpp
-    expressioneditor.cpp
-    multilinetester.cpp
-    expressionhighlighter.cpp
-    graphicaleditor.cpp
-    graphicaltoolkit.cpp
-    graphicalworkspace.cpp
-    graphicalexpression.cpp
-    repeateditdialog.cpp
-    texteditdialog.cpp
-    specialchareditdialog.cpp
+    pcrewrapper.cpp
     regexfactory.cpp
-    capturedstring.cpp
-    expressiontester.cpp
-    blocktester.cpp
-    blockhighlighter.cpp
     settingsdialog.cpp
-    searchreplacetester.cpp
-    GraphicsItems/textgraphicsitem.cpp
-    GraphicsItems/specialchargraphicsitem.cpp
-    GraphicsItems/repeatgraphicsitem.cpp
-    GraphicsItems/regexgraphicsitem.cpp
+    GraphicsItems/alternationgraphicsitem.cpp
+    GraphicsItems/anchorgraphicsitem.cpp
+    GraphicsItems/bracketexpressiongraphicsitem.cpp
+    GraphicsItems/characterclassitem.cpp
+    GraphicsItems/errorgraphicsitem.cpp
+    GraphicsItems/expressiongraphicsitem.cpp
     GraphicsItems/groupinggraphicsitem.cpp
-    GraphicsItems/configgraphicsitem.cpp
-    GraphicsItems/commentgraphicsitem.cpp
-    GraphicsItems/charrangegraphicsitem.cpp
-    GraphicsItems/alternativesgraphicsitem.cpp
-    RegexModules/regexbase.cpp
+    GraphicsItems/literalgraphicsitem.cpp
+    GraphicsItems/repeatgraphicsitem.cpp
+    RegexModules/parser.cpp
+    RegexModules/qtparser.cpp
     RegexModules/qtregex.cpp
+    RegexModules/regexbase.cpp
+    RegexModules/token.cpp
 )
 
 # Wrap QOBJECT classes
 SET(expressioneditor_HPP_SRCS
-    mainwindow.hpp
-    welcome.hpp
-    expressioneditor.hpp
-    multilinetester.hpp
-    expressionhighlighter.hpp
-    graphicaleditor.hpp
-    graphicaltoolkit.hpp
-    graphicalworkspace.hpp
-    graphicalexpression.hpp
-    repeateditdialog.hpp
-    texteditdialog.hpp
-    specialchareditdialog.hpp
-    expressiontester.hpp
-    blocktester.hpp
     blockhighlighter.hpp
+    expressionedit.hpp
+    expressionhighlighter.hpp
+    graphicsitemsettings.hpp
+    mainwindow.hpp
     settingsdialog.hpp
-    searchreplacetester.hpp
-    GraphicsItems/textgraphicsitem.hpp
-    GraphicsItems/specialchargraphicsitem.hpp
-    GraphicsItems/repeatgraphicsitem.hpp
-    GraphicsItems/regexgraphicsitem.hpp
+    GraphicsItems/alternationgraphicsitem.hpp
+    GraphicsItems/anchorgraphicsitem.hpp
+    GraphicsItems/bracketexpressiongraphicsitem.hpp
+    GraphicsItems/characterclassitem.hpp
+    GraphicsItems/errorgraphicsitem.hpp
+    GraphicsItems/expressiongraphicsitem.hpp
     GraphicsItems/groupinggraphicsitem.hpp
-    GraphicsItems/configgraphicsitem.hpp
-    GraphicsItems/commentgraphicsitem.hpp
-    GraphicsItems/charrangegraphicsitem.hpp
-    GraphicsItems/alternativesgraphicsitem.hpp
-    RegexModules/regexbase.hpp
+    GraphicsItems/literalgraphicsitem.hpp
+    GraphicsItems/repeatgraphicsitem.hpp
+    RegexModules/parser.hpp
+    RegexModules/qtparser.hpp
     RegexModules/qtregex.hpp
+    RegexModules/regexbase.hpp
 )
 
 # Set UI form files
 SET(expressioneditor_UI_FILES
+    graphicsitemsettings.ui
+    mainwindow.ui
     settingsdialog.ui
 )
 
 # Set resource files
 SET(expressioneditor_QRC_FILES
     images.qrc
+    stylesheets.qrc
 )
 
 # Set link libraries

@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +19,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include "icuregex.hpp"
 
 /*!
@@ -30,12 +27,14 @@
  * \param   expression  The regular expression to compile
  * \param   parent      This item's parent item
  */
-IcuRegex::IcuRegex(QString expression, QObject *parent) : RegexBase(expression, parent), valid(false)
+IcuRegex::IcuRegex(QString expression, QObject *parent)
+    : RegexBase(expression, parent)
+    , _valid(false)
 {
-    status = U_ZERO_ERROR;
-    pattern = expression.toStdString().c_str();
-    matcher = new RegexMatcher(pattern, 0, status);
-    valid = !U_FAILURE(status);
+    _status = U_ZERO_ERROR;
+    _pattern = expression.toStdString().c_str();
+    _matcher = new RegexMatcher(_pattern, 0, _status);
+    _valid = !U_FAILURE(_status);
 }
 
 /*!
@@ -43,21 +42,21 @@ IcuRegex::IcuRegex(QString expression, QObject *parent) : RegexBase(expression, 
  */
 IcuRegex::~IcuRegex()
 {
-    delete matcher;
+    delete _matcher;
 }
 
 QString IcuRegex::getErrorString() const
 {
-    return QString(u_errorName(status));
+    return QString(u_errorName(_status));
 }
 
 QString IcuRegex::cap(int offset)
 {
-    UnicodeString val = matcher->group(offset, status);
+    UnicodeString val = _matcher->group(offset, _status);
 
-    UConverter *conv = ucnv_open("iso-8859-1", &status);
+    UConverter *conv = ucnv_open("iso-8859-1", &_status);
     char *dest = new char[1001];
-    int32_t targetsize = val.extract(dest, 1000, conv, status);
+    int32_t targetsize = val.extract(dest, 1000, conv, _status);
     dest[targetsize] = 0;
 
     return QString(dest);
@@ -65,79 +64,79 @@ QString IcuRegex::cap(int offset)
 
 int IcuRegex::captureCount() const
 {
-    if(!isValid() || pattern.length() == 0)
+    if(!isValid() || _pattern.length() == 0)
         return -1;
 
-    return matcher->groupCount();
+    return _matcher->groupCount();
 }
 
 QStringList IcuRegex::capturedTexts()
 {
-    return captures;
+    return _captured;
 }
 
 int IcuRegex::indexIn(QString string, int offset)
 {
-    if(!isValid() || string == "" || pattern.length() == 0)
+    if(!isValid() || string == "" || _pattern.length() == 0)
         return -1;
 
-    targetString = string.toStdString().c_str();
-    matcher->reset(targetString);
+    _targetString = string.toStdString().c_str();
+    _matcher->reset(_targetString);
 
-    if(matcher->find(offset, status))
-        return matcher->start(status);
+    if(_matcher->find(offset, _status))
+        return _matcher->start(_status);
     else
         return -1;
 }
 
 int IcuRegex::lastIndexIn(QString string, int offset)
 {
-    if(!isValid() || string == "" || pattern.length() == 0)
+    if(!isValid() || string == "" || _pattern.length() == 0)
         return -1;
 
-    targetString = string.toStdString().c_str();
-    matcher->reset(targetString);
+    _targetString = string.toStdString().c_str();
+    _matcher->reset(_targetString);
 
-    while(matcher->find(offset, status))
-        offset = matcher->start(status);
+    while(_matcher->find(offset, _status))
+        offset = _matcher->start(_status);
 
-    if(matcher->find(offset, status))
-        return matcher->start(status);
+    if(_matcher->find(offset, _status))
+        return _matcher->start(_status);
     else
         return -1;
 }
 
 int IcuRegex::matchedLength() const
 {
-    return captures.at(0).length();
+    return _captured.at(0).length();
 }
 
 int IcuRegex::pos(int offset)
 {
-    return matcher->start(offset, status);
+    return _matcher->start(offset, _status);
 }
 
 bool IcuRegex::isValid() const
 {
-    return valid;
+    return _valid;
 }
 
 bool IcuRegex::exactMatch(const QString &string)
 {
-    if(!isValid() || string == "" || pattern.length() == 0)
+    if(!isValid() || string == "" || _pattern.length() == 0)
         return false;
 
-    targetString = string.toStdString().c_str();
-    matcher->reset(targetString);
-    return matcher->matches(status);
+    _targetString = string.toStdString().c_str();
+    _matcher->reset(_targetString);
+    return _matcher->matches(_status);
 }
 
 void IcuRegex::setExpression(QString expression)
 {
-    delete matcher;
-    pattern = expression.toStdString().c_str();
-    matcher = new RegexMatcher(pattern, 0, status);
-    valid = !U_FAILURE(status);
+    delete _matcher;
+    _pattern = expression.toStdString().c_str();
+    _matcher = new RegexMatcher(_pattern, 0, _status);
+    _valid = !U_FAILURE(_status);
 }
 
 void IcuRegex::setOptions(RegexpOptions options)

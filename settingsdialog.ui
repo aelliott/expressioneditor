@@ -6,245 +6,274 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>393</height>
+    <width>415</width>
+    <height>550</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Settings</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <property name="windowIcon">
+   <iconset resource="images.qrc">
+    <normaloff>:/icon/32x32.png</normaloff>:/icon/32x32.png</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <widget class="QTabWidget" name="tabWidget">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+    <widget class="QLabel" name="titleLabel">
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+      </font>
      </property>
+     <property name="text">
+      <string>Editor Settings</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="settingsTabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
-     <widget class="QWidget" name="GeneralOptions">
+     <widget class="QWidget" name="editorSettings">
       <attribute name="title">
-       <string>General</string>
+       <string>Editor</string>
       </attribute>
-      <layout class="QFormLayout" name="formLayout_2">
-       <property name="fieldGrowthPolicy">
-        <enum>QFormLayout::ExpandingFieldsGrow</enum>
-       </property>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_3">
+      <layout class="QFormLayout" name="formLayout_3">
+       <item row="1" column="0">
+        <widget class="QLabel" name="expressionHighlightingLabel">
          <property name="text">
-          <string>Default Backend:</string>
+          <string>Expression Highlighting:</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="defaultBackendCombo">
-         <item>
-          <property name="text">
-           <string>Qt4 (QRegExp)</string>
-          </property>
-         </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="expressionHighlightingCheckBox">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="autocompletionLabel">
+         <property name="text">
+          <string>Auto-completion:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QCheckBox" name="autocompletionCheckBox">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QLabel" name="editorSettingsLabel">
+         <property name="text">
+          <string>These settings apply to the text-based regular expression editor</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="RegexpOptions">
+     <widget class="QWidget" name="visualisationSettings">
       <attribute name="title">
-       <string>Regular Expressions</string>
+       <string>Visualisation</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QGroupBox" name="groupBox">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+        <widget class="QLabel" name="visualisationSettingsLabel">
+         <property name="text">
+          <string>These settings apply to the graphical regular expression visualisation.</string>
          </property>
-         <property name="title">
-          <string>Default Behaviour</string>
+         <property name="wordWrap">
+          <bool>true</bool>
          </property>
-         <layout class="QFormLayout" name="formLayout">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Case Sensitivity:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QComboBox" name="caseSensitivityCombo">
-            <item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGraphicsView" name="exampleExpressionView">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>200</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="exampleExpressionLabel">
+           <property name="text">
+            <string>Example Expression:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="exampleExpressionEdit">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTabWidget" name="visualisationTabWidget">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="visualisationGeneralPage">
+          <attribute name="title">
+           <string>General</string>
+          </attribute>
+          <layout class="QFormLayout" name="formLayout">
+           <item row="0" column="0">
+            <widget class="QLabel" name="horizontalSpacingLabel">
              <property name="text">
-              <string>Case Sensitive</string>
+              <string>Horizontal Spacing:</string>
              </property>
-            </item>
-            <item>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <layout class="QHBoxLayout" name="horizontalSpacingLayout">
+             <item>
+              <widget class="QSpinBox" name="horizontalSpacingSpinBox">
+               <property name="value">
+                <number>12</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="horizontalSpacingUnitsLabel">
+               <property name="text">
+                <string>pixels</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="displayOptionsLabel">
              <property name="text">
-              <string>Case Insensitive</string>
+              <string>Display Options:</string>
              </property>
-            </item>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>Group Behaviour:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QComboBox" name="capturingCombo">
-            <item>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QCheckBox" name="showNamedGroupsCheckBox">
              <property name="text">
-              <string>Capturing</string>
+              <string>Show Named Groups</string>
              </property>
-            </item>
-            <item>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QCheckBox" name="showCapturingGroupsCheckBox">
              <property name="text">
-              <string>Non-capturing</string>
+              <string>Show Capturing Groups</string>
              </property>
-            </item>
-           </widget>
-          </item>
-         </layout>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QCheckBox" name="showNoncapturingGroupsCheckBox">
+             <property name="text">
+              <string>Show Non-capturing Groups</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="verticalSpacingLabel">
+             <property name="text">
+              <string>Vertical Spacing</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <layout class="QHBoxLayout" name="verticalSpacingLayout">
+             <item>
+              <widget class="QSpinBox" name="verticalSpacingSpinBox">
+               <property name="value">
+                <number>12</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="verticalSpacingUnitsLabel">
+               <property name="text">
+                <string>pixels</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="visualisationLiteralPage">
+          <attribute name="title">
+           <string>Literal</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="GraphicsItemSettings" name="literalSettings" native="true"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="visualisationGroupingPage">
+          <attribute name="title">
+           <string>Grouping</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="GraphicsItemSettings" name="groupingSettings" native="true"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="visualisationAlternationPage">
+          <attribute name="title">
+           <string>Alternation</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="GraphicsItemSettings" name="alternationSettings" native="true"/>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="visualisationBracketExpressionPage">
+          <attribute name="title">
+           <string>Bracket Expression</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="GraphicsItemSettings" name="bracketExpressionSettings" native="true"/>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>
-     </widget>
-     <widget class="QWidget" name="AppearanceOptions">
-      <attribute name="title">
-       <string>Appearance</string>
-      </attribute>
-      <widget class="QGroupBox" name="groupBox_2">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>351</width>
-         <height>191</height>
-        </rect>
-       </property>
-       <property name="title">
-        <string>Visualisation Colours</string>
-       </property>
-       <layout class="QFormLayout" name="formLayout_3">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>String Literal</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
-           <widget class="QLineEdit" name="stringLiteralEdit"/>
-          </item>
-          <item>
-           <widget class="QPushButton" name="stringLiteralButton">
-            <property name="text">
-             <string>Select Colour</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string>Character Set</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item>
-           <widget class="QLineEdit" name="characterSetEdit"/>
-          </item>
-          <item>
-           <widget class="QPushButton" name="characterSetButton">
-            <property name="text">
-             <string>Select Colour</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Alternation</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QLineEdit" name="alternationEdit"/>
-          </item>
-          <item>
-           <widget class="QPushButton" name="alternationButton">
-            <property name="text">
-             <string>Select Colour</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>Repeats</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QLineEdit" name="repeatEdit"/>
-          </item>
-          <item>
-           <widget class="QPushButton" name="repeatButton">
-            <property name="text">
-             <string>Select Colour</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_8">
-          <property name="text">
-           <string>Special Items</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QLineEdit" name="specialEdit"/>
-          </item>
-          <item>
-           <widget class="QPushButton" name="specialButton">
-            <property name="text">
-             <string>Select Colour</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
      </widget>
     </widget>
    </item>
@@ -260,7 +289,17 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <customwidgets>
+  <customwidget>
+   <class>GraphicsItemSettings</class>
+   <extends>QWidget</extends>
+   <header>graphicsitemsettings.hpp</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>
@@ -269,8 +308,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>252</x>
-     <y>388</y>
+     <x>222</x>
+     <y>533</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -285,8 +324,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>320</x>
-     <y>388</y>
+     <x>290</x>
+     <y>539</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -294,5 +333,177 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>visualisationTabWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>visualisationTabChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>330</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>224</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>settingsTabWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>settingsTabChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>370</x>
+     <y>124</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>414</x>
+     <y>134</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSpacingSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>horizontalSpacingChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>190</x>
+     <y>364</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>501</x>
+     <y>370</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalSpacingSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>verticalSpacingChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>218</x>
+     <y>401</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>457</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>showNamedGroupsCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>showNamedGroupsChanged(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>238</x>
+     <y>429</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>481</x>
+     <y>425</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>showCapturingGroupsCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>showCapturingGroupsChanged(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>348</x>
+     <y>459</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>539</x>
+     <y>459</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>showNoncapturingGroupsCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>showNoncapturingGroupsChanged(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>333</x>
+     <y>480</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>490</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>expressionHighlightingCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>expressionHighlightingChanged(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>213</x>
+     <y>114</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>504</x>
+     <y>113</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>autocompletionCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>autocompletionChanged(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>212</x>
+     <y>136</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>461</x>
+     <y>148</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>clicked(QAbstractButton*)</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>handleButtonPress(QAbstractButton*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>131</x>
+     <y>541</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>128</x>
+     <y>585</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>visualisationTabChanged(int)</slot>
+  <slot>settingsTabChanged(int)</slot>
+  <slot>expressionHighlightingChanged(bool)</slot>
+  <slot>autocompletionChanged(bool)</slot>
+  <slot>horizontalSpacingChanged(int)</slot>
+  <slot>verticalSpacingChanged(int)</slot>
+  <slot>showNamedGroupsChanged(bool)</slot>
+  <slot>showCapturingGroupsChanged(bool)</slot>
+  <slot>showNoncapturingGroupsChanged(bool)</slot>
+  <slot>handleButtonPress(QAbstractButton*)</slot>
+ </slots>
 </ui>

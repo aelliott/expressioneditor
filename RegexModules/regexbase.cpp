@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,15 +19,17 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include "regexbase.hpp"
 
 /*!
  * Create a new regexp engine base, initialise various internal members
  */
-RegexBase::RegexBase(QString expression, QObject *parent) : QObject(parent), regexp(expression), matchLength(0)
+RegexBase::RegexBase(QString expression, QObject *parent)
+    : QObject(parent)
+    , _regexp(expression)
+    , _matchLength(-1)
 {
-    captured.clear();
+    _captured.clear();
 }
 
 /*!
@@ -39,7 +39,7 @@ RegexBase::RegexBase(QString expression, QObject *parent) : QObject(parent), reg
  */
 QString RegexBase::getExpression() const
 {
-    return regexp;
+    return _regexp;
 }
 
 /*!
@@ -50,5 +50,5 @@ QString RegexBase::getExpression() const
  */
 bool RegexBase::isEmpty() const
 {
-    return regexp.isEmpty();
+    return _regexp.isEmpty();
 }

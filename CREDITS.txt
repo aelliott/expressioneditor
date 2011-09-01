@@ -10,7 +10,6 @@ LIBRARIES:
  - ICU              http://site.icu-project.org/
 
 ICON PACKAGES:
- - Oxygen Icons     http://www.oxygen-icons.org/
  - FamFamFam Silk   http://www.famfamfam.com/lab/icons/silk/
 
 APPLICATION ICON:
@@ -21,4 +20,5 @@ CONTRIBUTORS:
     Here's a list of any users who've contribute to the development of
 Expression Editor over its lifetime, if you make a commit feel free to add
 yourself here:
+    - Alex Elliott: http://alex-elliott.co.uk/
     - Stofke72: https://github.com/Stofke72

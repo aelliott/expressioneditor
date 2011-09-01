@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/css">
+        <file alias="main.css">css/main.css</file>
+    </qresource>
+</RCC>

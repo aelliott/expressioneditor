@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +19,12 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef REGEXBASE_HPP
+#define REGEXBASE_HPP
+
+#include <QObject>
+#include <QStringList>
+
 /*!
  * \brief   This class implements an interface to the various regular expression
  *          implementations supported by Expression Editor
@@ -28,16 +32,9 @@
  * The class provides a polymorphic base class giving a uniform interface with
  * which to access the specific underlying regular expression backends
  */
-
-#ifndef REGEXBASE_HPP
-#define REGEXBASE_HPP
-
-#include <QObject>
-#include <QStringList>
-
 class RegexBase : public QObject
 {
-    Q_OBJECT;
+    Q_OBJECT
 
 protected:
     /*!
@@ -61,17 +58,17 @@ protected:
     /*!
      * The regular expression string in use
      */
-    QString regexp;
+    QString _regexp;
 
     /*!
      * The length of the matched text
      */
-    int matchLength;
+    int _matchLength;
 
     /*!
      * A list of all of the captured texts
      */
-    QStringList captured;
+    QStringList _captured;
 
 public:
     /*

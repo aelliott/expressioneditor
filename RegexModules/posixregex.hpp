@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,15 +19,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*!
- * \brief   This class provides an interface to the POSIX regular expression
- *          implementation
- *
- * The class inherits RegexBase and provides a polymorphic class providing the
- * same access functions and behavior for POSIX features as for the other
- * regular expression libraries.
- */
-
 #ifndef POSIXREGEX_HPP
 #define POSIXREGEX_HPP
 
@@ -39,17 +28,24 @@
 #include "regexbase.hpp"
 #include <regex.h>
 
+/*!
+ * \brief   This class provides an interface to the POSIX regular expression
+ *          implementation
+ *
+ * The class inherits RegexBase and provides a polymorphic class providing the
+ * same access functions and behavior for POSIX features as for the other
+ * regular expression libraries.
+ */
 class PosixRegex : public RegexBase
 {
-    Q_OBJECT;
+    Q_OBJECT
 
 private:
-    regex_t posix;
-    bool failed;
-    bool valid;
-    int matched;
-    QString errorString;
-    std::vector<CapturedString> captured;
+    regex_t _posix;
+    bool _failed;
+    bool _valid;
+    QString _errorString;
+    std::vector<CapturedString> _captured;
     void parseCaptures(QString str, regmatch_t captures[]);
 
 public:

@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +19,12 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef CAPTUREDSTRING_HPP
+#define CAPTUREDSTRING_HPP
+
+#include <string>
+#include <utility>
+
 /*!
  * \brief   This class is a simple representation of a captured string from a
  *          capture group.
@@ -32,13 +36,6 @@
  * context if necessary, but this is only precautionary.  In this case there
  * was little difference between Qt and stdlib in terms of how it was written.
  */
-
-#ifndef CAPTUREDSTRING_HPP
-#define CAPTUREDSTRING_HPP
-
-#include <string>
-#include <utility>
-
 class CapturedString
 {
 public:
@@ -49,8 +46,8 @@ public:
     int end() const;
 
 private:
-    std::string text;
-    std::pair<int,int> position;
+    std::string _text;
+    std::pair<int,int> _position;
 };
 
 #endif // CAPTUREDSTRING_HPP

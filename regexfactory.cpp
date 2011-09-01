@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +19,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include "regexfactory.hpp"
 
 /*!
@@ -30,7 +27,8 @@
  * \param   type    The type of regular expression backend to produce pointers
  *                  to
  */
-RegexFactory::RegexFactory(int type) : _format(type)
+RegexFactory::RegexFactory(RegexFormat type)
+    : _format(type)
 {
 }
 
@@ -41,7 +39,7 @@ RegexFactory::RegexFactory(int type) : _format(type)
  * \param   type    The type of regular expression backend to produce pointers
  *                  for
  */
-void RegexFactory::setRegexpFormat(int type)
+void RegexFactory::setRegexpFormat(RegexFormat type)
 {
     _format = type;
 }
@@ -51,7 +49,7 @@ void RegexFactory::setRegexpFormat(int type)
  *
  * \return  The current type of regular expression backend that is being output
  */
-int RegexFactory::format() const
+RegexFactory::RegexFormat RegexFactory::format() const
 {
     return _format;
 }
@@ -65,39 +63,51 @@ int RegexFactory::format() const
  * \param   format  The regular expression backend to use
  * \return  A base class pointer to the requested regular expression backend
  */
-RegexBase* RegexFactory::factory(QString pattern, int format)
+RegexBase* RegexFactory::regexpEngine(QString pattern, RegexFormat type)
 {
-    int usedFormat = (format == -1) ? _format : format;
+    RegexFormat usedFormat = (type == Default) ? _format : type;
     switch(usedFormat)
     {
-        case Qt:
-            return new QtRegex(pattern);
-            break;
+    case Qt:
+        return new QtRegex(pattern);
+        break;
 #ifndef NO_PCRE
-        case PCRE:
-            return new PcreRegex(pattern);
-            break;
-        case PerlEmulation:
-            return new PerlRegex(pattern);
-            break;
+    case PCRE:
+        return new PcreRegex(pattern);
+        break;
+    case PerlEmulation:
+        return new PerlRegex(pattern);
+        break;
 #endif // NO_PCRE
 #ifndef NO_POSIX
-        case POSIX:
-            return new PosixRegex(pattern);
-            break;
+    case POSIX:
+        return new PosixRegex(pattern);
+        break;
 #endif // NO_POSIX
 #ifndef NO_ICU
-        case ICU:
-            return new IcuRegex(pattern);
-            break;
+    case ICU:
+        return new IcuRegex(pattern);
+        break;
 #endif // NO_ICU
 #ifdef WITH_CPP0X
-        case CPP0X:
-            return new Cpp0xRegex(pattern);
-            break;
+    case CPP0X:
+        return new Cpp0xRegex(pattern);
+        break;
 #endif // WITH_CPP0X
-        default:
-            // This should never happen
-            return new QtRegex(pattern);
+    default:
+        // This should never happen
+        return new QtRegex(pattern);
+    }
+}
+
+Parser *RegexFactory::regexpParser(RegexFormat type)
+{
+    RegexFormat usedFormat = (type == Default) ? _format : type;
+
+    switch(usedFormat)
+    {
+    case Qt:
+    default:
+        return new QtParser();
     }
 }

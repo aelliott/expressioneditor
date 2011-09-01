@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GraphicsItemSettings</class>
+ <widget class="QWidget" name="GraphicsItemSettings">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>302</width>
+    <height>131</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="horizontalPaddingLabel">
+     <property name="text">
+      <string>Horizontal Padding:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QSpinBox" name="horizontalPaddingSpinBox"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="verticalPaddingLabel">
+     <property name="text">
+      <string>Vertical Padding:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QSpinBox" name="verticalPaddingSpinBox"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="cornerRadiusLabel">
+     <property name="text">
+      <string>Corner Radius:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QSpinBox" name="cornerRadiusSpinBox"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="colorLabel">
+     <property name="text">
+      <string>Color:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QGraphicsView" name="colorExampleView">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>31</width>
+         <height>31</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="selectColorButton">
+       <property name="text">
+        <string>Select Color</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>horizontalPaddingSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>GraphicsItemSettings</receiver>
+   <slot>horizontalPaddingChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>177</x>
+     <y>14</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>348</x>
+     <y>14</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>verticalPaddingSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>GraphicsItemSettings</receiver>
+   <slot>verticalPaddingChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>191</x>
+     <y>50</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>320</x>
+     <y>52</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cornerRadiusSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>GraphicsItemSettings</receiver>
+   <slot>cornerRadiusChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>211</x>
+     <y>71</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>348</x>
+     <y>80</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>selectColorButton</sender>
+   <signal>pressed()</signal>
+   <receiver>GraphicsItemSettings</receiver>
+   <slot>selectColor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>270</x>
+     <y>108</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>351</x>
+     <y>108</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>horizontalPaddingChanged(int)</slot>
+  <slot>verticalPaddingChanged(int)</slot>
+  <slot>cornerRadiusChanged(int)</slot>
+  <slot>selectColor()</slot>
+ </slots>
+</ui>

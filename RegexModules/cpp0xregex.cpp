@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,10 +29,10 @@
  */
 Cpp0xRegex::Cpp0xRegex(QString expr, QObject *parent)
     : RegexBase(expr, parent)
-    , matchLength(0)
-    , valid(false)
+    , _matchLength(0)
+    , _valid(false)
 {
-    regexp = new std::regex(expr.toStdString());
+    _regexp = new std::regex(expr.toStdString());
 }
 
 QString Cpp0xRegex::getErrorString() const
@@ -57,7 +55,7 @@ int Cpp0xRegex::captureCount() const
 
 QStringList Cpp0xRegex::capturedTexts()
 {
-    return captured;
+    return _captured;
 }
 
 int Cpp0xRegex::indexIn(QString string, int offset)
@@ -74,7 +72,7 @@ int Cpp0xRegex::lastIndexIn(QString string, int offset)
 
 int Cpp0xRegex::matchedLength() const
 {
-    return matchLength;
+    return _matchLength;
 }
 
 int Cpp0xRegex::pos(int offset)
@@ -85,7 +83,7 @@ int Cpp0xRegex::pos(int offset)
 
 bool Cpp0xRegex::isValid() const
 {
-    return valid;
+    return _valid;
 }
 
 bool Cpp0xRegex::exactMatch(const QString &string)
@@ -98,10 +96,10 @@ void Cpp0xRegex::setExpression(QString expr)
 {
     // A regexp object was created in the constructor so there is definitely an
     // instance of std::regex in memory, free it
-    delete regexp;
+    delete _regexp;
 
     // Create a new std::regex object with the new expression
-    regexp = new std::regex(expr.toStdString());
+    _regexp = new std::regex(expr.toStdString());
 }
 
 void Cpp0xRegex::setOptions(RegexpOptions options)

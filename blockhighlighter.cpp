@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +19,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 #include "blockhighlighter.hpp"
 
 /*!
@@ -32,8 +29,8 @@
  */
 BlockHighlighter::BlockHighlighter(QTextEdit *parent) : QSyntaxHighlighter(parent)
 {
-    factory = new RegexFactory();
-    rx = factory->factory(QString());
+    _factory = new RegexFactory();
+    _rx = _factory->regexpEngine(QString());
 }
 
 /*!
@@ -41,8 +38,8 @@ BlockHighlighter::BlockHighlighter(QTextEdit *parent) : QSyntaxHighlighter(paren
  */
 BlockHighlighter::~BlockHighlighter()
 {
-    delete rx;
-    delete factory;
+    delete _rx;
+    delete _factory;
 }
 
 /*!
@@ -62,7 +59,7 @@ BlockHighlighter::~BlockHighlighter()
 void BlockHighlighter::highlightBlock(const QString &text)
 {
     // If it's invalid we have nothing to do
-    if(!rx->isValid())
+    if(!_rx->isValid())
         return;
 
     // Define the two alternating text formats we're going to use
@@ -74,9 +71,9 @@ void BlockHighlighter::highlightBlock(const QString &text)
     int offset = 0;
     bool isRed = true;
 
-    while((offset = rx->indexIn(text, offset)) != -1)
+    while((offset = _rx->indexIn(text, offset)) != -1)
     {
-        int length = rx->matchedLength();
+        int length = _rx->matchedLength();
         // Fix for infinite looping
         if(length == 0)
             return;
@@ -98,8 +95,8 @@ void BlockHighlighter::highlightBlock(const QString &text)
  */
 void BlockHighlighter::updateExpression(QString exp)
 {
-    delete rx;
-    rx = factory->factory(exp);
+    delete _rx;
+    _rx = _factory->regexpEngine(exp);
 }
 
 /*!
@@ -107,8 +104,8 @@ void BlockHighlighter::updateExpression(QString exp)
  *
  * \param   type    The expression format to use
  */
-void BlockHighlighter::setRegexpFormat(int type)
+void BlockHighlighter::setRegexpFormat(RegexFactory::RegexFormat type)
 {
-    factory->setRegexpFormat(type);
-    updateExpression(rx->getExpression());
+    _factory->setRegexpFormat(type);
+    updateExpression(_rx->getExpression());
 }

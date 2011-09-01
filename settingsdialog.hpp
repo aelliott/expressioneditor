@@ -1,12 +1,10 @@
 /*!
  * \file
- * \author Alex Elliott <alex@alex-elliott.co.uk>
- * \version 0.1pre
+ *
+ * Copyright (c) 2011 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
- *
- * Expression editor is Copyright 2009,2010 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * Expression editor is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,35 +19,66 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-/*!
- * \brief   The settings dialog for the application, communicates with QSettings
- *          to produce application-wide settings
- */
-
 #ifndef SETTINGSDIALOG_HPP
 #define SETTINGSDIALOG_HPP
 
-#include <QSettings>
-#include "regexfactory.hpp"
-#include "ui_settingsdialog.h"
+#include <QDialog>
+#include <QAbstractButton>
+
+#include "GraphicsItems/expressiongraphicsitem.hpp"
+
+namespace Ui {
+    class SettingsDialog;
+}
 
 class SettingsDialog : public QDialog
 {
-    Q_OBJECT;
+    Q_OBJECT
 
 public:
-    SettingsDialog(QWidget *parent = 0);
+    explicit SettingsDialog(QWidget *parent = 0);
+    ~SettingsDialog();
+
+    void closeEvent(QCloseEvent *e);
+
+    void setValues();
+    void readValues();
 
 public slots:
+    void handleButtonPress(QAbstractButton *button);
+    void resetDialog();
     void apply();
     void accept();
+    void reject();
+
+    void settingsTabChanged(int page);
+    void visualisationTabChanged(int page);
+
+    void expressionHighlightingChanged(bool highlighting);
+    void autocompletionChanged(bool autocomplete);
+
+    void horizontalSpacingChanged(int spacing);
+    void verticalSpacingChanged(int spacing);
+
+    void showNamedGroupsChanged(bool show);
+    void showCapturingGroupsChanged(bool show);
+    void showNoncapturingGroupsChanged(bool show);
+
+    void rehash();
 
 private:
-    void addRegexSettings();
+    QSettings _settings;
+    Ui::SettingsDialog *_ui;
+    QString _exampleExpression;
+    ExpressionGraphicsItem *_exampleVisualisation;
+    bool _accepted;
 
-    Ui::SettingsDialog ui;
-    QSettings settings;
+    bool _expressionHighlighting;
+    bool _autocompletion;
 
+    int _horizontalSpacing;
+    int _verticalSpacing;
+    int _groupingDisplayOptions;
 };
 
 #endif // SETTINGSDIALOG_HPP
