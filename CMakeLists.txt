@@ -213,23 +213,33 @@ ENDIF()
 TARGET_LINK_LIBRARIES(expressioneditor ${expressioneditor_LINK_LIBS})
 
 # CPack Configuration
-SET(CPACK_PACKAGE_EXECUTABLES expressioneditor)
-SET(CPACK_PACKAGE_FILE_NAME expressioneditor)
+INCLUDE(InstallRequiredSystemLibraries)
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Regular Expression Editor")
+SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.txt")
+SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/gpl.txt")
+SET(CPACK_PACKAGE_FILE_NAME "expressioneditor-${expressioneditor_VERSION_MAJOR}.${expressioneditor_VERSION_MINOR}")
+SET(CPACK_PACKAGE_EXECUTABLES expressioneditor "Expression Editor")
 SET(CPACK_PACKAGE_NAME ExpressionEditor)
 SET(CPACK_PACKAGE_VERSION_MAJOR 0)
 SET(CPACK_PACKAGE_VERSION_MINOR 1)
 SET(CPACK_PACKAGE_VERSION_PATCH 0)
+SET(CPACK_PACKAGE_INSTALL_DIRECTORY "Expression Editor ${expressioneditor_VERSION_MAJOR}.${expressioneditor_VERSION_MINOR}")
 
 # Per-platform CPack Configuration
 IF(UNIX)
-    #
+    INSTALL(PROGRAMS ${CMAKE_BINARY_DIR}/expressioneditor DESTINATION bin)
 ELSEIF(APPLE)
-    #
+    INSTALL(PROGRAMS ${CMAKE_BINARY_DIR}/expressioneditor DESTINATION bin)
 ELSEIF(WIN32)
-    SET(CPACK_NSIS_MUI_ICON images/application-icon/expressioneditor.ico)
-    SET(CPACK_PACKAGE_ICON images/application-icon/256x256.png)
+    SET(CPACK_GENERATOR NSIS)
+    SET(CPACK_NSIS_MUI_ICON ${expressioneditor_SOURCE_DIR}/images/application-icon/expressioneditor.ico)
+    #SET(CPACK_PACKAGE_ICON ${expressioneditor_SOURCE_DIR}/images/application-icon/256x256.png)
 
-    INSTALL(PROGRAMS ${QT_BINARY_DIR}/QtCore4.dll bin)
+    INSTALL(PROGRAMS ${QT_BINARY_DIR}/QtCore4.dll
+                     ${QT_BINARY_DIR}/QtGui4.dll
+                     ${QT_BINARY_DIR}/mingwm10.dll
+                     ${QT_BINARY_DIR}/libgcc_s_dw2-1.dll
+            DESTINATION bin)
+    INSTALL(PROGRAMS ${CMAKE_BINARY_DIR}/expressioneditor.exe DESTINATION bin)
 ENDIF()
 
-INSTALL(PROGRAMS ${CMAKE_BINARY_DIR}/expressioneditor DESTINATION bin)
