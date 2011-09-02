@@ -79,7 +79,6 @@ SET(expressioneditor_CPP_SRCS
     graphicsitemsettings.cpp
     main.cpp
     mainwindow.cpp
-    pcrewrapper.cpp
     regexfactory.cpp
     settingsdialog.cpp
     GraphicsItems/alternationgraphicsitem.cpp
