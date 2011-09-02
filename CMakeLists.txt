@@ -212,4 +212,24 @@ ENDIF()
 # Link to Qt and any optional libs
 TARGET_LINK_LIBRARIES(expressioneditor ${expressioneditor_LINK_LIBS})
 
+# CPack Configuration
+SET(CPACK_PACKAGE_EXECUTABLES expressioneditor)
+SET(CPACK_PACKAGE_FILE_NAME expressioneditor)
+SET(CPACK_PACKAGE_NAME ExpressionEditor)
+SET(CPACK_PACKAGE_VERSION_MAJOR 0)
+SET(CPACK_PACKAGE_VERSION_MINOR 1)
+SET(CPACK_PACKAGE_VERSION_PATCH 0)
+
+# Per-platform CPack Configuration
+IF(UNIX)
+    #
+ELSEIF(APPLE)
+    #
+ELSEIF(WIN32)
+    SET(CPACK_NSIS_MUI_ICON images/application-icon/expressioneditor.ico)
+    SET(CPACK_PACKAGE_ICON images/application-icon/256x256.png)
+
+    INSTALL(PROGRAMS ${QT_BINARY_DIR}/QtCore4.dll bin)
+ENDIF()
+
 INSTALL(PROGRAMS ${CMAKE_BINARY_DIR}/expressioneditor DESTINATION bin)
