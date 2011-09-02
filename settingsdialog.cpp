@@ -39,9 +39,10 @@ SettingsDialog::SettingsDialog(QWidget *parent)
     _ui->groupingSettings->setType("Grouping");
     connect(_ui->groupingSettings, SIGNAL(valueChanged()), this, SLOT(rehash()));
     _ui->alternationSettings->setType("Alternation");
-    connect(_ui->groupingSettings, SIGNAL(valueChanged()), this, SLOT(rehash()));
+    connect(_ui->alternationSettings, SIGNAL(valueChanged()), this, SLOT(rehash()));
     _ui->bracketExpressionSettings->setType("BracketExpression");
-    connect(_ui->groupingSettings, SIGNAL(valueChanged()), this, SLOT(rehash()));
+    connect(_ui->bracketExpressionSettings
+            , SIGNAL(valueChanged()), this, SLOT(rehash()));
 
     visualisationTabChanged(0);
 
@@ -81,6 +82,11 @@ void SettingsDialog::setValues()
     if(_ui->showNoncapturingGroupsCheckBox->isChecked())
         displayOptions |= GroupingGraphicsItem::DisplayNonCapturing;
     _settings.setValue("Visualisation/Grouping/DisplayOptions", displayOptions);
+
+    _ui->literalSettings->apply();
+    _ui->groupingSettings->apply();
+    _ui->alternationSettings->apply();
+    _ui->bracketExpressionSettings->apply();
 }
 
 void SettingsDialog::readValues()
@@ -122,6 +128,11 @@ void SettingsDialog::resetDialog()
     _ui->showNoncapturingGroupsCheckBox->setChecked(
                 _groupingDisplayOptions & GroupingGraphicsItem::DisplayNonCapturing
                 );
+
+    _ui->literalSettings->reset();
+    _ui->groupingSettings->reset();
+    _ui->alternationSettings->reset();
+    _ui->bracketExpressionSettings->reset();
 }
 
 void SettingsDialog::apply()

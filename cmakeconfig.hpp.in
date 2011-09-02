@@ -27,12 +27,12 @@
 #define CMAKECONFIG_HPP_IN
 
 //! Compiles out support for POSIX (regex.h)
-/* #undef NO_POSIX */
+#cmakedefine NO_POSIX
 //! Compiles out support for PCRE
-/* #undef NO_PCRE */
+#cmakedefine NO_PCRE
 //! Compiles out support for ICU
-/* #undef NO_ICU */
+#cmakedefine NO_ICU
 //! Compiles in support for C++0x
-/* #undef WITH_CPP0X */
+#cmakedefine WITH_CPP0X
 
 #endif // CMAKECONFIG_HPP_IN
