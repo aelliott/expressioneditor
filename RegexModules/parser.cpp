@@ -34,6 +34,22 @@ Parser::~Parser()
         delete *iter;
 }
 
+bool Parser::parse(QString pattern)
+{
+    if(!pattern.isEmpty())
+        setExpression(pattern);
+
+    for(std::vector<Token *>::iterator iter = _tokens.begin(); iter != _tokens.end(); ++iter)
+        delete *iter;
+
+    _tokens.clear();
+
+    while(_pos < pattern.length())
+        handleToken(findMatch());
+
+    return true;
+}
+
 QString Parser::expression() const
 {
     return _expression;

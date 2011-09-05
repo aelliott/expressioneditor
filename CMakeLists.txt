@@ -149,8 +149,8 @@ message("#################################")
 # Add POSIX if available/used
 if(NOT NO_POSIX)
     message("## -- Building POSIX Support   ##")
-    LIST(APPEND expressioneditor_HPP_SRCS RegexModules/posixregex.hpp)
-    LIST(APPEND expressioneditor_CPP_SRCS RegexModules/posixregex.cpp)
+    LIST(APPEND expressioneditor_HPP_SRCS RegexModules/posixparser.hpp RegexModules/posixregex.hpp)
+    LIST(APPEND expressioneditor_CPP_SRCS RegexModules/posixparser.cpp RegexModules/posixregex.cpp)
 else()
     message("## NOT Building POSIX Support  ##")
 endif(NOT NO_POSIX)
@@ -158,8 +158,14 @@ endif(NOT NO_POSIX)
 # Add PCRE if available/used
 if(NOT NO_PCRE)
     message("## -- Building PCRE Support    ##")
-    LIST(APPEND expressioneditor_HPP_SRCS RegexModules/pcreregex.hpp RegexModules/perlregex.hpp)
-    LIST(APPEND expressioneditor_CPP_SRCS RegexModules/pcreregex.cpp RegexModules/perlregex.cpp pcrewrapper.cpp)
+    LIST(APPEND expressioneditor_HPP_SRCS RegexModules/pcreparser.hpp
+                                          RegexModules/pcreregex.hpp
+                                          RegexModules/perlregex.hpp
+                                          )
+    LIST(APPEND expressioneditor_CPP_SRCS RegexModules/pcreparser.cpp
+                                          RegexModules/pcreregex.cpp
+                                          RegexModules/perlregex.cpp
+                                          pcrewrapper.cpp)
     LIST(APPEND expressioneditor_LINK_LIBS pcre pcrecpp)
 else()
     message("## NOT Building PCRE Support   ##")
@@ -168,8 +174,8 @@ endif(NOT NO_PCRE)
 # Add ICU if available/used
 if(NOT NO_ICU)
     message("## -- Building ICU Support     ##")
-    LIST(APPEND expressioneditor_HPP_SRCS RegexModules/icuregex.hpp)
-    LIST(APPEND expressioneditor_CPP_SRCS RegexModules/icuregex.cpp)
+    LIST(APPEND expressioneditor_HPP_SRCS RegexModules/icuparser.hpp RegexModules/icuregex.hpp)
+    LIST(APPEND expressioneditor_CPP_SRCS RegexModules/icuparser.cpp RegexModules/icuregex.cpp)
     LIST(APPEND expressioneditor_LINK_LIBS icui18n icuuc icudata)
 else()
     message("## NOT Building ICU Support    ##")

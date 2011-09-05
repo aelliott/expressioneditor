@@ -19,21 +19,14 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef QTPARSER_HPP
-#define QTPARSER_HPP
+#include "posixparser.hpp"
 
-#include "RegexModules/parser.hpp"
-
-class QtParser : public Parser
+PosixParser::PosixParser(QString pattern, QObject *parent)
+    : Parser(pattern, parent)
 {
-    Q_OBJECT
+}
 
-public:
-    explicit QtParser(QString pattern = QString(), QObject *parent = 0);
+void PosixParser::handleToken(RegexpToken token)
+{
 
-public slots:
-    //bool parse(QString pattern = QString());
-    void handleToken(RegexpToken token);
-};
-
-#endif // QTPARSER_HPP
+}

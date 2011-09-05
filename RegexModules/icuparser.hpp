@@ -19,45 +19,20 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef PARSER_HPP
-#define PARSER_HPP
+#ifndef ICUPARSER_HPP
+#define ICUPARSER_HPP
 
-#include <QObject>
-#include <QRegExp>
-#include <QDebug>
-#include <vector>
-#include <map>
+#include "RegexModules/parser.hpp"
 
-#include "RegexModules/token.hpp"
-
-class Parser : public QObject
+class IcuParser : public Parser
 {
     Q_OBJECT
-
 public:
-    explicit Parser(QString pattern = QString(), QObject *parent = 0);
-    virtual ~Parser();
+    explicit IcuParser(QString pattern = QString(), QObject *parent = 0);
 
 public slots:
-    virtual bool parse(QString pattern = QString());
-    virtual void handleToken(RegexpToken token) = 0;
-
-    QString expression() const;
-    std::vector<Token *> tokens() const;
-
-    void setExpression(QString pattern);
-
-protected:
-    RegexpToken findMatch();
-
-    QString _expression;
-    int _pos;
-    int _matchLength;
-    int _bracketCount;
-    bool _inCharacterClass;
-    bool _inFlags;
-    std::vector<Token *> _tokens;
-    std::map<RegexpToken, QString> _syntax;
+    //bool parse(QString pattern = QString());
+    void handleToken(RegexpToken token);
 };
 
-#endif // PARSER_HPP
+#endif // ICUPARSER_HPP

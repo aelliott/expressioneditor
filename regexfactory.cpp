@@ -106,6 +106,29 @@ Parser *RegexFactory::regexpParser(RegexFormat type)
 
     switch(usedFormat)
     {
+#ifndef NO_PCRE
+    case PCRE:
+        return new PcreParser();
+        break;
+    //case PerlEmulation:
+        //return new PerlParser();
+        //break;
+#endif // NO_PCRE
+#ifndef NO_POSIX
+    case POSIX:
+        return new PosixParser();
+        break;
+#endif // NO_POSIX
+#ifndef NO_ICU
+    case ICU:
+        return new IcuParser();
+        break;
+#endif // NO_ICU
+#ifdef WITH_CPP0X
+    case CPP0X:
+        return new Cpp0xParser();
+        break;
+#endif // WITH_CPP0X
     case Qt:
     default:
         return new QtParser();

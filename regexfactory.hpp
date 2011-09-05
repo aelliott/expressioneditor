@@ -27,15 +27,18 @@
 #include "cmakeconfig.hpp"
 
 #ifndef NO_POSIX
+#include "RegexModules/posixparser.hpp"
 #include "RegexModules/posixregex.hpp"
 #endif
 
 #ifndef NO_PCRE
+#include "RegexModules/pcreparser.hpp"
 #include "RegexModules/pcreregex.hpp"
 #include "RegexModules/perlregex.hpp"
 #endif // NO_PCRE
 
 #ifndef NO_ICU
+#include "RegexModules/icuparser.hpp"
 #include "RegexModules/icuregex.hpp"
 #endif // NO_ICU
 

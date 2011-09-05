@@ -87,22 +87,6 @@ QtParser::QtParser(QString pattern, QObject *parent)
                    "\\\\[0-7]{3}"));
 }
 
-bool QtParser::parse(QString pattern)
-{
-    if(!pattern.isEmpty())
-        setExpression(pattern);
-
-    for(std::vector<Token *>::iterator iter = _tokens.begin(); iter != _tokens.end(); ++iter)
-        delete *iter;
-
-    _tokens.clear();
-
-    while(_pos < pattern.length())
-        handleToken(findMatch());
-
-    return true;
-}
-
 void QtParser::handleToken(RegexpToken token)
 {
     QRegExp groupingClose(_syntax[T_GROUPING_CLOSE]);

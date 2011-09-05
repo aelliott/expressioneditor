@@ -61,15 +61,15 @@ enum RegexpToken
     T_CONDITIONAL_THEN, // after the "if" portion
     T_CONDITIONAL_ELSE, // | after the "then" portion
     T_CONDITIONAL_CLOSE, // )
-    T_NAMED_BACKREFERENCE, // (?P=name) or \g<name> or \g{name} or \g<name> or \g'name' or \k<name> or \k'name'
+    T_NAMED_BACKREFERENCE, // (?<P=name>) or \g<name> or \g{name} or \g'name' or \k<name> or \k'name'
     T_REPEAT_ZERO_OR_ONE_NONGREEDY, // ??
     T_REPEAT_ANY_NUMBER_NONGREEDY, // *?
     T_REPEAT_ONE_OR_MORE_NONGREEDY, // +?
     T_REPEAT_SPECIFIED_NONGREEDY, // {m,n}?
-    T_REPEAT_ZERO_OR_ONE_POSESSIVE, // ?+
-    T_REPEAT_ANY_NUMBER_POSESSIVE, // *+
-    T_REPEAT_ONE_OR_MORE_POSESSIVE, // ++
-    T_REPEAT_SPECIFIED_POSESSIVE, // {m,n}+
+    T_REPEAT_ZERO_OR_ONE_POSSESSIVE, // ?+
+    T_REPEAT_ANY_NUMBER_POSSESSIVE, // *+
+    T_REPEAT_ONE_OR_MORE_POSSESSIVE, // ++
+    T_REPEAT_SPECIFIED_POSSESSIVE, // {m,n}+
     T_QUOTE_SEQUENCE_OPEN, // \Q
     T_QUOTE_SEQUENCE_CLOSE, // \E
     T_FIRST_MATCHING_POSITION, // \G
