@@ -66,7 +66,8 @@ QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphic
     AlternationGraphicsItem *alternation;
     BracketExpressionGraphicsItem *bracketExpression;
     QGraphicsLinearLayout *newLayout;
-    bool capturing = false;
+    bool capturing = true;
+    bool named = false;
     bool negated = true;
     _incremented = false;
 
@@ -105,10 +106,10 @@ QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphic
         }
         _lastItem = alternation;
         break;
+    case T_NAMED_GROUPING_OPEN:
     case T_GROUPING_OPEN:
-        capturing = !capturing;
     case T_REVERSED_CAPTURING_GROUPING_OPEN:
-        grouping = new GroupingGraphicsItem(capturing);
+        grouping = new GroupingGraphicsItem(token, capturing);
         currentLayout->addItem(grouping);
         //currentLayout->setAlignment(grouping, Qt::AlignVCenter | Qt::AlignLeft);
         ++_iter;

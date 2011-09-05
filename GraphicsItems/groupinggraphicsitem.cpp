@@ -21,11 +21,26 @@
  */
 #include "groupinggraphicsitem.hpp"
 
-GroupingGraphicsItem::GroupingGraphicsItem(bool capturing, QString name, QGraphicsItem *parent)
+GroupingGraphicsItem::GroupingGraphicsItem(Token token, bool defaultCapturing, QGraphicsItem *parent)
     : QGraphicsWidget(parent)
-    , _capturing(capturing)
-    , _name(name)
+    , _token(token)
+    , _defaultCapturing(defaultCapturing)
 {
+    if(token.type() == T_REVERSED_CAPTURING_GROUPING_OPEN)
+        _capturing = !_defaultCapturing;
+    else
+        _capturing = _defaultCapturing;
+
+    if(token.type() == T_NAMED_GROUPING_OPEN)
+    {
+        QRegExp rx("<([^>]+)>|'([^']+)'");
+        if(rx.indexIn(token.value()) != -1)
+        {
+            _name = rx.cap(1);
+            _title = new QGraphicsTextItem(QString("Grouping \"") + _name + "\"", this);
+        }
+    }
+
     _layout = new QGraphicsLinearLayout(Qt::Horizontal);
 
     setLinearLayout(_layout);
@@ -50,14 +65,17 @@ void GroupingGraphicsItem::setLinearLayout(QGraphicsLinearLayout *layout)
     double verticalPadding   = 0.0;
     if((_capturing && (displayOptions & DisplayCapturing))
             || (!_capturing && (displayOptions & DisplayNonCapturing))
-            || (!_name.isEmpty() && (displayOptions & DisplayCapturing))
+            || (!_name.isEmpty() && (displayOptions & DisplayNamed))
             )
     {
         horizontalPadding = settings.value("Visualisation/Grouping/HorizontalPadding", 8.0).toDouble();
         verticalPadding   = settings.value("Visualisation/Grouping/VerticalPadding", 6.0).toDouble();
     }
 
-    _layout->setContentsMargins(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding);
+    if(!_name.isEmpty() && (displayOptions & DisplayNamed))
+        _layout->setContentsMargins(horizontalPadding, 2*verticalPadding + _title->boundingRect().height(), horizontalPadding, verticalPadding);
+    else
+        _layout->setContentsMargins(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding);
 
     _layout = layout;
     setLayout(layout);
@@ -72,16 +90,25 @@ QRectF GroupingGraphicsItem::boundingRect() const
     double verticalPadding   = 0.0;
     if((_capturing && (displayOptions & DisplayCapturing))
             || (!_capturing && (displayOptions & DisplayNonCapturing))
-            || (!_name.isEmpty() && (displayOptions & DisplayCapturing))
+            || (!_name.isEmpty() && (displayOptions & DisplayNamed))
             )
     {
         horizontalPadding = settings.value("Visualisation/Grouping/HorizontalPadding", 8.0).toDouble();
         verticalPadding   = settings.value("Visualisation/Grouping/VerticalPadding", 6.0).toDouble();
     }
-    _layout->setContentsMargins(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding);
+    if(!_name.isEmpty() && (displayOptions & DisplayNamed))
+        _layout->setContentsMargins(horizontalPadding, 2*verticalPadding + _title->boundingRect().height(), horizontalPadding, verticalPadding);
+    else
+        _layout->setContentsMargins(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding);
     QSizeF childrenRect = _layout->sizeHint(Qt::PreferredSize);
 
-    return QRectF(0, 0, childrenRect.width(), childrenRect.height());
+    if(!_name.isEmpty() && (displayOptions & DisplayNamed))
+        return QRectF(0,
+                      0,
+                      qMax(childrenRect.width(), _title->boundingRect().width() + 2*horizontalPadding),
+                      qMax(childrenRect.height(), _title->boundingRect().height() + 2*verticalPadding));
+    else
+        return QRectF(0, 0, childrenRect.width(), childrenRect.height());
 }
 
 void GroupingGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -91,6 +118,8 @@ void GroupingGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
 
     QSettings settings;
     int displayOptions = settings.value("Visualisation/Grouping/DisplayOptions", (DisplayCapturing | DisplayNamed)).toInt();
+    double horizontalPadding = settings.value("Visualisation/Grouping/HorizontalPadding", 8.0).toDouble();
+    double verticalPadding   = settings.value("Visualisation/Grouping/VerticalPadding", 6.0).toDouble();
     double cornerRadius   = settings.value("Visualisation/Grouping/CornerRadius", 5.0).toDouble();
     QColor bgColor = settings.value("Visualisation/Grouping/Color", QColor(245,245,245)).value<QColor>();
 
@@ -101,7 +130,12 @@ void GroupingGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
             || (!_capturing && (displayOptions & DisplayNonCapturing))
             || (!_name.isEmpty() && (displayOptions & DisplayCapturing))
             )
-    painter->drawRoundedRect(boundingRect(), cornerRadius, cornerRadius);
+    {
+        if(!_name.isEmpty())
+            _title->setPos(horizontalPadding, verticalPadding);
+
+        painter->drawRoundedRect(boundingRect(), cornerRadius, cornerRadius);
+    }
 }
 
 QSizeF GroupingGraphicsItem::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const
