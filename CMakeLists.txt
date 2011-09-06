@@ -85,6 +85,7 @@ SET(expressioneditor_CPP_SRCS
     GraphicsItems/anchorgraphicsitem.cpp
     GraphicsItems/bracketexpressiongraphicsitem.cpp
     GraphicsItems/characterclassitem.cpp
+    GraphicsItems/commentgraphicsitem.cpp
     GraphicsItems/errorgraphicsitem.cpp
     GraphicsItems/expressiongraphicsitem.cpp
     GraphicsItems/groupinggraphicsitem.cpp
@@ -109,6 +110,7 @@ SET(expressioneditor_HPP_SRCS
     GraphicsItems/anchorgraphicsitem.hpp
     GraphicsItems/bracketexpressiongraphicsitem.hpp
     GraphicsItems/characterclassitem.hpp
+    GraphicsItems/commentgraphicsitem.hpp
     GraphicsItems/errorgraphicsitem.hpp
     GraphicsItems/expressiongraphicsitem.hpp
     GraphicsItems/groupinggraphicsitem.hpp
@@ -166,7 +168,7 @@ if(NOT NO_PCRE)
                                           RegexModules/pcreregex.cpp
                                           RegexModules/perlregex.cpp
                                           pcrewrapper.cpp)
-    LIST(APPEND expressioneditor_LINK_LIBS pcre pcrecpp)
+    LIST(APPEND expressioneditor_LINK_LIBS ${HAVE_PCRE} ${HAVE_PCRECPP})
 else()
     message("## NOT Building PCRE Support   ##")
 endif(NOT NO_PCRE)
@@ -176,7 +178,7 @@ if(NOT NO_ICU)
     message("## -- Building ICU Support     ##")
     LIST(APPEND expressioneditor_HPP_SRCS RegexModules/icuparser.hpp RegexModules/icuregex.hpp)
     LIST(APPEND expressioneditor_CPP_SRCS RegexModules/icuparser.cpp RegexModules/icuregex.cpp)
-    LIST(APPEND expressioneditor_LINK_LIBS icui18n icuuc icudata)
+    LIST(APPEND expressioneditor_LINK_LIBS ${HAVE_ICU_I18N} ${HAVE_ICU_UC} ${HAVE_ICU_DATA})
 else()
     message("## NOT Building ICU Support    ##")
 endif(NOT NO_ICU)

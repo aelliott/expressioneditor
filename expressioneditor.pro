@@ -41,7 +41,8 @@ SOURCES += main.cpp\
     GraphicsItems/bracketexpressiongraphicsitem.cpp \
     RegexModules/pcreparser.cpp \
     RegexModules/posixparser.cpp \
-    RegexModules/icuparser.cpp
+    RegexModules/icuparser.cpp \
+    GraphicsItems/commentgraphicsitem.cpp
 
 HEADERS  += mainwindow.hpp \
     RegexModules/regexbase.hpp \
@@ -74,7 +75,8 @@ HEADERS  += mainwindow.hpp \
     GraphicsItems/bracketexpressiongraphicsitem.hpp \
     RegexModules/pcreparser.hpp \
     RegexModules/posixparser.hpp \
-    RegexModules/icuparser.hpp
+    RegexModules/icuparser.hpp \
+    GraphicsItems/commentgraphicsitem.hpp
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui \

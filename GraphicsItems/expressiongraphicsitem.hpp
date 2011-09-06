@@ -32,6 +32,7 @@
 #include "GraphicsItems/anchorgraphicsitem.hpp"
 #include "GraphicsItems/bracketexpressiongraphicsitem.hpp"
 #include "GraphicsItems/characterclassitem.hpp"
+#include "GraphicsItems/commentgraphicsitem.hpp"
 #include "GraphicsItems/errorgraphicsitem.hpp"
 #include "GraphicsItems/groupinggraphicsitem.hpp"
 #include "GraphicsItems/literalgraphicsitem.hpp"
