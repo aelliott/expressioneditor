@@ -22,6 +22,7 @@
 #ifndef EXPRESSIONGRAPHICSITEM_HPP
 #define EXPRESSIONGRAPHICSITEM_HPP
 
+#include <QGraphicsScene>
 #include <QGraphicsWidget>
 #include <QGraphicsLinearLayout>
 
@@ -47,6 +48,10 @@ public:
     ~ExpressionGraphicsItem();
 
     QGraphicsLinearLayout *handleToken(Token token, QGraphicsLinearLayout *currentLayout);
+
+    QRectF boundingRect() const;
+
+    QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraint) const;
 
 signals:
     void expressionChanged(QString);

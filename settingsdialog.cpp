@@ -282,4 +282,6 @@ void SettingsDialog::rehash()
     scene->clear();
     _exampleVisualisation = new ExpressionGraphicsItem(_exampleExpression, RegexFactory::Qt);
     scene->addItem(_exampleVisualisation);
+    scene->setSceneRect(scene->itemsBoundingRect());
+    _ui->exampleExpressionView->setSceneRect(scene->itemsBoundingRect());
 }
