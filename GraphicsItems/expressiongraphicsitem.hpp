@@ -22,6 +22,7 @@
 #ifndef EXPRESSIONGRAPHICSITEM_HPP
 #define EXPRESSIONGRAPHICSITEM_HPP
 
+#include <QGraphicsScene>
 #include <QGraphicsWidget>
 #include <QGraphicsLinearLayout>
 
@@ -32,6 +33,7 @@
 #include "GraphicsItems/anchorgraphicsitem.hpp"
 #include "GraphicsItems/bracketexpressiongraphicsitem.hpp"
 #include "GraphicsItems/characterclassitem.hpp"
+#include "GraphicsItems/commentgraphicsitem.hpp"
 #include "GraphicsItems/errorgraphicsitem.hpp"
 #include "GraphicsItems/groupinggraphicsitem.hpp"
 #include "GraphicsItems/literalgraphicsitem.hpp"
@@ -46,6 +48,10 @@ public:
     ~ExpressionGraphicsItem();
 
     QGraphicsLinearLayout *handleToken(Token token, QGraphicsLinearLayout *currentLayout);
+
+    QRectF boundingRect() const;
+
+    QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraint) const;
 
 signals:
     void expressionChanged(QString);

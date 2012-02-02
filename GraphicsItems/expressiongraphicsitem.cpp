@@ -48,6 +48,7 @@ ExpressionGraphicsItem::ExpressionGraphicsItem(QString expression, RegexFactory:
         if(_iter != _tokens.end() && !_incremented)
             ++_iter;
     }
+    _root->setContentsMargins(10, 10, 10, 10);
     setLayout(_root);
 
     delete parser;
@@ -181,6 +182,26 @@ QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphic
         currentLayout->addItem(repeat);
         _lastItem = repeat;
         break;
+    case T_COMMENT_OPEN:
+        ++_iter;
+        _incremented = true;
+
+        if(_iter != _tokens.end() && (*_iter)->type() == T_LITERAL)
+        {
+            newItem = new CommentGraphicsItem((*_iter)->value());
+            currentLayout->addItem(newItem);
+            ++_iter;
+            if(_iter != _tokens.end() && (*_iter)->type() == T_COMMENT_CLOSE)
+                ++_iter;
+        }
+        else if(_iter != _tokens.end() && (*_iter)->type() == T_COMMENT_CLOSE)
+        {
+            newItem = new CommentGraphicsItem("");
+            currentLayout->addItem(newItem);
+            ++_iter;
+        }
+        _lastItem = newItem;
+        break;
     default:
         newItem = new ErrorGraphicsItem(token.value());
         currentLayout->addItem(newItem);
@@ -188,7 +209,24 @@ QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphic
         _lastItem = newItem;
     }
 
+    _lastItem->setGeometry(_lastItem->boundingRect());
     currentLayout->setAlignment(_lastItem, Qt::AlignVCenter | Qt::AlignLeft);
+    currentLayout->setGeometry(QRectF(0, 0, currentLayout->sizeHint(Qt::PreferredSize).width(),
+                               currentLayout->sizeHint(Qt::PreferredSize).height()));
 
     return currentLayout;
+}
+
+QRectF ExpressionGraphicsItem::boundingRect() const
+{
+    return QRectF(0, 0, _root->geometry().width()+20, _root->geometry().height() + 20 );
+}
+
+QSizeF ExpressionGraphicsItem::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const
+{
+    Q_UNUSED(which)
+    Q_UNUSED(constraint)
+
+    QRectF rect = boundingRect();
+    return QSizeF(rect.width(), rect.height());
 }
