@@ -246,6 +246,12 @@ ELSEIF(WIN32)
                      ${QT_BINARY_DIR}/mingwm10.dll
                      ${QT_BINARY_DIR}/libgcc_s_dw2-1.dll
             DESTINATION bin)
+
+    IF(NOT NO_PCRE)
+        INSTALL(PROGRAMS ${PCRE_PATH}/libpcre.dll
+                         ${PCRE_PATH}/libpcrecpp.dll
+                DESTINATION bin)
+    ENDIF(NOT NO_PCRE)
     INSTALL(PROGRAMS ${CMAKE_BINARY_DIR}/expressioneditor.exe DESTINATION bin)
 ENDIF()
 
