@@ -81,6 +81,7 @@ SET(expressioneditor_CPP_SRCS
     mainwindow.cpp
     regexfactory.cpp
     settingsdialog.cpp
+    testinputswidget.cpp
     GraphicsItems/alternationgraphicsitem.cpp
     GraphicsItems/anchorgraphicsitem.cpp
     GraphicsItems/bracketexpressiongraphicsitem.cpp
@@ -106,6 +107,7 @@ SET(expressioneditor_HPP_SRCS
     graphicsitemsettings.hpp
     mainwindow.hpp
     settingsdialog.hpp
+    testinputswidget.hpp
     GraphicsItems/alternationgraphicsitem.hpp
     GraphicsItems/anchorgraphicsitem.hpp
     GraphicsItems/bracketexpressiongraphicsitem.hpp

@@ -73,6 +73,8 @@ MainWindow::MainWindow(QWidget *parent)
     _ui->expressionView->setSceneRect(scene->itemsBoundingRect());
 
     _blockHighlighter = new BlockHighlighter(_ui->textBlockEdit);
+
+    _ui->testInputsTable->setRegexFactory(_factory);
 }
 
 /*!
@@ -241,6 +243,7 @@ void MainWindow::updateExpression(QString expression)
     }
 
     _blockHighlighter->updateExpression(_expression);
+    _ui->testInputsTable->updateExpression(_expression);
 }
 
 void MainWindow::updateRecentFiles()

@@ -374,7 +374,7 @@
             </attribute>
             <layout class="QVBoxLayout" name="verticalLayout_9">
              <item>
-              <widget class="QTableWidget" name="testInputsTable">
+              <widget class="TestInputsWidget" name="testInputsTable">
                <property name="alternatingRowColors">
                 <bool>true</bool>
                </property>
@@ -634,6 +634,14 @@
    <class>ExpressionEdit</class>
    <extends>QTextEdit</extends>
    <header>expressionedit.hpp</header>
+  </customwidget>
+  <customwidget>
+   <class>TestInputsWidget</class>
+   <extends>QTableWidget</extends>
+   <header>testinputswidget.hpp</header>
+   <slots>
+    <slot>updateExpression(QString)</slot>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources>
