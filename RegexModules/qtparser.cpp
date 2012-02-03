@@ -272,6 +272,13 @@ void QtParser::handleToken(RegexpToken token)
     case T_REPEAT_SPECIFIED:
         switch(_tokens[_tokens.size()-1]->type())
         {
+        case T_REPEAT_ZERO_OR_ONE:
+        case T_REPEAT_ANY_NUMBER:
+        case T_REPEAT_ONE_OR_MORE:
+        case T_REPEAT_SPECIFIED:
+            _tokens.push_back(new Token(T_ERROR, _expression.mid(_pos, _matchLength)));
+            _pos += _matchLength;
+            break;
         case T_LITERAL:
             character = _tokens[_tokens.size()-1]->value().right(1);
             tmp = _tokens[_tokens.size()-1]->value();
