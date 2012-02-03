@@ -281,26 +281,10 @@ void QtParser::handleToken(RegexpToken token)
                 _tokens[_tokens.size()-1]->setValue(tmp);
                 _tokens.push_back(new Token(T_LITERAL, character));
             }
-        case T_ANY_CHARACTER:
-        case T_STARTING_POSITION:
-        case T_ENDING_POSITION:
-        case T_BACKREFERENCE:
-        case T_WORD:
-        case T_NOT_WORD:
-        case T_DIGIT:
-        case T_NOT_DIGIT:
-        case T_SPACE:
-        case T_NOT_SPACE:
-        case T_WORD_BOUNDARY:
-        case T_NOT_WORD_BOUNDARY:
-        case T_GROUPING_CLOSE:
-        case T_ASSERTION_CLOSE:
+        default:
             _tokens.push_back(new Token(token, _expression.mid(_pos, _matchLength)));
             _pos += _matchLength;
             break;
-        default:
-            _tokens.push_back(new Token(T_ERROR, _expression.mid(_pos, _matchLength)));
-            _pos += _matchLength;
         }
         break;
     default:
