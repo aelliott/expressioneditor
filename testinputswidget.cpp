@@ -112,6 +112,11 @@ void TestInputsWidget::updateResults()
 
             if(exact || partial > -1)
             {
+                // If it's an exact match run it again to make sure we caught
+                // everything for the capture groups
+                if(exact)
+                    regexp->exactMatch(input);
+
                 QStringList matches = regexp->capturedTexts();
                 QString matchString = "";
                 for(int j = 0; j < matches.length(); ++j)
@@ -130,6 +135,8 @@ void TestInputsWidget::updateResults()
                 item(i, 3)->setText("");
             }
         }
+
+        resizeRowToContents(i);
     }
 }
 
