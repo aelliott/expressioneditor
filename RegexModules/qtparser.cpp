@@ -276,6 +276,11 @@ void QtParser::handleToken(RegexpToken token)
         case T_REPEAT_ANY_NUMBER:
         case T_REPEAT_ONE_OR_MORE:
         case T_REPEAT_SPECIFIED:
+        case T_GROUPING_OPEN:
+        case T_ALTERNATION:
+        case T_REVERSED_CAPTURING_GROUPING_OPEN:
+        case T_POSITIVE_LOOKAHEAD_ASSERTION_OPEN:
+        case T_NEGATIVE_LOOKAHEAD_ASSERTION_OPEN:
             _tokens.push_back(new Token(T_ERROR, _expression.mid(_pos, _matchLength)));
             _pos += _matchLength;
             break;

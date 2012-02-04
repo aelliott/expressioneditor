@@ -23,6 +23,7 @@
 #define TOKEN_HPP
 
 #include <QString>
+#include <QDebug>
 #include "tokens.hpp"
 
 /*!
@@ -48,5 +49,7 @@ private:
     RegexpToken _type;
     QString _value;
 };
+
+QDebug operator<<(QDebug dbg, const Token &t);
 
 #endif // TOKEN_HPP

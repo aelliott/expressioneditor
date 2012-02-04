@@ -46,3 +46,10 @@ void Token::setValue(QString val)
 {
     _value = val;
 }
+
+QDebug operator<<(QDebug dbg, const Token &t)
+{
+    dbg.nospace() << "Token(" << t.type() << ", " << t.value() << ")";
+
+    return dbg.space();
+}
