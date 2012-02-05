@@ -84,6 +84,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete _ui;
+    delete _factory;
 }
 
 void MainWindow::newExpression()
@@ -192,12 +193,26 @@ void MainWindow::regexpHelp()
 
 void MainWindow::applicationHelp()
 {
-
+    QMessageBox::information(this
+                             , tr("Expression Editor Help")
+                             , tr("<p>Documentation for Expression Editor is "
+                                  "located on its project page at "
+                                  "<a href=\"https://github.com/aelliott/expressioneditor/wiki\">https://github.com/aelliott/expressioneditor/wiki</a>")
+                             , QMessageBox::Ok
+                             );
 }
 
 void MainWindow::applicationAbout()
 {
-
+    QMessageBox::about(this
+                             , tr("About Expression Editor")
+                             , tr("<p>Expression Editor is a Regular Expression "
+                                  "editing tool intended to aid programmers in "
+                                  "writing and troubleshooting regular "
+                                  "expressions."
+                                  "<p>Expression Editor is free software "
+                                  "available under the terms of the GPLv3")
+                             );
 }
 
 void MainWindow::updateExpression()

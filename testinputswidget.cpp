@@ -138,6 +138,11 @@ void TestInputsWidget::updateResults()
 
         resizeRowToContents(i);
     }
+
+    // Also, if there is text in the last row insert a new one so people
+    // can continue to provide test inputs
+    if(item(rowCount()-1, 0) != 0)
+        setRowCount(rowCount()+1);
 }
 
 void TestInputsWidget::setRegexFactory(RegexFactory *factory)

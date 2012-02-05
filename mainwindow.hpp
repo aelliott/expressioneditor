@@ -27,6 +27,7 @@
 #include <QLabel>
 #include <QSignalMapper>
 #include <QCloseEvent>
+#include <QMessageBox>
 
 #include "regexfactory.hpp"
 #include "GraphicsItems/expressiongraphicsitem.hpp"

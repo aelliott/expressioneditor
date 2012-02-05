@@ -542,6 +542,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>expressionEdit</sender>
+   <signal>textChanged()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>updateExpression()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>640</x>
+     <y>354</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>743</x>
+     <y>352</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>newExpression()</slot>
