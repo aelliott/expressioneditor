@@ -74,6 +74,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     _ui->testInputsTable->setRegexFactory(_factory);
     _ui->textBlockEdit->setRegexFactory(_factory);
+
+    newExpression();
 }
 
 /*!
@@ -90,8 +92,6 @@ void MainWindow::newExpression()
     {
 
     }
-
-    _ui->stackedWidget->setCurrentIndex(1);
 
     // Restore window state
     QSettings settings;
