@@ -27,6 +27,9 @@ ExpressionEdit::ExpressionEdit(QWidget *parent)
     QSettings settings;
     _highlighting = settings.value("Editor/Highlighting", true).toBool();
 
+    recalculateHeight();
+    connect(this, SIGNAL(textChanged()), this, SLOT(recalculateHeight()));
+
     if(_highlighting)
         _highlighter = new ExpressionHighlighter(this);
 }
@@ -89,4 +92,25 @@ void ExpressionEdit::rehash()
         // Start highlighting
         _highlighter = new ExpressionHighlighter(this);
     }
+}
+
+void ExpressionEdit::recalculateHeight()
+{
+    int fontHeight = QFontMetrics(currentFont()).height()+1;
+    int height = fontHeight * 2;
+
+    // Determine the width of the expression and attempt to add the correct
+    // number of added line heights
+    int expressionWidth = QFontMetrics(currentFont()).width(toPlainText());
+    while(expressionWidth+10 > width())
+    {
+        height += fontHeight;
+        expressionWidth -= (width() + 10);
+    }
+
+    // Add another line for each line break found in the expression
+    if(toPlainText().contains("\n"))
+        height += fontHeight*toPlainText().count("\n");
+
+    setMaximumHeight(height);
 }

@@ -22,6 +22,7 @@
 #ifndef EXPRESSIONEDIT_HPP
 #define EXPRESSIONEDIT_HPP
 
+#include <QApplication>
 #include <QTextEdit>
 #include <QKeyEvent>
 #include <QSettings>
@@ -40,6 +41,7 @@ public:
 
 public slots:
     void rehash();
+    void recalculateHeight();
 
 private:
     bool _highlighting;
