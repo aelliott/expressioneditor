@@ -23,7 +23,15 @@
 
 LiteralGraphicsItem::LiteralGraphicsItem(QString text, QGraphicsItem *parent)
     : QGraphicsWidget(parent)
+    , _literal(text)
 {
+    // Do not display escaped characters in the literal graphics item
+    for(int i = 0; i < text.length(); ++i)
+    {
+        if(QString(text.at(i)) == QString("\\"))
+            text.remove(i, 1);
+    }
+
     _text = new QGraphicsTextItem(text, this);
 }
 

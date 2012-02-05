@@ -38,6 +38,7 @@ public:
     QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraint) const;
 
 private:
+    QString _literal;
     QGraphicsTextItem *_text;
 };
 
