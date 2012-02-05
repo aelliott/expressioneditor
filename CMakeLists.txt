@@ -81,7 +81,9 @@ SET(expressioneditor_CPP_SRCS
     mainwindow.cpp
     regexfactory.cpp
     settingsdialog.cpp
+    testblockwidget.cpp
     testinputswidget.cpp
+    testsearchreplacewidget.cpp
     GraphicsItems/alternationgraphicsitem.cpp
     GraphicsItems/anchorgraphicsitem.cpp
     GraphicsItems/bracketexpressiongraphicsitem.cpp
@@ -107,7 +109,9 @@ SET(expressioneditor_HPP_SRCS
     graphicsitemsettings.hpp
     mainwindow.hpp
     settingsdialog.hpp
+    testblockwidget.hpp
     testinputswidget.hpp
+    testsearchreplacewidget.hpp
     GraphicsItems/alternationgraphicsitem.hpp
     GraphicsItems/anchorgraphicsitem.hpp
     GraphicsItems/bracketexpressiongraphicsitem.hpp
@@ -129,6 +133,7 @@ SET(expressioneditor_UI_FILES
     graphicsitemsettings.ui
     mainwindow.ui
     settingsdialog.ui
+    testsearchreplacewidget.ui
 )
 
 # Set resource files

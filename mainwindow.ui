@@ -366,7 +366,7 @@
           </widget>
           <widget class="QTabWidget" name="testingTabWidget">
            <property name="currentIndex">
-            <number>0</number>
+            <number>2</number>
            </property>
            <widget class="QWidget" name="testInputsTab">
             <attribute name="title">
@@ -414,7 +414,7 @@
             </attribute>
             <layout class="QVBoxLayout" name="verticalLayout_10">
              <item>
-              <widget class="QTextEdit" name="textBlockEdit"/>
+              <widget class="TestBlockWidget" name="textBlockEdit"/>
              </item>
             </layout>
            </widget>
@@ -424,27 +424,7 @@
             </attribute>
             <layout class="QVBoxLayout" name="verticalLayout_11">
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_5">
-               <item>
-                <widget class="QLabel" name="replaceTextLabel">
-                 <property name="text">
-                  <string>Replace text:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLineEdit" name="replaceTextEdit"/>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <widget class="QSplitter" name="splitter_3">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <widget class="QTextEdit" name="replaceTextSource"/>
-               <widget class="QTextEdit" name="replaceTextDestination"/>
-              </widget>
+              <widget class="TestSearchReplaceWidget" name="searchReplace" native="true"/>
              </item>
             </layout>
            </widget>
@@ -642,6 +622,17 @@
    <slots>
     <slot>updateExpression(QString)</slot>
    </slots>
+  </customwidget>
+  <customwidget>
+   <class>TestBlockWidget</class>
+   <extends>QTextEdit</extends>
+   <header>testblockwidget.hpp</header>
+  </customwidget>
+  <customwidget>
+   <class>TestSearchReplaceWidget</class>
+   <extends>QWidget</extends>
+   <header>testsearchreplacewidget.hpp</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

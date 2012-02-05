@@ -1,7 +1,7 @@
 /*!
  * \file
  *
- * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
+ * Copyright (c) 2012 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
@@ -19,35 +19,31 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef BLOCKHIGHLIGHTER_HPP
-#define BLOCKHIGHLIGHTER_HPP
+#ifndef TESTBLOCKWIDGET_HPP
+#define TESTBLOCKWIDGET_HPP
 
-#include <QSyntaxHighlighter>
+#include <QTextEdit>
 #include "regexfactory.hpp"
+#include "blockhighlighter.hpp"
 
-/*!
- * \brief This class highlights all matched sections of a block of text
- *        against the current regular expression.
- *
- * The class uses the current defined regular expression type, and the current
- * regular expression to highlight all matches within the QTextEdit containing
- * the block of text we are using to test against.
- */
-class BlockHighlighter : public QSyntaxHighlighter
+namespace Ui {
+    class TestBlockWidget;
+}
+
+class TestBlockWidget : public QTextEdit
 {
     Q_OBJECT
 
 public:
-    explicit BlockHighlighter(RegexFactory *factory, QTextEdit *parent = 0);
-    ~BlockHighlighter();
-    void highlightBlock(const QString &text);
+    explicit TestBlockWidget(QWidget *parent = 0);
+    ~TestBlockWidget();
 
-public slots:
-    void updateExpression(QString exp);
+    void setRegexFactory(RegexFactory *factory);
+    void updateExpression(QString expression);
 
 private:
+    BlockHighlighter *_blockHighlighter;
     RegexFactory *_factory;
-    QString _expression;
 };
 
-#endif // BLOCKHIGHLIGHTER_HPP
+#endif // TESTBLOCKWIDGET_HPP

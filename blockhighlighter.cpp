@@ -27,10 +27,11 @@
  *
  * \param   parent  The QTextEdit to highlight
  */
-BlockHighlighter::BlockHighlighter(QTextEdit *parent) : QSyntaxHighlighter(parent)
+BlockHighlighter::BlockHighlighter(RegexFactory *factory, QTextEdit *parent)
+    : QSyntaxHighlighter(parent)
+    , _factory(factory)
+    , _expression(QString())
 {
-    _factory = new RegexFactory();
-    _rx = _factory->regexpEngine(QString());
 }
 
 /*!
@@ -38,8 +39,6 @@ BlockHighlighter::BlockHighlighter(QTextEdit *parent) : QSyntaxHighlighter(paren
  */
 BlockHighlighter::~BlockHighlighter()
 {
-    delete _rx;
-    delete _factory;
 }
 
 /*!
@@ -58,8 +57,10 @@ BlockHighlighter::~BlockHighlighter()
  */
 void BlockHighlighter::highlightBlock(const QString &text)
 {
+    RegexBase *rx = _factory->regexpEngine(_expression);
+
     // If it's invalid we have nothing to do
-    if(!_rx->isValid())
+    if(!rx->isValid())
         return;
 
     // Define the two alternating text formats we're going to use
@@ -71,9 +72,9 @@ void BlockHighlighter::highlightBlock(const QString &text)
     int offset = 0;
     bool isRed = true;
 
-    while((offset = _rx->indexIn(text, offset)) != -1)
+    while((offset = rx->indexIn(text, offset)) != -1)
     {
-        int length = _rx->matchedLength();
+        int length = rx->matchedLength();
         // Fix for infinite looping
         if(length == 0)
             return;
@@ -86,6 +87,8 @@ void BlockHighlighter::highlightBlock(const QString &text)
         isRed = !isRed;
         offset += length;
     }
+
+    delete rx;
 }
 
 /*!
@@ -95,17 +98,6 @@ void BlockHighlighter::highlightBlock(const QString &text)
  */
 void BlockHighlighter::updateExpression(QString exp)
 {
-    delete _rx;
-    _rx = _factory->regexpEngine(exp);
-}
-
-/*!
- * Slot to receive any changes to the regular expression format used
- *
- * \param   type    The expression format to use
- */
-void BlockHighlighter::setRegexpFormat(RegexFactory::RegexFormat type)
-{
-    _factory->setRegexpFormat(type);
-    updateExpression(_rx->getExpression());
+    _expression = exp;
+    rehighlight();
 }

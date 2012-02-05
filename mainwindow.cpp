@@ -72,9 +72,8 @@ MainWindow::MainWindow(QWidget *parent)
     scene->setSceneRect(scene->itemsBoundingRect());
     _ui->expressionView->setSceneRect(scene->itemsBoundingRect());
 
-    _blockHighlighter = new BlockHighlighter(_ui->textBlockEdit);
-
     _ui->testInputsTable->setRegexFactory(_factory);
+    _ui->textBlockEdit->setRegexFactory(_factory);
 }
 
 /*!
@@ -153,34 +152,28 @@ void MainWindow::setRegexpFormat(int format)
     {
     case RegexFactory::Qt:
         _formatLabel->setText(tr("Qt Format"));
-        _blockHighlighter->setRegexpFormat(RegexFactory::Qt);
         break;
 #ifndef NO_PCRE
     case RegexFactory::PCRE:
         _formatLabel->setText(tr("PCRE Format"));
-        _blockHighlighter->setRegexpFormat(RegexFactory::PCRE);
         break;
     case RegexFactory::PerlEmulation:
         _formatLabel->setText(tr("Perl Emulation Format"));
-        _blockHighlighter->setRegexpFormat(RegexFactory::PerlEmulation);
         break;
 #endif // NO_PCRE
 #ifndef NO_POSIX
     case RegexFactory::POSIX:
         _formatLabel->setText(tr("POSIX ERE Format"));
-        _blockHighlighter->setRegexpFormat(RegexFactory::POSIX);
         break;
 #endif // NO_PCRE
 #ifndef NO_ICU
     case RegexFactory::ICU:
         _formatLabel->setText(tr("ICU Format"));
-        _blockHighlighter->setRegexpFormat(RegexFactory::ICU);
         break;
 #endif // NO_ICU
 #ifdef WITH_CPP0X
     case RegexFactory::CPP0X:
-        _formatLabel->setText(tr("C++0x Format");
-        _blockHighlighter->setRegexpFormat(RegexFactory::CPP0X);
+        _formatLabel->setText(tr("C++0x Format"));
         break;
 #endif // WITH_CPP0X
     }
@@ -242,8 +235,8 @@ void MainWindow::updateExpression(QString expression)
         _errorLabel->setText(QString("Error: ") + engine->getErrorString());
     }
 
-    _blockHighlighter->updateExpression(_expression);
     _ui->testInputsTable->updateExpression(_expression);
+    _ui->textBlockEdit->updateExpression(_expression);
 }
 
 void MainWindow::updateRecentFiles()

@@ -25,7 +25,6 @@ ExpressionGraphicsItem::ExpressionGraphicsItem(QString expression, RegexFactory:
     : QGraphicsWidget(parent)
     , _expression(expression)
 {
-    qDebug() << "Start";
     QSettings settings;
     _itemSpacing = settings.value("Visualisation/HorizontalSpacing", 8.0).toDouble();
 

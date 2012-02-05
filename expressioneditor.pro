@@ -43,7 +43,9 @@ SOURCES += main.cpp\
     RegexModules/posixparser.cpp \
     RegexModules/icuparser.cpp \
     GraphicsItems/commentgraphicsitem.cpp \
-    testinputswidget.cpp
+    testinputswidget.cpp \
+    testblockwidget.cpp \
+    testsearchreplacewidget.cpp
 
 HEADERS  += mainwindow.hpp \
     RegexModules/regexbase.hpp \
@@ -78,11 +80,14 @@ HEADERS  += mainwindow.hpp \
     RegexModules/posixparser.hpp \
     RegexModules/icuparser.hpp \
     GraphicsItems/commentgraphicsitem.hpp \
-    testinputswidget.hpp
+    testinputswidget.hpp \
+    testblockwidget.hpp \
+    testsearchreplacewidget.hpp
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui \
-    graphicsitemsettings.ui
+    graphicsitemsettings.ui \
+    testsearchreplacewidget.ui
 
 OTHER_FILES += \
     CMakeLists.txt \

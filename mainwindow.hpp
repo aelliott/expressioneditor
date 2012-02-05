@@ -32,7 +32,6 @@
 #include "GraphicsItems/expressiongraphicsitem.hpp"
 
 #include "settingsdialog.hpp"
-#include "blockhighlighter.hpp"
 #include "expressionedit.hpp"
 
 namespace Ui {
@@ -85,7 +84,6 @@ private:
     bool _edited;
     RegexFactory *_factory;
     ExpressionGraphicsItem *_visualisation;
-    BlockHighlighter *_blockHighlighter;
 };
 
 #endif // MAINWINDOW_HPP
