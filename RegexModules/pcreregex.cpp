@@ -111,13 +111,3 @@ void PcreRegex::setCaseSensitivity(bool caseSensitivity)
 {
 
 }
-
-QString PcreRegex::escape()
-{
-    return QString(_pcre.escape().c_str());
-}
-
-QString PcreRegex::escape(QString expression)
-{
-    return QString(_pcre.escape(expression.toStdString()).c_str());
-}

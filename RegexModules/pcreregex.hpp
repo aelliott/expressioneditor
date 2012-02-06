@@ -64,10 +64,6 @@ public:
     void setExpression(QString expression);
     void setOptions(RegexpOptions options);
     void setCaseSensitivity(bool caseSensitivity);
-
-    // Helpers
-    QString escape();
-    QString escape(const QString expression);
 };
 
 #endif // PCREREGEX_HPP

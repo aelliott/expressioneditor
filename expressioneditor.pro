@@ -18,7 +18,6 @@ SOURCES += main.cpp\
     RegexModules/perlregex.cpp \
     RegexModules/pcreregex.cpp \
     RegexModules/icuregex.cpp \
-    RegexModules/cpp0xregex.cpp \
     capturedstring.cpp \
     regexfactory.cpp \
     pcrewrapper.cpp \
@@ -45,7 +44,8 @@ SOURCES += main.cpp\
     GraphicsItems/commentgraphicsitem.cpp \
     testinputswidget.cpp \
     testblockwidget.cpp \
-    testsearchreplacewidget.cpp
+    testsearchreplacewidget.cpp \
+    RegexModules/cpp11regex.cpp
 
 HEADERS  += mainwindow.hpp \
     RegexModules/regexbase.hpp \
@@ -54,7 +54,6 @@ HEADERS  += mainwindow.hpp \
     RegexModules/perlregex.hpp \
     RegexModules/pcreregex.hpp \
     RegexModules/icuregex.hpp \
-    RegexModules/cpp0xregex.hpp \
     capturedstring.hpp \
     regexfactory.hpp \
     pcrewrapper.hpp \
@@ -82,7 +81,8 @@ HEADERS  += mainwindow.hpp \
     GraphicsItems/commentgraphicsitem.hpp \
     testinputswidget.hpp \
     testblockwidget.hpp \
-    testsearchreplacewidget.hpp
+    testsearchreplacewidget.hpp \
+    RegexModules/cpp11regex.hpp
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui \

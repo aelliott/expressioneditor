@@ -49,7 +49,7 @@ private:
     void parseCaptures(QString str, regmatch_t captures[]);
 
 public:
-    explicit PosixRegex(QString expression = QString(), QObject *parent = 0);
+    explicit PosixRegex(QString expression = QString(), int format = -1, QObject *parent = 0);
     ~PosixRegex();
 
     // Getters

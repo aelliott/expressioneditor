@@ -42,12 +42,12 @@
  * As of now most GCC versions do not seem to have a complete implementation of
  * regular expressions as part of tr1 or c++0x
  */
-class Cpp0xRegex : public RegexBase
+class Cpp11Regex : public RegexBase
 {
     Q_OBJECT
 
 public:
-    explicit Cpp0xRegex(QString expression = QString(), QObject *parent = 0);
+    explicit Cpp11Regex(QString expression = QString(), QObject *parent = 0);
 
     // Getters
     QString getExpression() const;
@@ -69,10 +69,6 @@ public:
     void setExpression(QString expr);
     void setOptions(RegexpOptions options);
     void setCaseSensitivity(bool caseSensitivity);
-
-    // Helpers
-    QString escape();
-    QString escape(const QString expr);
 
 private:
     bool _valid;

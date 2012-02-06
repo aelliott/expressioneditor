@@ -80,8 +80,9 @@ RegexBase* RegexFactory::regexpEngine(QString pattern, RegexFormat type)
         break;
 #endif // NO_PCRE
 #ifndef NO_POSIX
-    case POSIX:
-        return new PosixRegex(pattern);
+    case C_POSIX_ERE:
+    case C_POSIX_BRE:
+        return new PosixRegex(pattern, usedFormat);
         break;
 #endif // NO_POSIX
 #ifndef NO_ICU
@@ -89,11 +90,16 @@ RegexBase* RegexFactory::regexpEngine(QString pattern, RegexFormat type)
         return new IcuRegex(pattern);
         break;
 #endif // NO_ICU
-#ifdef WITH_CPP0X
-    case CPP0X:
-        return new Cpp0xRegex(pattern);
+#ifndef NO_CPP11
+    case CPP11_ECMASCRIPT:
+    case CPP11_BASIC:
+    case CPP11_EXTENDED:
+    case CPP11_AWK:
+    case CPP11_GREP:
+    case CPP11_EGREP:
+        return new Cpp11Regex(pattern, usedFormat);
         break;
-#endif // WITH_CPP0X
+#endif // NO_CPP11
     default:
         // This should never happen
         return new QtRegex(pattern);
@@ -115,7 +121,7 @@ Parser *RegexFactory::regexpParser(RegexFormat type)
         //break;
 #endif // NO_PCRE
 #ifndef NO_POSIX
-    case POSIX:
+    case C_POSIX_ERE:
         return new PosixParser();
         break;
 #endif // NO_POSIX

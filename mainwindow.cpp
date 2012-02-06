@@ -165,8 +165,11 @@ void MainWindow::setRegexpFormat(int format)
         break;
 #endif // NO_PCRE
 #ifndef NO_POSIX
-    case RegexFactory::POSIX:
+    case RegexFactory::C_POSIX_ERE:
         _formatLabel->setText(tr("POSIX ERE Format"));
+        break;
+    case RegexFactory::C_POSIX_BRE:
+        _formatLabel->setText(tr("POSIX BRE Format"));
         break;
 #endif // NO_PCRE
 #ifndef NO_ICU
@@ -174,11 +177,26 @@ void MainWindow::setRegexpFormat(int format)
         _formatLabel->setText(tr("ICU Format"));
         break;
 #endif // NO_ICU
-#ifdef WITH_CPP0X
-    case RegexFactory::CPP0X:
-        _formatLabel->setText(tr("C++0x Format"));
+#ifndef NO_CPP11
+    case RegexFactory::CPP11_ECMASCRIPT:
+        _formatLabel->setText(tr("C++0x (ECMAScript) Format"));
         break;
-#endif // WITH_CPP0X
+    case RegexFactory::CPP11_BASIC:
+        _formatLabel->setText(tr("C++0x (Basic) Format"));
+        break;
+    case RegexFactory::CPP11_EXTENDED:
+        _formatLabel->setText(tr("C++0x (Extended) Format"));
+        break;
+    case RegexFactory::CPP11_AWK:
+        _formatLabel->setText(tr("C++0x (AWK) Format"));
+        break;
+    case RegexFactory::CPP11_GREP:
+        _formatLabel->setText(tr("C++0x (Grep) Format"));
+        break;
+    case RegexFactory::CPP11_EGREP:
+        _formatLabel->setText(tr("C++0x (EGrep) Format"));
+        break;
+#endif // NO_CPP11
     }
 }
 
@@ -297,14 +315,27 @@ void MainWindow::updateRegexpFormats()
     map->setMapping(_ui->actionQtFormat, RegexFactory::Qt);
 
 #ifndef NO_POSIX
-    // [Edit -> Format] POSIX Style Action:
+    // [Edit -> Format] regex.h Menu:
+    QMenu *regexhMenu = new QMenu(tr("POSIX (regex.h)"), this);
+    _ui->menuExpressionFormat->addMenu(regexhMenu);
+
+    // [Edit -> Format -> regex.h] POSIX ERE Style Action:
     QAction *actionPosixEREFormat = new QAction(tr("POSIX (Extended)"), this);
     actionPosixEREFormat->setCheckable(true);
     actionPosixEREFormat->setActionGroup(formatGroup);
     actionPosixEREFormat->setStatusTip("Use POSIX Extended Format Expressions");
     connect(actionPosixEREFormat, SIGNAL(triggered()), map, SLOT(map()));
-    map->setMapping(actionPosixEREFormat, RegexFactory::POSIX);
-    _ui->menuExpressionFormat->addAction(actionPosixEREFormat);
+    map->setMapping(actionPosixEREFormat, RegexFactory::C_POSIX_ERE);
+    regexhMenu->addAction(actionPosixEREFormat);
+
+    // [Edit -> Format -> regex.h] POSIX BRE Style Action:
+    QAction *actionPosixBREFormat = new QAction(tr("POSIX (Basic)"), this);
+    actionPosixBREFormat->setCheckable(true);
+    actionPosixBREFormat->setActionGroup(formatGroup);
+    actionPosixBREFormat->setStatusTip("Use POSIX Basic Format Expressions");
+    connect(actionPosixBREFormat, SIGNAL(triggered()), map, SLOT(map()));
+    map->setMapping(actionPosixBREFormat, RegexFactory::C_POSIX_BRE);
+    regexhMenu->addAction(actionPosixBREFormat);
 #endif // NO_POSIX
 
 #ifndef NO_ICU
@@ -318,16 +349,65 @@ void MainWindow::updateRegexpFormats()
     _ui->menuExpressionFormat->addAction(actionICUFormat);
 #endif // NO_ICU
 
-#ifdef WITH_CPP0X
-    // [Edit -> Format] C++0x Style Action
-    QAction *actionCpp0xFormat = new QAction(tr("C++0x Format"), this);
-    actionCpp0xFormat->setCheckable(true);
-    actionCpp0xFormat->setActionGroup(formatGroup);
-    actionCpp0xFormat->setStatusTip(tr("Use C++0x Format Expressions"));
-    connect(actionCpp0xFormat, SIGNAL(triggered()), map, SLOT(map()));
-    map->setMapping(actionCpp0xFormat, RegexFactory::CPP0X);
-    _ui->menuExpressionFormat->addAction(cpp0xStyleAction);
-#endif // WITH_CPP0X
+#ifndef NO_CPP11
+    // [Edit -> Format] C++11 Menu
+    QMenu *cpp11Menu = new QMenu(tr("C++11"), this);
+    _ui->menuExpressionFormat->addMenu(cpp11Menu);
+
+    // [Edit -> Format -> C++11] C++11 ECMAScript Style Action
+    QAction *actionCpp11ECMAScriptFormat = new QAction(tr("ECMAScript"), this);
+    actionCpp11ECMAScriptFormat->setCheckable(true);
+    actionCpp11ECMAScriptFormat->setActionGroup(formatGroup);
+    actionCpp11ECMAScriptFormat->setStatusTip(tr("Use C++11 ECMAScript Format Expressions"));
+    connect(actionCpp11ECMAScriptFormat, SIGNAL(triggered()), map, SLOT(map()));
+    map->setMapping(actionCpp11ECMAScriptFormat, RegexFactory::CPP11_ECMASCRIPT);
+    cpp11Menu->addAction(actionCpp11ECMAScriptFormat);
+
+    // [Edit -> Format -> C++11] C++11 Basic Style Action
+    QAction *actionCpp11BasicFormat = new QAction(tr("Basic"), this);
+    actionCpp11BasicFormat->setCheckable(true);
+    actionCpp11BasicFormat->setActionGroup(formatGroup);
+    actionCpp11BasicFormat->setStatusTip(tr("Use C++11 Basic Format Expressions"));
+    connect(actionCpp11BasicFormat, SIGNAL(triggered()), map, SLOT(map()));
+    map->setMapping(actionCpp11BasicFormat, RegexFactory::CPP11_BASIC);
+    cpp11Menu->addAction(actionCpp11BasicFormat);
+
+    // [Edit -> Format -> C++11] C++11 Extended Style Action
+    QAction *actionCpp11ExtendedFormat = new QAction(tr("Extended"), this);
+    actionCpp11ExtendedFormat->setCheckable(true);
+    actionCpp11ExtendedFormat->setActionGroup(formatGroup);
+    actionCpp11ExtendedFormat->setStatusTip(tr("Use C++11 Extended Format Expressions"));
+    connect(actionCpp11ExtendedFormat, SIGNAL(triggered()), map, SLOT(map()));
+    map->setMapping(actionCpp11ExtendedFormat, RegexFactory::CPP11_EXTENDED);
+    cpp11Menu->addAction(actionCpp11ExtendedFormat);
+
+    // [Edit -> Format -> C++11] C++11 AWK Style Action
+    QAction *actionCpp11AWKFormat = new QAction(tr("AWK"), this);
+    actionCpp11AWKFormat->setCheckable(true);
+    actionCpp11AWKFormat->setActionGroup(formatGroup);
+    actionCpp11AWKFormat->setStatusTip(tr("Use C++11 AWK Format Expressions"));
+    connect(actionCpp11AWKFormat, SIGNAL(triggered()), map, SLOT(map()));
+    map->setMapping(actionCpp11AWKFormat, RegexFactory::CPP11_AWK);
+    cpp11Menu->addAction(actionCpp11AWKFormat);
+
+    // [Edit -> Format -> C++11] C++11 Grep Style Action
+    QAction *actionCpp11GrepFormat = new QAction(tr("Grep"), this);
+    actionCpp11GrepFormat->setCheckable(true);
+    actionCpp11GrepFormat->setActionGroup(formatGroup);
+    actionCpp11GrepFormat->setStatusTip(tr("Use C++11 Grep Format Expressions"));
+    connect(actionCpp11GrepFormat, SIGNAL(triggered()), map, SLOT(map()));
+    map->setMapping(actionCpp11GrepFormat, RegexFactory::CPP11_GREP);
+    cpp11Menu->addAction(actionCpp11GrepFormat);
+
+    // [Edit -> Format -> C++11] C++11 EGrep Style Action
+    QAction *actionCpp11EGrepFormat = new QAction(tr("EGrep"), this);
+    actionCpp11EGrepFormat->setCheckable(true);
+    actionCpp11EGrepFormat->setActionGroup(formatGroup);
+    actionCpp11EGrepFormat->setStatusTip(tr("Use C++11 EGrep Format Expressions"));
+    connect(actionCpp11EGrepFormat, SIGNAL(triggered()), map, SLOT(map()));
+    map->setMapping(actionCpp11EGrepFormat, RegexFactory::CPP11_EGREP);
+    cpp11Menu->addAction(actionCpp11EGrepFormat);
+#endif // NO_CPP11
 
     connect(map, SIGNAL(mapped(int)), this, SLOT(setRegexpFormat(int)));
 }

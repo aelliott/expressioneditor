@@ -19,15 +19,15 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "cpp0xregex.hpp"
+#include "cpp11regex.hpp"
 
 /*!
- * Creates a new Cpp0xRegex object
+ * Creates a new Cpp11Regex object
  *
  * \param   expr    The expression to use
  * \param   parent  This item's parent
  */
-Cpp0xRegex::Cpp0xRegex(QString expr, QObject *parent)
+Cpp11Regex::Cpp11Regex(QString expr, QObject *parent)
     : RegexBase(expr, parent)
     , _matchLength(0)
     , _valid(false)
@@ -35,64 +35,64 @@ Cpp0xRegex::Cpp0xRegex(QString expr, QObject *parent)
     _regexp = new std::regex(expr.toStdString());
 }
 
-QString Cpp0xRegex::getErrorString() const
+QString Cpp11Regex::getErrorString() const
 {
     //NOTE: Complete
     return "";
 }
 
-QString Cpp0xRegex::cap(int offset)
+QString Cpp11Regex::cap(int offset)
 {
     //NOTE: Complete
     return "";
 }
 
-int Cpp0xRegex::captureCount() const
+int Cpp11Regex::captureCount() const
 {
     //NOTE: Complete
     return -1;
 }
 
-QStringList Cpp0xRegex::capturedTexts()
+QStringList Cpp11Regex::capturedTexts()
 {
     return _captured;
 }
 
-int Cpp0xRegex::indexIn(QString string, int offset)
+int Cpp11Regex::indexIn(QString string, int offset)
 {
     //NOTE: Complete
     return -1;
 }
 
-int Cpp0xRegex::lastIndexIn(QString string, int offset)
+int Cpp11Regex::lastIndexIn(QString string, int offset)
 {
     //NOTE: Complete
     return -1;
 }
 
-int Cpp0xRegex::matchedLength() const
+int Cpp11Regex::matchedLength() const
 {
     return _matchLength;
 }
 
-int Cpp0xRegex::pos(int offset)
+int Cpp11Regex::pos(int offset)
 {
     //NOTE: Complete
     return -1;
 }
 
-bool Cpp0xRegex::isValid() const
+bool Cpp11Regex::isValid() const
 {
     return _valid;
 }
 
-bool Cpp0xRegex::exactMatch(const QString &string)
+bool Cpp11Regex::exactMatch(const QString &string)
 {
     //NOTE: Complete
     return false;
 }
 
-void Cpp0xRegex::setExpression(QString expr)
+void Cpp11Regex::setExpression(QString expr)
 {
     // A regexp object was created in the constructor so there is definitely an
     // instance of std::regex in memory, free it
@@ -102,23 +102,12 @@ void Cpp0xRegex::setExpression(QString expr)
     _regexp = new std::regex(expr.toStdString());
 }
 
-void Cpp0xRegex::setOptions(RegexpOptions options)
+void Cpp11Regex::setOptions(RegexpOptions options)
 {
     //NOTE: Complete
 }
 
-void Cpp0xRegex::setCaseSensitivity(bool caseSensitivity)
+void Cpp11Regex::setCaseSensitivity(bool caseSensitivity)
 {
     //NOTE: Complete
-}
-
-QString Cpp0xRegex::escape()
-{
-    return escape(getExpression());
-}
-
-QString Cpp0xRegex::escape(QString expr)
-{
-    //NOTE: Complete
-    return expr;
 }

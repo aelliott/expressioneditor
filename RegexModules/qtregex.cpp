@@ -104,13 +104,3 @@ void QtRegex::setCaseSensitivity(bool caseSensitivity)
     else
         _qtRegexp.setCaseSensitivity(Qt::CaseInsensitive);
 }
-
-QString QtRegex::escape()
-{
-    return QRegExp::escape(_regexp);
-}
-
-QString QtRegex::escape(QString expression)
-{
-    return QRegExp::escape(expression);
-}

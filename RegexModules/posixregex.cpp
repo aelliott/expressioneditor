@@ -20,14 +20,16 @@
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "posixregex.hpp"
+#include "regexfactory.hpp"
 
 /*!
  * Create a new PosixRegex backend
  *
  * \param   expression  The regular expression to compile and use
+ * \param   format      The format of POSIX to use (ERE/BRE)
  * \param   parent      This object's parent object
  */
-PosixRegex::PosixRegex(QString expression, QObject *parent)
+PosixRegex::PosixRegex(QString expression, int format, QObject *parent)
     : RegexBase(expression, parent)
     , _failed(false)
     , _valid(false)

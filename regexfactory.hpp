@@ -42,9 +42,9 @@
 #include "RegexModules/icuregex.hpp"
 #endif // NO_ICU
 
-#ifdef WITH_CPP0X
-#include "RegexModules/cpp0xregex.hpp"
-#endif // WITH_CPP0X
+#ifndef NO_CPP11
+#include "RegexModules/cpp11regex.hpp"
+#endif // NO_CPP11
 
 /*!
  * \brief   The RegexFactory class is a simple implementation of the factory
@@ -67,16 +67,22 @@ public:
 #endif // NO_PCRE
 #ifndef NO_POSIX
         //! POSIX style regular expressions
-        POSIX,
+        C_POSIX_ERE,
+        C_POSIX_BRE,
 #endif // NO_POSIX
 #ifndef NO_ICU
         //! ICU style regular expressions
         ICU,
 #endif // NO_ICU
-#ifdef WITH_CPP0X
-        //! C++0x style regular expressions
-        CPP0X,
-#endif // WITH_CPP0X
+#ifndef NO_CPP11
+        //! C++11 style regular expressions
+        CPP11_ECMASCRIPT,
+        CPP11_BASIC,
+        CPP11_EXTENDED,
+        CPP11_AWK,
+        CPP11_GREP,
+        CPP11_EGREP,
+#endif // NO_CPP11
         //! Qt4 style regular expressions
         Qt,
         Default

@@ -150,15 +150,3 @@ void IcuRegex::setCaseSensitivity(bool caseSensitivity)
     Q_UNUSED(caseSensitivity);
     //TODO
 }
-
-QString IcuRegex::escape(const QString expression)
-{
-    //TODO
-    return expression;
-}
-
-QString IcuRegex::escape()
-{
-    //TODO
-    return QString();
-}
