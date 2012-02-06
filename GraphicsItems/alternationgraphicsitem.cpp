@@ -80,15 +80,30 @@ void AlternationGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphic
     painter->setBrush(bgColor);
     painter->setPen(Qt::black);
 
-    painter->drawRoundedRect(boundingRect(), cornerRadius, cornerRadius);
+    QRectF drawRect = boundingRect();
+    // Align the rect to the pixel grid
+    if(qRound(scenePos().x()) == scenePos().x())
+    {
+        drawRect.setX(0.5);
+        drawRect.setWidth(drawRect.width()-.5);
+    }
+    if(qRound(scenePos().y()) == scenePos().y())
+    {
+        drawRect.setHeight(drawRect.height()-.5);
+        drawRect.setY(0.5);
+    }
+    painter->drawRoundedRect(drawRect, cornerRadius, cornerRadius);
 
     double offset = 2*verticalPadding + _title->boundingRect().height();
-    for(int i = 0; i < _mainLayout->count(); ++i)
+    for(int i = 0; (i+1) < _mainLayout->count(); ++i)
     {
         if(i > 0)
             offset += itemSpacing/2;
         QGraphicsLayoutItem *item = _mainLayout->itemAt(i);
         offset += item->contentsRect().height() + itemSpacing/2;
+
+        if(qRound(offset) == offset)
+            offset += 0.5;
 
         if(item->contentsRect().height() == 0)
             continue;

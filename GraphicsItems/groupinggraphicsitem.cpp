@@ -134,7 +134,19 @@ void GroupingGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
         if(!_name.isEmpty())
             _title->setPos(horizontalPadding, verticalPadding);
 
-        painter->drawRoundedRect(boundingRect(), cornerRadius, cornerRadius);
+        QRectF drawRect = boundingRect();
+        // Align the rect to the pixel grid
+        if(qRound(scenePos().x()) == scenePos().x())
+        {
+            drawRect.setX(0.5);
+            drawRect.setWidth(drawRect.width()-.5);
+        }
+        if(qRound(scenePos().y()) == scenePos().y())
+        {
+            drawRect.setHeight(drawRect.height()-.5);
+            drawRect.setY(0.5);
+        }
+        painter->drawRoundedRect(drawRect, cornerRadius, cornerRadius);
     }
 }
 

@@ -28,6 +28,8 @@
 #include <QSignalMapper>
 #include <QCloseEvent>
 #include <QMessageBox>
+#include <QGraphicsView>
+#include <QPainter>
 
 #include "regexfactory.hpp"
 #include "GraphicsItems/expressiongraphicsitem.hpp"

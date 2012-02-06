@@ -25,6 +25,7 @@
 #include <QGraphicsWidget>
 #include <QPainter>
 #include <QSettings>
+#include <QDebug>
 
 class LiteralGraphicsItem : public QGraphicsWidget
 {
