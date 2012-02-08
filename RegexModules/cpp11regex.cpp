@@ -27,7 +27,7 @@
  * \param   expr    The expression to use
  * \param   parent  This item's parent
  */
-Cpp11Regex::Cpp11Regex(QString expr, QObject *parent)
+Cpp11Regex::Cpp11Regex(QString expr, int format, QObject *parent)
     : RegexBase(expr, parent)
     , _matchLength(0)
     , _valid(false)
