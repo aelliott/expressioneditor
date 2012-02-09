@@ -47,7 +47,7 @@ class Cpp11Regex : public RegexBase
     Q_OBJECT
 
 public:
-    explicit Cpp11Regex(QString expression = QString(), QObject *parent = 0);
+    explicit Cpp11Regex(QString expression = QString(), int format = -1, QObject *parent = 0);
 
     // Getters
     QString getExpression() const;
@@ -72,6 +72,7 @@ public:
 
 private:
     bool _valid;
+    int _matchLength;
     std::regex *_regexp;
 };
 
