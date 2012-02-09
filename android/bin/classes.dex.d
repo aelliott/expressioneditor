@@ -1,0 +1,23 @@
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes.dex : \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\example\expressioneditor\R$array.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\example\expressioneditor\R$attr.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\example\expressioneditor\R$drawable.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\example\expressioneditor\R$layout.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\example\expressioneditor\R$string.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\example\expressioneditor\R.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\ministro\IMinistro$Stub$Proxy.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\ministro\IMinistro$Stub.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\ministro\IMinistro.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\ministro\IMinistroCallback$Stub$Proxy.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\ministro\IMinistroCallback$Stub.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\ministro\IMinistroCallback.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\origo\QtActivity$1.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\origo\QtActivity$2.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\origo\QtActivity$3$1$1.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\origo\QtActivity$3$1.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\origo\QtActivity$3.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\origo\QtActivity$4.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\origo\QtActivity$5.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\origo\QtActivity$6.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\origo\QtActivity.class \
+C:\Users\Alex\Documents\Github\expressioneditor-android\android\bin\classes\org\kde\necessitas\origo\QtApplication.class \
