@@ -179,22 +179,22 @@ void MainWindow::setRegexpFormat(int format)
 #endif // NO_ICU
 #ifndef NO_CPP11
     case RegexFactory::CPP11_ECMASCRIPT:
-        _formatLabel->setText(tr("C++0x (ECMAScript) Format"));
+        _formatLabel->setText(tr("C++11 (ECMAScript) Format"));
         break;
     case RegexFactory::CPP11_BASIC:
-        _formatLabel->setText(tr("C++0x (Basic) Format"));
+        _formatLabel->setText(tr("C++11 (Basic) Format"));
         break;
     case RegexFactory::CPP11_EXTENDED:
-        _formatLabel->setText(tr("C++0x (Extended) Format"));
+        _formatLabel->setText(tr("C++11 (Extended) Format"));
         break;
     case RegexFactory::CPP11_AWK:
-        _formatLabel->setText(tr("C++0x (AWK) Format"));
+        _formatLabel->setText(tr("C++11 (AWK) Format"));
         break;
     case RegexFactory::CPP11_GREP:
-        _formatLabel->setText(tr("C++0x (Grep) Format"));
+        _formatLabel->setText(tr("C++11 (Grep) Format"));
         break;
     case RegexFactory::CPP11_EGREP:
-        _formatLabel->setText(tr("C++0x (EGrep) Format"));
+        _formatLabel->setText(tr("C++11 (EGrep) Format"));
         break;
 #endif // NO_CPP11
     }

@@ -1,7 +1,7 @@
 /*!
  * \file
  *
- * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
+ * Copyright (c) 2009-2012 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
@@ -19,28 +19,21 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef CPP0XREGEXP_HPP
-#define CPP0XREGEXP_HPP
+#ifndef CPP11REGEXP_HPP
+#define CPP11REGEXP_HPP
 
 #include "regexbase.hpp"
 #include <regex>
 #include <string>
+#include <QDebug>
 
 /*!
- * \brief   This class provides an interface to the C++0x regular expression
+ * \brief   This class provides an interface to the C++11 regular expression
  *          implementation
  *
  * The class inherits RegexBase and provides a polymorphic class providing the
- * same access functions and behavior for C++0x features as for the other
+ * same access functions and behavior for C++11 features as for the other
  * regular expression libraries.
- *
- * This feature is currently opt-in only due to C++0x not being fully supported
- * or part of a full standard yet, making it hard to rely on it being present
- * in target systems, in those that do support C++0x drafts however it can be
- * activated (at least on GCC) by providing WITH_CPP0X to CMake.
- *
- * As of now most GCC versions do not seem to have a complete implementation of
- * regular expressions as part of tr1 or c++0x
  */
 class Cpp11Regex : public RegexBase
 {
@@ -71,9 +64,15 @@ public:
     void setCaseSensitivity(bool caseSensitivity);
 
 private:
-    bool _valid;
+    void parseResults(std::smatch &results);
+
+    QString _regexp;
     int _matchLength;
-    std::regex *_regexp;
+    bool _valid;
+    std::vector<int> _capturePositions;
+    std::regex _re;
+    QString _error;
+    std::regex_constants::syntax_option_type _type;
 };
 
-#endif // CPP0XREGEXP_HPP
+#endif // CPP11REGEXP_HPP
