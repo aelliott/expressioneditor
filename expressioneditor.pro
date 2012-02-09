@@ -14,13 +14,8 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     RegexModules/regexbase.cpp \
     RegexModules/qtregex.cpp \
-    RegexModules/posixregex.cpp \
-    RegexModules/perlregex.cpp \
-    RegexModules/pcreregex.cpp \
-    RegexModules/icuregex.cpp \
     capturedstring.cpp \
     regexfactory.cpp \
-    pcrewrapper.cpp \
     RegexModules/token.cpp \
     RegexModules/parser.cpp \
     RegexModules/qtparser.cpp \
@@ -38,25 +33,16 @@ SOURCES += main.cpp\
     settingsdialog.cpp \
     graphicsitemsettings.cpp \
     GraphicsItems/bracketexpressiongraphicsitem.cpp \
-    RegexModules/pcreparser.cpp \
-    RegexModules/posixparser.cpp \
-    RegexModules/icuparser.cpp \
     GraphicsItems/commentgraphicsitem.cpp \
     testinputswidget.cpp \
     testblockwidget.cpp \
-    testsearchreplacewidget.cpp \
-    RegexModules/cpp11regex.cpp
+    testsearchreplacewidget.cpp
 
 HEADERS  += mainwindow.hpp \
     RegexModules/regexbase.hpp \
     RegexModules/qtregex.hpp \
-    RegexModules/posixregex.hpp \
-    RegexModules/perlregex.hpp \
-    RegexModules/pcreregex.hpp \
-    RegexModules/icuregex.hpp \
     capturedstring.hpp \
     regexfactory.hpp \
-    pcrewrapper.hpp \
     RegexModules/tokens.hpp \
     RegexModules/token.hpp \
     RegexModules/qtparser.hpp \
@@ -75,14 +61,10 @@ HEADERS  += mainwindow.hpp \
     settingsdialog.hpp \
     graphicsitemsettings.hpp \
     GraphicsItems/bracketexpressiongraphicsitem.hpp \
-    RegexModules/pcreparser.hpp \
-    RegexModules/posixparser.hpp \
-    RegexModules/icuparser.hpp \
     GraphicsItems/commentgraphicsitem.hpp \
     testinputswidget.hpp \
     testblockwidget.hpp \
-    testsearchreplacewidget.hpp \
-    RegexModules/cpp11regex.hpp
+    testsearchreplacewidget.hpp
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui \
@@ -97,8 +79,46 @@ OTHER_FILES += \
     gpl.txt \
     .gitignore \
     CREDITS.txt \
-    README.txt
+    README.txt \
+    android/AndroidManifest.xml \
+    android/res/drawable/icon.png \
+    android/res/drawable/logo.png \
+    android/res/drawable-hdpi/icon.png \
+    android/res/drawable-ldpi/icon.png \
+    android/res/drawable-mdpi/icon.png \
+    android/res/layout/splash.xml \
+    android/res/values/libs.xml \
+    android/res/values/strings.xml \
+    android/res/values-de/strings.xml \
+    android/res/values-el/strings.xml \
+    android/res/values-es/strings.xml \
+    android/res/values-et/strings.xml \
+    android/res/values-fa/strings.xml \
+    android/res/values-fr/strings.xml \
+    android/res/values-id/strings.xml \
+    android/res/values-it/strings.xml \
+    android/res/values-ja/strings.xml \
+    android/res/values-ms/strings.xml \
+    android/res/values-nb/strings.xml \
+    android/res/values-nl/strings.xml \
+    android/res/values-pl/strings.xml \
+    android/res/values-pt-rBR/strings.xml \
+    android/res/values-ro/strings.xml \
+    android/res/values-rs/strings.xml \
+    android/res/values-ru/strings.xml \
+    android/res/values-zh-rCN/strings.xml \
+    android/res/values-zh-rTW/strings.xml \
+    android/src/org/kde/necessitas/ministro/IMinistro.aidl \
+    android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
+    android/src/org/kde/necessitas/origo/QtActivity.java \
+    android/src/org/kde/necessitas/origo/QtApplication.java \
+    android/android.toolchain.cmake
 
 RESOURCES += \
     images.qrc \
     stylesheets.qrc
+
+android-g++ {
+    CONFIG += dll
+}
+

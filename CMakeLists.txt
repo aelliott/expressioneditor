@@ -10,6 +10,12 @@ SET(expressioneditor_VERSION_MINOR 1)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR} ${expressioneditor_SOURCE_DIR} ${expressioneditor_BINARY_DIR})
 
+# ANDROID
+IF(ANDROID)
+    INCLUDE_DIRECTORIES(${ANDROID_NDK_TOOLCHAIN_ROOT}/sysroot/usr/include)
+ENDIF(ANDROID)
+# ANDROID
+
 INCLUDE(CheckIncludeFiles)
 #INCLUDE(CheckLibraryExists)
 
@@ -224,8 +230,20 @@ ELSEIF(WIN32)
     ADD_EXECUTABLE(expressioneditor WIN32 ${expressioneditor_CPP_SRCS})
 ENDIF()
 
+# ANDROID
+IF(ANDROID)
+    ADD_LIBRARY(expressioneditor SHARED ${expressioneditor_CPP_SRCS})
+ENDIF(ANDROID)
+# ANDROID
+
 # Link to Qt and any optional libs
 TARGET_LINK_LIBRARIES(expressioneditor ${expressioneditor_LINK_LIBS})
+
+# ANDROID
+IF(ANDROID)
+    TARGET_LINK_LIBRARIES(expressioneditor log)
+ENDIF(ANDROID)
+# ANDROID
 
 # CPack Configuration
 INCLUDE(InstallRequiredSystemLibraries)
