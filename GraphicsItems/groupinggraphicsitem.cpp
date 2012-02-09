@@ -105,8 +105,8 @@ QRectF GroupingGraphicsItem::boundingRect() const
     if(!_name.isEmpty() && (displayOptions & DisplayNamed))
         return QRectF(0,
                       0,
-                      qMax(childrenRect.width(), _title->boundingRect().width() + 2*horizontalPadding),
-                      qMax(childrenRect.height(), _title->boundingRect().height() + 2*verticalPadding));
+                      qMax(static_cast<double>(childrenRect.width()), _title->boundingRect().width() + 2*horizontalPadding),
+                      qMax(static_cast<double>(childrenRect.height()), _title->boundingRect().height() + 2*verticalPadding));
     else
         return QRectF(0, 0, childrenRect.width(), childrenRect.height());
 }
