@@ -44,8 +44,17 @@ bool Parser::parse(QString pattern)
 
     _tokens.clear();
 
+    int previousPositon;
     while(_pos < pattern.length())
+    {
         handleToken(findMatch());
+
+        // In the case where no progress is being made, exit returning false
+        if(previousPositon == _pos)
+            return false;
+
+        previousPositon = _pos;
+    }
 
     return true;
 }

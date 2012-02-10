@@ -43,6 +43,10 @@
 #endif // NO_ICU
 
 #ifndef NO_CPP11
+#include "RegexModules/cppawkparser.hpp"
+#include "RegexModules/cppecmascriptparser.hpp"
+#include "RegexModules/cppgrepparser.hpp"
+#include "RegexModules/cppposixparser.hpp"
 #include "RegexModules/cpp11regex.hpp"
 #endif // NO_CPP11
 

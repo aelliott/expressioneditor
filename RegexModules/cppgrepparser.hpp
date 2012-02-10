@@ -1,7 +1,7 @@
 /*!
  * \file
  *
- * Copyright (c) 2011 Alex Elliott <alex@alex-elliott.co.uk>
+ * Copyright (c) 2012 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
@@ -19,15 +19,19 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "posixparser.hpp"
+#ifndef CPPGREPPARSER_HPP
+#define CPPGREPPARSER_HPP
 
-PosixParser::PosixParser(QString pattern, bool extended, QObject *parent)
-    : Parser(pattern, parent)
-    , _extended(extended)
+#include "RegexModules/posixparser.hpp"
+
+/*!
+ * Equivalent to POSIX parsing except alternation goes from {"|"} to {"|", "\\n"}
+ */
+class CppGrepParser : public PosixParser
 {
-}
+    Q_OBJECT
+public:
+    explicit CppGrepParser(QString expression = QString(), bool extended = false, QObject *parent = 0);
+};
 
-void PosixParser::handleToken(RegexpToken token)
-{
-
-}
+#endif // CPPGREPPARSER_HPP

@@ -27,12 +27,15 @@
 class PosixParser : public Parser
 {
     Q_OBJECT
+
 public:
-    explicit PosixParser(QString pattern = QString(), QObject *parent = 0);
+    explicit PosixParser(QString pattern = QString(), bool extended = true, QObject *parent = 0);
 
 public slots:
-    //bool parse(QString pattern = QString());
     void handleToken(RegexpToken token);
+
+protected:
+    bool _extended;
 };
 
 #endif // POSIXPARSER_HPP

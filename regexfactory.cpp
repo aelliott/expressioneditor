@@ -124,15 +124,32 @@ Parser *RegexFactory::regexpParser(RegexFormat type)
     case C_POSIX_ERE:
         return new PosixParser();
         break;
+    case C_POSIX_BRE:
+        return new PosixParser(QString(), false);
 #endif // NO_POSIX
 #ifndef NO_ICU
     case ICU:
         return new IcuParser();
         break;
 #endif // NO_ICU
-#ifdef WITH_CPP0X
-    case CPP0X:
-        return new Cpp0xParser();
+#ifndef NO_CPP11
+    case CPP11_ECMASCRIPT:
+        return new CppEcmaScriptParser();
+        break;
+    case CPP11_EXTENDED:
+        return new CppPosixParser();
+        break;
+    case CPP11_BASIC:
+        return new CppPosixParser(QString(), false);
+        break;
+    case CPP11_AWK:
+        return new CppAwkParser();
+        break;
+    case CPP11_GREP:
+        return new CppGrepParser();
+        break;
+    case CPP11_EGREP:
+        return new CppGrepParser(QString(), true);
         break;
 #endif // WITH_CPP0X
     case Qt:

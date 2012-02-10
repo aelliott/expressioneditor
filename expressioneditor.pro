@@ -45,7 +45,11 @@ SOURCES += main.cpp\
     testinputswidget.cpp \
     testblockwidget.cpp \
     testsearchreplacewidget.cpp \
-    RegexModules/cpp11regex.cpp
+    RegexModules/cpp11regex.cpp \
+    RegexModules/cppecmascriptparser.cpp \
+    RegexModules/cppposixparser.cpp \
+    RegexModules/cppawkparser.cpp \
+    RegexModules/cppgrepparser.cpp
 
 HEADERS  += mainwindow.hpp \
     RegexModules/regexbase.hpp \
@@ -82,7 +86,11 @@ HEADERS  += mainwindow.hpp \
     testinputswidget.hpp \
     testblockwidget.hpp \
     testsearchreplacewidget.hpp \
-    RegexModules/cpp11regex.hpp
+    RegexModules/cpp11regex.hpp \
+    RegexModules/cppecmascriptparser.hpp \
+    RegexModules/cppposixparser.hpp \
+    RegexModules/cppawkparser.hpp \
+    RegexModules/cppgrepparser.hpp
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui \
