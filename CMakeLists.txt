@@ -99,6 +99,9 @@ SET(expressioneditor_CPP_SRCS
     RegexModules/cppecmascriptparser.cpp
     RegexModules/cppgrepparser.cpp
     RegexModules/cppposixparser.cpp
+    RegexModules/icuparser.cpp
+    RegexModules/pcreparser.cpp
+    RegexModules/posixparser.cpp
     RegexModules/parser.cpp
     RegexModules/qtparser.cpp
     RegexModules/qtregex.cpp
@@ -132,6 +135,9 @@ SET(expressioneditor_HPP_SRCS
     RegexModules/cppecmascriptparser.hpp
     RegexModules/cppgrepparser.hpp
     RegexModules/cppposixparser.hpp
+    RegexModules/icuparser.hpp
+    RegexModules/pcreparser.hpp
+    RegexModules/posixparser.hpp
     RegexModules/parser.hpp
     RegexModules/qtparser.hpp
     RegexModules/qtregex.hpp
@@ -168,8 +174,8 @@ message("#################################")
 # Add POSIX if available/used
 if(NOT NO_POSIX)
     message("## -- Building POSIX Support   ##")
-    LIST(APPEND expressioneditor_HPP_SRCS RegexModules/posixparser.hpp RegexModules/posixregex.hpp)
-    LIST(APPEND expressioneditor_CPP_SRCS RegexModules/posixparser.cpp RegexModules/posixregex.cpp)
+    LIST(APPEND expressioneditor_HPP_SRCS RegexModules/posixregex.hpp)
+    LIST(APPEND expressioneditor_CPP_SRCS RegexModules/posixregex.cpp)
 else()
     message("## NOT Building POSIX Support  ##")
 endif(NOT NO_POSIX)
@@ -177,12 +183,10 @@ endif(NOT NO_POSIX)
 # Add PCRE if available/used
 if(NOT NO_PCRE)
     message("## -- Building PCRE Support    ##")
-    LIST(APPEND expressioneditor_HPP_SRCS RegexModules/pcreparser.hpp
-                                          RegexModules/pcreregex.hpp
+    LIST(APPEND expressioneditor_HPP_SRCS RegexModules/pcreregex.hpp
                                           RegexModules/perlregex.hpp
                                           )
-    LIST(APPEND expressioneditor_CPP_SRCS RegexModules/pcreparser.cpp
-                                          RegexModules/pcreregex.cpp
+    LIST(APPEND expressioneditor_CPP_SRCS RegexModules/pcreregex.cpp
                                           RegexModules/perlregex.cpp
                                           pcrewrapper.cpp)
     LIST(APPEND expressioneditor_LINK_LIBS ${HAVE_PCRE} ${HAVE_PCRECPP})
@@ -193,8 +197,8 @@ endif(NOT NO_PCRE)
 # Add ICU if available/used
 if(NOT NO_ICU)
     message("## -- Building ICU Support     ##")
-    LIST(APPEND expressioneditor_HPP_SRCS RegexModules/icuparser.hpp RegexModules/icuregex.hpp)
-    LIST(APPEND expressioneditor_CPP_SRCS RegexModules/icuparser.cpp RegexModules/icuregex.cpp)
+    LIST(APPEND expressioneditor_HPP_SRCS RegexModules/icuregex.hpp)
+    LIST(APPEND expressioneditor_CPP_SRCS RegexModules/icuregex.cpp)
     LIST(APPEND expressioneditor_LINK_LIBS ${HAVE_ICU_I18N} ${HAVE_ICU_UC} ${HAVE_ICU_DATA})
 else()
     message("## NOT Building ICU Support    ##")
