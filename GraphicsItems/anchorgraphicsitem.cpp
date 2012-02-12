@@ -34,6 +34,8 @@ AnchorGraphicsItem::AnchorGraphicsItem(RegexpToken token, QGraphicsItem *parent)
     case T_ENDING_POSITION:
         _text->setHtml("<center>Ending<br>Position");
         break;
+    default:
+        _text->setHtml("Unhandled token");
     }
 
     _text->setTextWidth(_text->boundingRect().width());

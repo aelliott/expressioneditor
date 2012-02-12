@@ -49,7 +49,8 @@ SOURCES += main.cpp\
     RegexModules/cppecmascriptparser.cpp \
     RegexModules/cppposixparser.cpp \
     RegexModules/cppawkparser.cpp \
-    RegexModules/cppgrepparser.cpp
+    RegexModules/cppgrepparser.cpp \
+    GraphicsItems/specialchargraphicsitem.cpp
 
 HEADERS  += mainwindow.hpp \
     RegexModules/regexbase.hpp \
@@ -90,7 +91,8 @@ HEADERS  += mainwindow.hpp \
     RegexModules/cppecmascriptparser.hpp \
     RegexModules/cppposixparser.hpp \
     RegexModules/cppawkparser.hpp \
-    RegexModules/cppgrepparser.hpp
+    RegexModules/cppgrepparser.hpp \
+    GraphicsItems/specialchargraphicsitem.hpp
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui \

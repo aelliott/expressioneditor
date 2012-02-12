@@ -38,6 +38,7 @@
 #include "GraphicsItems/groupinggraphicsitem.hpp"
 #include "GraphicsItems/literalgraphicsitem.hpp"
 #include "GraphicsItems/repeatgraphicsitem.hpp"
+#include "GraphicsItems/specialchargraphicsitem.hpp"
 
 class ExpressionGraphicsItem : public QGraphicsWidget
 {

@@ -94,6 +94,7 @@ SET(expressioneditor_CPP_SRCS
     GraphicsItems/groupinggraphicsitem.cpp
     GraphicsItems/literalgraphicsitem.cpp
     GraphicsItems/repeatgraphicsitem.cpp
+    GraphicsItems/specialchargraphicsitem.cpp
     RegexModules/cppawkparser.cpp
     RegexModules/cppecmascriptparser.cpp
     RegexModules/cppgrepparser.cpp
@@ -126,6 +127,7 @@ SET(expressioneditor_HPP_SRCS
     GraphicsItems/groupinggraphicsitem.hpp
     GraphicsItems/literalgraphicsitem.hpp
     GraphicsItems/repeatgraphicsitem.hpp
+    GraphicsItems/specialchargraphicsitem.hpp
     RegexModules/cppawkparser.hpp
     RegexModules/cppecmascriptparser.hpp
     RegexModules/cppgrepparser.hpp

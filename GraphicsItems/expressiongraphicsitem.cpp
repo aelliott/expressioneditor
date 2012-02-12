@@ -173,6 +173,27 @@ QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphic
         currentLayout->addItem(newItem);
         _lastItem = newItem;
         break;
+    case T_ANY_CHARACTER:
+    case T_BELL:
+    case T_BACKSPACE:
+    case T_ESCAPE:
+    case T_FORM_FEED:
+    case T_LINE_FEED:
+    case T_CARRIAGE_RETURN:
+    case T_HORIZONTAL_TAB:
+    case T_VERTICAL_TAB:
+    case T_ASCII_CONTROL_CHAR:
+    case T_UNICODE_NEWLINE:
+    case T_BYTE:
+    case T_OCTAL_CHAR:
+    case T_HEXADECIMAL_CHAR:
+    case T_UNICODE_CHAR:
+    case T_UNICODE_NAMED_CHAR:
+    case T_GRAPHEME_CLUSTER:
+        newItem = new SpecialCharGraphicsItem(token);
+        currentLayout->addItem(newItem);
+        _lastItem = newItem;
+        break;
     case T_REPEAT_ZERO_OR_ONE:
     case T_REPEAT_ANY_NUMBER:
     case T_REPEAT_ONE_OR_MORE:
