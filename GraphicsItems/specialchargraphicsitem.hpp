@@ -26,6 +26,8 @@
 #include <QSettings>
 #include <QPainter>
 
+#include "cmakeconfig.hpp"
+
 #ifndef NO_ICU
 #include <unicode/udata.h>
 #include <unicode/uchar.h>
