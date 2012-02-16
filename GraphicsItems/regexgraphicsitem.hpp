@@ -25,6 +25,7 @@
 #include <QGraphicsWidget>
 #include <QPainter>
 #include <QSettings>
+#include <QFontMetrics>
 
 #include "RegexModules/token.hpp"
 
@@ -48,6 +49,8 @@ protected:
     Token *_token;
     int _tokenPos;
     int _endPos;
+    QFont _font;
+    QFontMetrics _metrics;
 };
 
 #endif // REGEXGRAPHICSITEM_HPP

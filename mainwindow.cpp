@@ -66,10 +66,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     _visualisation = new ExpressionGraphicsItem("", RegexFactory::Qt);
 
-    _ui->expressionView->setScene(new QGraphicsScene());
+    ExpressionGraphicsScene *scene = new ExpressionGraphicsScene();
+    _ui->expressionView->setScene(scene);
     _ui->expressionView->setRenderHint(QPainter::Antialiasing, true);
     _ui->expressionView->setRenderHint(QPainter::SmoothPixmapTransform, true);
-    QGraphicsScene *scene = _ui->expressionView->scene();
     scene->addItem(_visualisation);
     scene->setSceneRect(scene->itemsBoundingRect());
     _ui->expressionView->setSceneRect(scene->itemsBoundingRect());

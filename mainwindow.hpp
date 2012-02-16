@@ -33,6 +33,7 @@
 
 #include "regexfactory.hpp"
 #include "GraphicsItems/expressiongraphicsitem.hpp"
+#include "expressiongraphicsscene.hpp"
 
 #include "settingsdialog.hpp"
 #include "expressionedit.hpp"

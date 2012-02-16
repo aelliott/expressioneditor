@@ -23,6 +23,9 @@
 #define EXPRESSIONGRAPHICSSCENE_HPP
 
 #include <QGraphicsScene>
+#include <QList>
+#include <QRectF>
+#include <QGraphicsRectItem>
 
 class ExpressionGraphicsScene : public QGraphicsScene
 {
@@ -30,10 +33,14 @@ class ExpressionGraphicsScene : public QGraphicsScene
 public:
     explicit ExpressionGraphicsScene(QObject *parent = 0);
 
-signals:
+protected:
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
+    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
+    void dropEvent(QGraphicsSceneDragDropEvent *event);
 
-public slots:
-
+private:
+    QList<QGraphicsRectItem *> _dropZoneLabels;
 };
 
 #endif // EXPRESSIONGRAPHICSSCENE_HPP

@@ -63,7 +63,7 @@ private:
     QString _expression;
     RegexFactory *_factory;
     QGraphicsLinearLayout *_root;
-    QGraphicsWidget *_lastItem;
+    RegexGraphicsItem *_lastItem;
     std::vector<Token *> _tokens;
     std::vector<Token *>::iterator  _iter;
     int _pos;

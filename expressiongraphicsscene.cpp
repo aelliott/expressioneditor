@@ -21,7 +21,81 @@
  */
 #include "expressiongraphicsscene.hpp"
 
-ExpressionGraphicsScene::ExpressionGraphicsScene(QObject *parent) :
-    QGraphicsScene(parent)
+#include <QGraphicsSceneDragDropEvent>
+#include <QMimeData>
+#include <QDebug>
+
+ExpressionGraphicsScene::ExpressionGraphicsScene(QObject *parent)
+    : QGraphicsScene(parent)
 {
+}
+
+void ExpressionGraphicsScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
+{
+    while(_dropZoneLabels.size() > 0)
+    {
+        removeItem(_dropZoneLabels.at(0));
+        _dropZoneLabels.removeAt(0);
+    }
+
+    QList<QGraphicsItem *> itemList = items();
+    for(int i = 0; i < itemList.size()-1; ++i)
+    {
+        QGraphicsItem *item = itemList.at(i);
+        QPointF itemPos = item->scenePos();
+        QRectF bounds = item->boundingRect();
+
+        qDebug() << itemPos;
+        qDebug() << bounds;
+
+        QPointF topLeft = itemPos;
+        topLeft.setY(itemPos.y()-8.0);
+
+        QPointF bottomRight = itemPos;
+        bottomRight.setX(itemPos.x()+bounds.width());
+
+        QGraphicsRectItem *dropZoneLabel = new QGraphicsRectItem(0, 0, bounds.width(), 8.0);
+        dropZoneLabel->setPos(topLeft);
+        addItem(dropZoneLabel);
+        _dropZoneLabels.append(dropZoneLabel);
+
+        qDebug() << dropZoneLabel->boundingRect();
+    }
+
+    event->accept();
+}
+
+void ExpressionGraphicsScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+{
+    event->accept();
+}
+
+void ExpressionGraphicsScene::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
+{
+    while(_dropZoneLabels.size() > 0)
+    {
+        removeItem(_dropZoneLabels.at(0));
+        _dropZoneLabels.removeAt(0);
+    }
+
+    event->accept();
+}
+
+void ExpressionGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
+{
+    while(_dropZoneLabels.size() > 0)
+    {
+        removeItem(_dropZoneLabels.at(0));
+        _dropZoneLabels.removeAt(0);
+    }
+
+    event->accept();
+
+    const QMimeData *mime = event->mimeData();
+    int startPos = QVariant(mime->data("text/x-regexp-start-pos")).toInt();
+    int endPos = QVariant(mime->data("text/x-regexp-end-pos")).toInt();
+
+    //qDebug() << "Drop Accepted from: " << startPos << " to " << endPos;
+
+    // Must now decide how to handle this drop
 }

@@ -37,7 +37,7 @@ public:
 
 private:
     QString _literal;
-    QGraphicsTextItem *_text;
+    QString _text;
 };
 
 #endif // LITERALGRAPHICSITEM_HPP

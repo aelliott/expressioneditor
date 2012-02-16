@@ -24,13 +24,19 @@
 #include <QGraphicsScene>
 #include <QDrag>
 #include <QGraphicsSceneMouseEvent>
+#include <QFont>
 
 RegexGraphicsItem::RegexGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent)
     : QGraphicsWidget(parent)
     , _token(token)
     , _tokenPos(tokenPos)
     , _endPos(tokenPos)
+    , _metrics(QFont())
 {
+    QSettings settings;
+    _font = settings.value("Visualisation/Font", QFont("sans-serif", 10)).value<QFont>();
+    _metrics = QFontMetrics(_font);
+
     setCursor(Qt::OpenHandCursor);
     setAcceptedMouseButtons(Qt::LeftButton);
 }

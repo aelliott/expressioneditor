@@ -82,7 +82,9 @@ QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphic
         break;
     case T_ALTERNATION:
     {
-        AlternationGraphicsItem *alternation = new AlternationGraphicsItem(currentLayout, *_iter, _pos);
+        // This is a bit nasty, but it works
+        int start = static_cast<RegexGraphicsItem *>(currentLayout->itemAt(0))->tokenPos();
+        AlternationGraphicsItem *alternation = new AlternationGraphicsItem(currentLayout, *_iter, start);
         currentLayout = new QGraphicsLinearLayout(Qt::Horizontal);
         currentLayout->setSpacing(_itemSpacing);
         currentLayout->addItem(alternation);
@@ -217,7 +219,7 @@ QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphic
     case T_REPEAT_ONE_OR_MORE:
     case T_REPEAT_SPECIFIED:
         currentLayout->removeItem(_lastItem);
-        repeat = new RepeatGraphicsItem(*_iter, _pos-1, _lastItem);
+        repeat = new RepeatGraphicsItem(*_iter, _lastItem->tokenPos(), _lastItem);
         repeat->setEndPos(_pos);
         currentLayout->addItem(repeat);
         _lastItem = repeat;

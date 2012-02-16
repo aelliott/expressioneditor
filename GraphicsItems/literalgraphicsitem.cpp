@@ -20,6 +20,8 @@
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "literalgraphicsitem.hpp"
+#include <QApplication>
+#include <QFontMetrics>
 
 LiteralGraphicsItem::LiteralGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent)
     : RegexGraphicsItem(token, tokenPos, parent)
@@ -33,7 +35,7 @@ LiteralGraphicsItem::LiteralGraphicsItem(Token *token, int tokenPos, QGraphicsIt
             text.remove(i, 1);
     }
 
-    _text = new QGraphicsTextItem(text, this);
+    _text = text;
 }
 
 QRectF LiteralGraphicsItem::boundingRect() const
@@ -42,9 +44,7 @@ QRectF LiteralGraphicsItem::boundingRect() const
     double horizontalPadding = settings.value("Visualisation/Literal/HorizontalPadding", 6.0).toDouble();
     double verticalPadding   = settings.value("Visualisation/Literal/VerticalPadding", 5.0).toDouble();
 
-    QRectF textRect = _text->boundingRect();
-
-    return QRectF(0, 0, textRect.width() + 2*horizontalPadding, textRect.height() + 2*verticalPadding);
+    return QRectF(0, 0, _metrics.width(_text) + 2*horizontalPadding, _metrics.height() + 2*verticalPadding);
 }
 
 void LiteralGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -58,6 +58,7 @@ void LiteralGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     double cornerRadius   = settings.value("Visualisation/Literal/CornerRadius", 5.0).toDouble();
     QColor bgColor = settings.value("Visualisation/Literal/Color", QColor(220,255,220)).value<QColor>();
 
+    painter->setFont(_font);
     painter->setBrush(bgColor);
     painter->setPen(Qt::black);
 
@@ -75,7 +76,12 @@ void LiteralGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     }
     painter->drawRoundedRect(drawRect, cornerRadius, cornerRadius);
 
-    _text->setPos(horizontalPadding, verticalPadding);
+    QRectF textRect = QRectF(drawRect.x() + horizontalPadding,
+                             drawRect.y() + verticalPadding,
+                             drawRect.width() - 2*horizontalPadding,
+                             drawRect.height() - 2*verticalPadding);
+
+    painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignHCenter, _text);
 }
 
 QSizeF LiteralGraphicsItem::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const
