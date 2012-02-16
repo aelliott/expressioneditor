@@ -58,6 +58,7 @@ public slots:
     void expressionHighlightingChanged(bool highlighting);
     void autocompletionChanged(bool autocomplete);
 
+    void selectVisualisationFont();
     void horizontalSpacingChanged(int spacing);
     void verticalSpacingChanged(int spacing);
 
@@ -80,6 +81,7 @@ private:
     int _horizontalSpacing;
     int _verticalSpacing;
     int _groupingDisplayOptions;
+    QFont _visualisationFont;
 };
 
 #endif // SETTINGSDIALOG_HPP

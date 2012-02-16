@@ -22,6 +22,8 @@
 #include "settingsdialog.hpp"
 #include "ui_settingsdialog.h"
 
+#include <QFontDialog>
+
 SettingsDialog::SettingsDialog(QWidget *parent)
     : QDialog(parent)
     , _ui(new Ui::SettingsDialog)
@@ -69,6 +71,7 @@ void SettingsDialog::setValues()
     _settings.setValue("Editor/Autocompletion",
                        _ui->autocompletionCheckBox->isChecked());
 
+    _settings.setValue("Visualisation/Font", _visualisationFont);
     _settings.setValue("Visualisation/HorizontalSpacing",
                        _ui->horizontalSpacingSpinBox->value());
     _settings.setValue("Visualisation/VerticalSpacing",
@@ -94,6 +97,7 @@ void SettingsDialog::readValues()
     _expressionHighlighting = _settings.value("Editor/Highlighting", true).toBool();
     _autocompletion = _settings.value("Editor/Autocompletion", false).toBool();
 
+    _visualisationFont = _settings.value("Visualisation/Font", QFont("sans-serif", 10)).value<QFont>();
     _horizontalSpacing = _settings.value("Visualisation/HorizontalSpacing", 8).toInt();
     _verticalSpacing = _settings.value("Visualisation/VerticalSpacing", 12).toInt();
     _groupingDisplayOptions = _settings.value(
@@ -208,6 +212,15 @@ void SettingsDialog::expressionHighlightingChanged(bool highlighting)
 void SettingsDialog::autocompletionChanged(bool autocomplete)
 {
     _settings.setValue("Editor/Autocompletion", autocomplete);
+
+    rehash();
+}
+
+void SettingsDialog::selectVisualisationFont()
+{
+    bool status;
+    _visualisationFont = QFontDialog::getFont(&status, _visualisationFont, this);
+    _settings.setValue("Visualisation/Font", _visualisationFont);
 
     rehash();
 }

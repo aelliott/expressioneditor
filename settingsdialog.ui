@@ -507,6 +507,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>selectFontButton</sender>
+   <signal>pressed()</signal>
+   <receiver>SettingsDialog</receiver>
+   <slot>selectVisualisationFont()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>217</x>
+     <y>385</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>226</x>
+     <y>306</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>visualisationTabChanged(int)</slot>
@@ -519,5 +535,6 @@
   <slot>showCapturingGroupsChanged(bool)</slot>
   <slot>showNoncapturingGroupsChanged(bool)</slot>
   <slot>handleButtonPress(QAbstractButton*)</slot>
+  <slot>selectVisualisationFont()</slot>
  </slots>
 </ui>
