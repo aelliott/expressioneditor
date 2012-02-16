@@ -29,11 +29,8 @@ AlternationGraphicsItem::AlternationGraphicsItem(QGraphicsLinearLayout *initialL
     double horizontalPadding = settings.value("Visualisation/Alternation/HorizontalPadding", 8.0).toDouble();
     double verticalPadding   = settings.value("Visualisation/Alternation/VerticalPadding", 6.0).toDouble();
 
-    _title = new QGraphicsTextItem("Alternation", this);
-    _title->setPos(horizontalPadding, verticalPadding);
-
     _mainLayout = new QGraphicsLinearLayout(Qt::Vertical);
-    _mainLayout->setContentsMargins(horizontalPadding, 2*verticalPadding + _title->boundingRect().height(), horizontalPadding, verticalPadding);
+    _mainLayout->setContentsMargins(horizontalPadding, 2*verticalPadding + _metrics.height(), horizontalPadding, verticalPadding);
     _mainLayout->setSpacing(itemSpacing);
     setLayout(_mainLayout);
 
@@ -62,7 +59,7 @@ QRectF AlternationGraphicsItem::boundingRect() const
     double horizontalPadding = settings.value("Visualisation/Alternation/HorizontalPadding", 8.0).toDouble();
     QSizeF childrenRect = _mainLayout->sizeHint(Qt::PreferredSize);
 
-    return QRectF(0, 0, qMax(childrenRect.width(), 2*horizontalPadding + _title->boundingRect().width()), childrenRect.height());
+    return QRectF(0, 0, qMax(childrenRect.width(), 2*horizontalPadding + _metrics.width(tr("Alternation"))), childrenRect.height());
 }
 
 void AlternationGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -71,12 +68,14 @@ void AlternationGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphic
     Q_UNUSED(widget)
 
     QSettings settings;
-    double itemSpacing       = settings.value("Visualisation/VerticalSpacing", 12.0).toDouble();
+    _font = settings.value("Visualisation/Font", QFont("sans-serif", 10)).value<QFont>();
+    double itemSpacing = settings.value("Visualisation/VerticalSpacing", 12.0).toDouble();
     double horizontalPadding = settings.value("Visualisation/Alternation/HorizontalPadding", 8.0).toDouble();
-    double verticalPadding   = settings.value("Visualisation/Alternation/VerticalPadding", 6.0).toDouble();
-    double cornerRadius      = settings.value("Visualisation/Alternation/CornerRadius", 5.0).toDouble();
-    QColor bgColor           = settings.value("Visualisation/Alternation/Color", QColor(255,255,225)).value<QColor>();
+    double verticalPadding = settings.value("Visualisation/Alternation/VerticalPadding", 6.0).toDouble();
+    double cornerRadius = settings.value("Visualisation/Alternation/CornerRadius", 5.0).toDouble();
+    QColor bgColor = settings.value("Visualisation/Alternation/Color", QColor(255,255,225)).value<QColor>();
 
+    painter->setFont(_font);
     painter->setBrush(bgColor);
     painter->setPen(Qt::black);
 
@@ -94,7 +93,15 @@ void AlternationGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphic
     }
     painter->drawRoundedRect(drawRect, cornerRadius, cornerRadius);
 
-    double offset = 2*verticalPadding + _title->boundingRect().height();
+    painter->drawText(QRectF(
+                          horizontalPadding,
+                          verticalPadding,
+                          drawRect.width()-2*horizontalPadding,
+                          _metrics.height()),
+                      Qt::AlignCenter,
+                      tr("Alternation"));
+
+    double offset = 2*verticalPadding + _metrics.height();
     for(int i = 0; (i+1) < _mainLayout->count(); ++i)
     {
         if(i > 0)

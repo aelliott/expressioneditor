@@ -25,7 +25,6 @@ BracketExpressionGraphicsItem::BracketExpressionGraphicsItem(Token *token, int t
     : RegexGraphicsItem(token, tokenPos, parent)
 {
     _negated = (token->type() == T_NEGATED_BRACKET_EXPRESSION_OPEN);
-    _text = new QGraphicsTextItem(this);
 }
 
 void BracketExpressionGraphicsItem::addToken(Token *token)
@@ -88,7 +87,7 @@ void BracketExpressionGraphicsItem::readTokens()
 
     if(characters.length() > 0)
     {
-        QString chars = "Any one of: ";
+        QString chars = "Characters: ";
         bool first = true;
         for(stringIter = characters.begin(); stringIter != characters.end(); ++stringIter)
         {
@@ -103,18 +102,23 @@ void BracketExpressionGraphicsItem::readTokens()
         items.push_back(chars);
     }
 
-    QString text;
     if(_negated)
-        text = "Any Character Except:";
+        _heading = "Any Character Except:";
     else
-        text = "Any One Of:";
+        _heading = "Any One Of:";
 
+    _text = "";
+    bool first = true;
     for(stringIter = items.begin(); stringIter != items.end(); ++stringIter)
     {
-        text += QString("<br>  - ") + (*stringIter);
+        if(first)
+        {
+            _text = QString(" - ") + (*stringIter);
+            first = false;
+        }
+        else
+            _text += QString("\n - ") + (*stringIter);
     }
-
-    _text->setHtml(text);
 }
 
 QRectF BracketExpressionGraphicsItem::boundingRect() const
@@ -123,9 +127,17 @@ QRectF BracketExpressionGraphicsItem::boundingRect() const
     double horizontalPadding = settings.value("Visualisation/BracketExpression/HorizontalPadding", 6.0).toDouble();
     double verticalPadding   = settings.value("Visualisation/BracketExpression/VerticalPadding", 5.0).toDouble();
 
-    QRectF textRect = _text->boundingRect();
+    // +2 in this case because of the extra heading in paint()
+    // This also means 3 sets of vertical padding
+    int lines = _text.count("\n")+2;
+    double textWidth = 0.0;
+    QStringList words = _text.split("\n");
+    for(int i = 0; i < words.size(); ++i)
+        if(_metrics.width(words.at(i)) > textWidth)
+            textWidth = _metrics.width(words.at(i));
+    textWidth = qMax(textWidth, static_cast<double>(_metrics.width(_heading)));
 
-    return QRectF(0, 0, textRect.width() + 2*horizontalPadding, textRect.height() + 2*verticalPadding);
+    return QRectF(0, 0, textWidth + 2*horizontalPadding, lines*_metrics.height() + 3*verticalPadding);
 }
 
 void BracketExpressionGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -134,11 +146,13 @@ void BracketExpressionGraphicsItem::paint(QPainter *painter, const QStyleOptionG
     Q_UNUSED(widget)
 
     QSettings settings;
+    _font = settings.value("Visualisation/Font", QFont("sans-serif", 10)).value<QFont>();
     double horizontalPadding = settings.value("Visualisation/BracketExpression/HorizontalPadding", 6.0).toDouble();
     double verticalPadding   = settings.value("Visualisation/BracketExpression/VerticalPadding", 5.0).toDouble();
     double cornerRadius   = settings.value("Visualisation/BracketExpression/CornerRadius", 5.0).toDouble();
     QColor bgColor = settings.value("Visualisation/BracketExpression/Color", QColor(225,225,255)).value<QColor>();
 
+    painter->setFont(_font);
     painter->setBrush(bgColor);
     painter->setPen(Qt::black);
 
@@ -156,7 +170,29 @@ void BracketExpressionGraphicsItem::paint(QPainter *painter, const QStyleOptionG
     }
     painter->drawRoundedRect(drawRect, cornerRadius, cornerRadius);
 
-    _text->setPos(horizontalPadding, verticalPadding);
+    int lines = _text.count("\n")+1;
+    double textWidth = 0.0;
+    QStringList words = _text.split("\n");
+    for(int i = 0; i < words.size(); ++i)
+        if(_metrics.width(words.at(i)) > textWidth)
+            textWidth = _metrics.width(words.at(i));
+    textWidth = qMax(textWidth, static_cast<double>(_metrics.width(_heading)));
+
+    painter->drawText(QRectF(
+                          horizontalPadding,
+                          verticalPadding,
+                          textWidth,
+                          _metrics.height()),
+                      Qt::AlignCenter,
+                      _heading);
+
+    painter->drawText(QRectF(
+                          horizontalPadding,
+                          _metrics.height() + 2*verticalPadding,
+                          textWidth,
+                          lines*_metrics.height()),
+                      Qt::AlignVCenter | Qt::AlignLeft | Qt::TextWordWrap,
+                      _text);
 }
 
 QSizeF BracketExpressionGraphicsItem::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const

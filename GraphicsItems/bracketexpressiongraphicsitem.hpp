@@ -43,7 +43,8 @@ public:
 
 private:
     std::vector<Token *> _tokens;
-    QGraphicsTextItem *_text;
+    QString _text;
+    QString _heading;
     bool _negated;
 };
 

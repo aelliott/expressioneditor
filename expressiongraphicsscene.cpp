@@ -23,6 +23,7 @@
 
 #include <QGraphicsSceneDragDropEvent>
 #include <QMimeData>
+#include <QSettings>
 #include <QDebug>
 
 ExpressionGraphicsScene::ExpressionGraphicsScene(QObject *parent)
@@ -32,6 +33,9 @@ ExpressionGraphicsScene::ExpressionGraphicsScene(QObject *parent)
 
 void ExpressionGraphicsScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
+    QSettings settings;
+    double itemSpacing = settings.value("Visualisation/HorizontalSpacing", 8.0).toDouble();
+
     while(_dropZoneLabels.size() > 0)
     {
         removeItem(_dropZoneLabels.at(0));
@@ -45,21 +49,49 @@ void ExpressionGraphicsScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
         QPointF itemPos = item->scenePos();
         QRectF bounds = item->boundingRect();
 
-        qDebug() << itemPos;
-        qDebug() << bounds;
+        QColor dropZoneColour(210, 210, 255, 80);
+        QBrush brush(dropZoneColour);
+        QPen pen(dropZoneColour);
 
         QPointF topLeft = itemPos;
-        topLeft.setY(itemPos.y()-8.0);
+        topLeft.setY(itemPos.y()-itemSpacing);
 
-        QPointF bottomRight = itemPos;
-        bottomRight.setX(itemPos.x()+bounds.width());
+        QGraphicsRectItem *topLabel = new QGraphicsRectItem(0, 0, bounds.width(), itemSpacing);
+        topLabel->setPen(pen);
+        topLabel->setBrush(brush);
+        topLabel->setPos(topLeft);
+        addItem(topLabel);
+        _dropZoneLabels.append(topLabel);
 
-        QGraphicsRectItem *dropZoneLabel = new QGraphicsRectItem(0, 0, bounds.width(), 8.0);
-        dropZoneLabel->setPos(topLeft);
-        addItem(dropZoneLabel);
-        _dropZoneLabels.append(dropZoneLabel);
+        topLeft = itemPos;
+        topLeft.setX(itemPos.x()-itemSpacing);
 
-        qDebug() << dropZoneLabel->boundingRect();
+        QGraphicsRectItem *leftLabel = new QGraphicsRectItem(0, 0, itemSpacing, bounds.height());
+        leftLabel->setPen(pen);
+        leftLabel->setBrush(brush);
+        leftLabel->setPos(topLeft);
+        addItem(leftLabel);
+        _dropZoneLabels.append(leftLabel);
+
+        topLeft = itemPos;
+        topLeft.setY(itemPos.y()+bounds.height());
+
+        QGraphicsRectItem *bottomLabel = new QGraphicsRectItem(0, 0, bounds.width(), itemSpacing);
+        bottomLabel->setPen(pen);
+        bottomLabel->setBrush(brush);
+        bottomLabel->setPos(topLeft);
+        addItem(bottomLabel);
+        _dropZoneLabels.append(bottomLabel);
+
+        topLeft = itemPos;
+        topLeft.setX(itemPos.x()+bounds.width());
+
+        QGraphicsRectItem *rightLabel = new QGraphicsRectItem(0, 0, itemSpacing, bounds.height());
+        rightLabel->setPen(pen);
+        rightLabel->setBrush(brush);
+        rightLabel->setPos(topLeft);
+        addItem(rightLabel);
+        _dropZoneLabels.append(rightLabel);
     }
 
     event->accept();
