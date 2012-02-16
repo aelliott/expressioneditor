@@ -21,12 +21,12 @@
  */
 #include "characterclassitem.hpp"
 
-CharacterClassItem::CharacterClassItem(RegexpToken token, QGraphicsItem *parent)
-    : QGraphicsWidget(parent)
+CharacterClassItem::CharacterClassItem(Token *token, int tokenPos, QGraphicsItem *parent)
+    : RegexGraphicsItem(token, tokenPos, parent)
 {
     _text = new QGraphicsTextItem(this);
 
-    switch(token)
+    switch(token->type())
     {
     case T_WORD:
         _text->setHtml("<center>Word<br>Character");

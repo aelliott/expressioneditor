@@ -21,8 +21,8 @@
  */
 #include "repeatgraphicsitem.hpp"
 
-RepeatGraphicsItem::RepeatGraphicsItem(Token repeatToken, QGraphicsWidget *childWidget, QGraphicsItem *parent)
-    : QGraphicsWidget(parent)
+RepeatGraphicsItem::RepeatGraphicsItem(Token *token, int tokenPos, QGraphicsWidget *childWidget, QGraphicsItem *parent)
+    : RegexGraphicsItem(token, tokenPos, parent)
 {
     QSettings settings;
     double horizontalPadding = settings.value("Visualisation/Repeat/HorizontalPadding", 8.0).toDouble();
@@ -30,7 +30,7 @@ RepeatGraphicsItem::RepeatGraphicsItem(Token repeatToken, QGraphicsWidget *child
 
     _title = new QGraphicsTextItem("Repeat", this);
     _title->setPos(horizontalPadding, verticalPadding);
-    parseToken(repeatToken);
+    parseToken(*token);
 
     _layout = new QGraphicsLinearLayout(Qt::Vertical);
     _layout->setContentsMargins(horizontalPadding, 2*verticalPadding + _title->boundingRect().height(), horizontalPadding, verticalPadding);

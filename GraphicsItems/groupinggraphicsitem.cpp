@@ -21,20 +21,19 @@
  */
 #include "groupinggraphicsitem.hpp"
 
-GroupingGraphicsItem::GroupingGraphicsItem(Token token, bool defaultCapturing, QGraphicsItem *parent)
-    : QGraphicsWidget(parent)
-    , _token(token)
+GroupingGraphicsItem::GroupingGraphicsItem(Token *token, int tokenPos, bool defaultCapturing, QGraphicsItem *parent)
+    : RegexGraphicsItem(token, tokenPos, parent)
     , _defaultCapturing(defaultCapturing)
 {
-    if(token.type() == T_REVERSED_CAPTURING_GROUPING_OPEN)
+    if(token->type() == T_REVERSED_CAPTURING_GROUPING_OPEN)
         _capturing = !_defaultCapturing;
     else
         _capturing = _defaultCapturing;
 
-    if(token.type() == T_NAMED_GROUPING_OPEN)
+    if(token->type() == T_NAMED_GROUPING_OPEN)
     {
         QRegExp rx("<([^>]+)>|'([^']+)'");
-        if(rx.indexIn(token.value()) != -1)
+        if(rx.indexIn(token->value()) != -1)
         {
             _name = rx.cap(1);
             _title = new QGraphicsTextItem(QString("Grouping \"") + _name + "\"", this);

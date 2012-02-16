@@ -22,15 +22,10 @@
 #ifndef GROUPINGGRAPHICSITEM_HPP
 #define GROUPINGGRAPHICSITEM_HPP
 
-#include <QGraphicsWidget>
+#include "GraphicsItems/regexgraphicsitem.hpp"
 #include <QGraphicsLinearLayout>
-#include <QPainter>
-#include <QSettings>
-#include <QDebug>
 
-#include "RegexModules/token.hpp"
-
-class GroupingGraphicsItem : public QGraphicsWidget
+class GroupingGraphicsItem : public RegexGraphicsItem
 {
     Q_OBJECT
 public:
@@ -43,7 +38,7 @@ public:
         DisplayAll = (DisplayCapturing | DisplayNonCapturing)
     };
 
-    explicit GroupingGraphicsItem(Token token, bool defaultCapturing = true, QGraphicsItem *parent = 0);
+    explicit GroupingGraphicsItem(Token *token, int tokenPos, bool defaultCapturing = true, QGraphicsItem *parent = 0);
 
     void addWidget(QGraphicsWidget *widget);
     QGraphicsLinearLayout *linearLayout() const;
@@ -56,7 +51,6 @@ public:
 
 private:
     QGraphicsLinearLayout *_layout;
-    Token _token;
     bool _capturing;
     bool _defaultCapturing;
     QString _name;

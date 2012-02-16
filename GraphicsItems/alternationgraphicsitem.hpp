@@ -22,16 +22,14 @@
 #ifndef ALTERNATIONGRAPHICSITEM_HPP
 #define ALTERNATIONGRAPHICSITEM_HPP
 
-#include <QGraphicsWidget>
+#include "GraphicsItems/regexgraphicsitem.hpp"
 #include <QGraphicsLinearLayout>
-#include <QPainter>
-#include <QSettings>
 
-class AlternationGraphicsItem : public QGraphicsWidget
+class AlternationGraphicsItem : public RegexGraphicsItem
 {
     Q_OBJECT
 public:
-    explicit AlternationGraphicsItem(QGraphicsLinearLayout *initialLayout, QGraphicsItem *parent = 0);
+    explicit AlternationGraphicsItem(QGraphicsLinearLayout *initialLayout, Token *token, int tokenPos, QGraphicsItem *parent = 0);
 
     void newBranch();
     QGraphicsLinearLayout *linearLayout() const;

@@ -22,17 +22,13 @@
 #ifndef CHARACTERCLASS_HPP
 #define CHARACTERCLASS_HPP
 
-#include <QGraphicsWidget>
-#include <QSettings>
-#include <QPainter>
+#include "GraphicsItems/regexgraphicsitem.hpp"
 
-#include "RegexModules/tokens.hpp"
-
-class CharacterClassItem : public QGraphicsWidget
+class CharacterClassItem : public RegexGraphicsItem
 {
     Q_OBJECT
 public:
-    explicit CharacterClassItem(RegexpToken token, QGraphicsItem *parent = 0);
+    explicit CharacterClassItem(Token *token, int tokenPos, QGraphicsItem *parent = 0);
 
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);

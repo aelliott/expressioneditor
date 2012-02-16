@@ -73,6 +73,7 @@ INCLUDE(${QT_USE_FILE})
 # Add .cpp files
 SET(expressioneditor_CPP_SRCS
     blockhighlighter.cpp
+    expressiongraphicsscene.cpp
     capturedstring.cpp
     expressionedit.cpp
     expressionhighlighter.cpp
@@ -93,6 +94,7 @@ SET(expressioneditor_CPP_SRCS
     GraphicsItems/expressiongraphicsitem.cpp
     GraphicsItems/groupinggraphicsitem.cpp
     GraphicsItems/literalgraphicsitem.cpp
+    GraphicsItems/regexgraphicsitem.cpp
     GraphicsItems/repeatgraphicsitem.cpp
     GraphicsItems/specialchargraphicsitem.cpp
     RegexModules/cppawkparser.cpp
@@ -112,6 +114,7 @@ SET(expressioneditor_CPP_SRCS
 # Wrap QOBJECT classes
 SET(expressioneditor_HPP_SRCS
     blockhighlighter.hpp
+    expressiongraphicsscene.hpp
     expressionedit.hpp
     expressionhighlighter.hpp
     graphicsitemsettings.hpp
@@ -129,6 +132,7 @@ SET(expressioneditor_HPP_SRCS
     GraphicsItems/expressiongraphicsitem.hpp
     GraphicsItems/groupinggraphicsitem.hpp
     GraphicsItems/literalgraphicsitem.hpp
+    GraphicsItems/regexgraphicsitem.hpp
     GraphicsItems/repeatgraphicsitem.hpp
     GraphicsItems/specialchargraphicsitem.hpp
     RegexModules/cppawkparser.hpp

@@ -21,9 +21,10 @@
  */
 #include "errorgraphicsitem.hpp"
 
-ErrorGraphicsItem::ErrorGraphicsItem(QString text, QGraphicsItem *parent)
-    : QGraphicsWidget(parent)
+ErrorGraphicsItem::ErrorGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent)
+    : RegexGraphicsItem(token, tokenPos, parent)
 {
+    QString text = token->value();
     _text = new QGraphicsTextItem(text, this);
 }
 

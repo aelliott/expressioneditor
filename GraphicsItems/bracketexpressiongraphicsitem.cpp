@@ -21,10 +21,10 @@
  */
 #include "bracketexpressiongraphicsitem.hpp"
 
-BracketExpressionGraphicsItem::BracketExpressionGraphicsItem(bool negated, QGraphicsItem *parent)
-    : QGraphicsWidget(parent)
-    , _negated(negated)
+BracketExpressionGraphicsItem::BracketExpressionGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent)
+    : RegexGraphicsItem(token, tokenPos, parent)
 {
+    _negated = (token->type() == T_NEGATED_BRACKET_EXPRESSION_OPEN);
     _text = new QGraphicsTextItem(this);
 }
 

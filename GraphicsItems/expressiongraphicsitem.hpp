@@ -1,7 +1,7 @@
 /*!
  * \file
  *
- * Copyright (c) 2011 Alex Elliott <alex@alex-elliott.co.uk>
+ * Copyright (c) 2011,2012 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
@@ -66,6 +66,7 @@ private:
     QGraphicsWidget *_lastItem;
     std::vector<Token *> _tokens;
     std::vector<Token *>::iterator  _iter;
+    int _pos;
     bool _incremented;
 
     double _itemSpacing;

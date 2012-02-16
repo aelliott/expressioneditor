@@ -1,7 +1,7 @@
 /*!
  * \file
  *
- * Copyright (c) 2011 Alex Elliott <alex@alex-elliott.co.uk>
+ * Copyright (c) 2011,2012 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
@@ -24,6 +24,7 @@
 ExpressionGraphicsItem::ExpressionGraphicsItem(QString expression, RegexFactory::RegexFormat format, QGraphicsItem *parent)
     : QGraphicsWidget(parent)
     , _expression(expression)
+    , _pos(0)
 {
     QSettings settings;
     _itemSpacing = settings.value("Visualisation/HorizontalSpacing", 8.0).toDouble();
@@ -46,7 +47,10 @@ ExpressionGraphicsItem::ExpressionGraphicsItem(QString expression, RegexFactory:
         // The iterator can be incremented from within handleToken, so we must
         // ensure we do not run over the end
         if(_iter != _tokens.end() && !_incremented)
+        {
             ++_iter;
+            ++_pos;
+        }
     }
     _root->setContentsMargins(10, 10, 10, 10);
     setLayout(_root);
@@ -61,31 +65,29 @@ ExpressionGraphicsItem::~ExpressionGraphicsItem()
 
 QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphicsLinearLayout *currentLayout)
 {
-    QGraphicsWidget *newItem;
-    GroupingGraphicsItem *grouping;
+    RegexGraphicsItem *newItem;
     RepeatGraphicsItem *repeat;
-    AlternationGraphicsItem *alternation;
-    BracketExpressionGraphicsItem *bracketExpression;
     QGraphicsLinearLayout *newLayout;
-    bool capturing = true;
+    bool defaultCapturing = true;
     bool named = false;
-    bool negated = true;
     _incremented = false;
 
     switch(token.type())
     {
     case T_LITERAL:
-        newItem = new LiteralGraphicsItem(token.value());
+        newItem = new LiteralGraphicsItem(*_iter, _pos);
         currentLayout->addItem(newItem);
         //currentLayout->setAlignment(newItem, Qt::AlignVCenter | Qt::AlignLeft);
         _lastItem = newItem;
         break;
     case T_ALTERNATION:
-        alternation = new AlternationGraphicsItem(currentLayout);
+    {
+        AlternationGraphicsItem *alternation = new AlternationGraphicsItem(currentLayout, *_iter, _pos);
         currentLayout = new QGraphicsLinearLayout(Qt::Horizontal);
         currentLayout->setSpacing(_itemSpacing);
         currentLayout->addItem(alternation);
         ++_iter;
+        ++_pos;
         _incremented = true;
         while(_iter != _tokens.end() && (*_iter)->type() != T_GROUPING_CLOSE)
         {
@@ -102,18 +104,23 @@ QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphic
             if(_iter != _tokens.end() && !_incremented)
             {
                 ++_iter;
+                ++_pos;
                 _incremented = true;
             }
         }
+        alternation->setEndPos(_pos-1);
         _lastItem = alternation;
+    }
         break;
     case T_NAMED_GROUPING_OPEN:
     case T_GROUPING_OPEN:
     case T_REVERSED_CAPTURING_GROUPING_OPEN:
-        grouping = new GroupingGraphicsItem(token, capturing);
+    {
+        GroupingGraphicsItem *grouping = new GroupingGraphicsItem(*_iter, _pos, defaultCapturing);
         currentLayout->addItem(grouping);
         //currentLayout->setAlignment(grouping, Qt::AlignVCenter | Qt::AlignLeft);
         ++_iter;
+        ++_pos;
         _incremented = true;
         newLayout = new QGraphicsLinearLayout(Qt::Horizontal);
         newLayout->setSpacing(_itemSpacing);
@@ -126,40 +133,51 @@ QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphic
             if(_iter != _tokens.end() && !_incremented)
             {
                 ++_iter;
+                ++_pos;
                 _incremented = true;
             }
         }
         if((*_iter)->type() == T_GROUPING_CLOSE)
         {
             ++_iter;
+            ++_pos;
             _incremented = true;
         }
         grouping->setLinearLayout(newLayout);
+        grouping->setEndPos(_pos-1);
         _lastItem = grouping;
+    }
         break;
     case T_BRACKET_EXPRESSION_OPEN:
-        negated = !negated;
     case T_NEGATED_BRACKET_EXPRESSION_OPEN:
-        bracketExpression = new BracketExpressionGraphicsItem(negated);
+    {
+        BracketExpressionGraphicsItem *bracketExpression = new BracketExpressionGraphicsItem(*_iter, _pos);
         currentLayout->addItem(bracketExpression);
 
         ++_iter;
+        ++_pos;
         _incremented = true;
 
         while(_iter != _tokens.end() && (*_iter)->type() != T_BRACKET_EXPRESSION_CLOSE)
         {
             bracketExpression->addToken(*_iter);
             ++_iter;
+            ++_pos;
         }
 
         if((*_iter)->type() == T_BRACKET_EXPRESSION_CLOSE)
+        {
             ++_iter;
+            ++_pos;
+        }
 
+        bracketExpression->setEndPos(_pos-1);
         _lastItem = bracketExpression;
+    }
         break;
     case T_STARTING_POSITION:
     case T_ENDING_POSITION:
-        newItem = new AnchorGraphicsItem(token.type());
+        newItem = new AnchorGraphicsItem(*_iter, _pos);
         currentLayout->addItem(newItem);
         _lastItem = newItem;
         break;
@@ -169,7 +187,7 @@ QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphic
     case T_NOT_DIGIT:
     case T_SPACE:
     case T_NOT_SPACE:
-        newItem = new CharacterClassItem(token.type());
+        newItem = new CharacterClassItem(*_iter, _pos);
         currentLayout->addItem(newItem);
         _lastItem = newItem;
         break;
@@ -190,7 +208,7 @@ QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphic
     case T_UNICODE_CHAR:
     case T_UNICODE_NAMED_CHAR:
     case T_GRAPHEME_CLUSTER:
-        newItem = new SpecialCharGraphicsItem(token);
+        newItem = new SpecialCharGraphicsItem(*_iter, _pos);
         currentLayout->addItem(newItem);
         _lastItem = newItem;
         break;
@@ -199,32 +217,39 @@ QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphic
     case T_REPEAT_ONE_OR_MORE:
     case T_REPEAT_SPECIFIED:
         currentLayout->removeItem(_lastItem);
-        repeat = new RepeatGraphicsItem(token, _lastItem);
+        repeat = new RepeatGraphicsItem(*_iter, _pos-1, _lastItem);
+        repeat->setEndPos(_pos);
         currentLayout->addItem(repeat);
         _lastItem = repeat;
         break;
     case T_COMMENT_OPEN:
+        newItem = new CommentGraphicsItem(*_iter, _pos);
         ++_iter;
+        ++_pos;
         _incremented = true;
 
         if(_iter != _tokens.end() && (*_iter)->type() == T_LITERAL)
         {
-            newItem = new CommentGraphicsItem((*_iter)->value());
             currentLayout->addItem(newItem);
             ++_iter;
+            ++_pos;
             if(_iter != _tokens.end() && (*_iter)->type() == T_COMMENT_CLOSE)
+            {
                 ++_iter;
+                ++_pos;
+            }
         }
         else if(_iter != _tokens.end() && (*_iter)->type() == T_COMMENT_CLOSE)
         {
-            newItem = new CommentGraphicsItem("");
             currentLayout->addItem(newItem);
             ++_iter;
+            ++_pos;
         }
+        newItem->setEndPos(_pos-1);
         _lastItem = newItem;
         break;
     default:
-        newItem = new ErrorGraphicsItem(token.value());
+        newItem = new ErrorGraphicsItem(*_iter, _pos);
         currentLayout->addItem(newItem);
         //currentLayout->setAlignment(newItem, Qt::AlignVCenter | Qt::AlignLeft);
         _lastItem = newItem;

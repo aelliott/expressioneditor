@@ -22,17 +22,15 @@
 #ifndef ANCHORITEM_HPP
 #define ANCHORITEM_HPP
 
-#include <QGraphicsWidget>
-#include <QSettings>
-#include <QPainter>
+#include "GraphicsItems/regexgraphicsitem.hpp"
 
 #include "RegexModules/tokens.hpp"
 
-class AnchorGraphicsItem : public QGraphicsWidget
+class AnchorGraphicsItem : public RegexGraphicsItem
 {
     Q_OBJECT
 public:
-    explicit AnchorGraphicsItem(RegexpToken token, QGraphicsItem *parent = 0);
+    explicit AnchorGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent = 0);
 
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);

@@ -22,16 +22,13 @@
 #ifndef LITERALGRAPHICSITEM_HPP
 #define LITERALGRAPHICSITEM_HPP
 
-#include <QGraphicsWidget>
-#include <QPainter>
-#include <QSettings>
-#include <QDebug>
+#include "GraphicsItems/regexgraphicsitem.hpp"
 
-class LiteralGraphicsItem : public QGraphicsWidget
+class LiteralGraphicsItem : public RegexGraphicsItem
 {
     Q_OBJECT
 public:
-    explicit LiteralGraphicsItem(QString text, QGraphicsItem *parent = 0);
+    explicit LiteralGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent = 0);
 
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);

@@ -21,10 +21,11 @@
  */
 #include "literalgraphicsitem.hpp"
 
-LiteralGraphicsItem::LiteralGraphicsItem(QString text, QGraphicsItem *parent)
-    : QGraphicsWidget(parent)
-    , _literal(text)
+LiteralGraphicsItem::LiteralGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent)
+    : RegexGraphicsItem(token, tokenPos, parent)
 {
+    QString text = token->value();
+    _literal = text;
     // Do not display escaped characters in the literal graphics item
     for(int i = 0; i < text.length(); ++i)
     {

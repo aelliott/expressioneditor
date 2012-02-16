@@ -21,8 +21,8 @@
  */
 #include "alternationgraphicsitem.hpp"
 
-AlternationGraphicsItem::AlternationGraphicsItem(QGraphicsLinearLayout *initialLayout, QGraphicsItem *parent)
-    : QGraphicsWidget(parent)
+AlternationGraphicsItem::AlternationGraphicsItem(QGraphicsLinearLayout *initialLayout, Token *token, int tokenPos, QGraphicsItem *parent)
+    : RegexGraphicsItem(token, tokenPos, parent)
 {
     QSettings settings;
     double itemSpacing       = settings.value("Visualisation/VerticalSpacing", 12.0).toDouble();

@@ -21,12 +21,12 @@
  */
 #include "anchorgraphicsitem.hpp"
 
-AnchorGraphicsItem::AnchorGraphicsItem(RegexpToken token, QGraphicsItem *parent)
-    : QGraphicsWidget(parent)
+AnchorGraphicsItem::AnchorGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent)
+    : RegexGraphicsItem(token, tokenPos, parent)
 {
     _text = new QGraphicsTextItem(this);
 
-    switch(token)
+    switch(token->type())
     {
     case T_STARTING_POSITION:
         _text->setHtml("<center>Starting<br>Position");

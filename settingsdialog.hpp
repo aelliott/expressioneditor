@@ -24,6 +24,7 @@
 
 #include <QDialog>
 #include <QAbstractButton>
+#include <QSettings>
 
 #include "GraphicsItems/expressiongraphicsitem.hpp"
 

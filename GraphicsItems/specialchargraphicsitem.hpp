@@ -22,9 +22,7 @@
 #ifndef SPECIALCHARGRAPHICSITEM_HPP
 #define SPECIALCHARGRAPHICSITEM_HPP
 
-#include <QGraphicsWidget>
-#include <QSettings>
-#include <QPainter>
+#include "GraphicsItems/regexgraphicsitem.hpp"
 
 #include "cmakeconfig.hpp"
 
@@ -37,12 +35,12 @@
 
 #include "RegexModules/token.hpp"
 
-class SpecialCharGraphicsItem : public QGraphicsWidget
+class SpecialCharGraphicsItem : public RegexGraphicsItem
 {
     Q_OBJECT
 
 public:
-    explicit SpecialCharGraphicsItem(Token token, QGraphicsItem *parent = 0);
+    explicit SpecialCharGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent = 0);
 
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);

@@ -22,19 +22,16 @@
 #ifndef BRACKETEXPRESSIONGRAPHICSITEM_HPP
 #define BRACKETEXPRESSIONGRAPHICSITEM_HPP
 
-#include <QGraphicsWidget>
-#include <QPainter>
-#include <QSettings>
+#include "GraphicsItems/regexgraphicsitem.hpp"
+
 #include <QDebug>
 
-#include "RegexModules/token.hpp"
-
-class BracketExpressionGraphicsItem : public QGraphicsWidget
+class BracketExpressionGraphicsItem : public RegexGraphicsItem
 {
     Q_OBJECT
 
 public:
-    explicit BracketExpressionGraphicsItem(bool negated = false, QGraphicsItem *parent = 0);
+    explicit BracketExpressionGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent = 0);
 
     void addToken(Token *token);
     void readTokens();

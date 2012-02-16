@@ -22,20 +22,14 @@
 #ifndef REPEATGRAPHICSITEM_HPP
 #define REPEATGRAPHICSITEM_HPP
 
-#include <QGraphicsWidget>
+#include "GraphicsItems/regexgraphicsitem.hpp"
 #include <QGraphicsLinearLayout>
-#include <QPainter>
-#include <QSettings>
 
-#include <QDebug>
-
-#include "RegexModules/token.hpp"
-
-class RepeatGraphicsItem : public QGraphicsWidget
+class RepeatGraphicsItem : public RegexGraphicsItem
 {
     Q_OBJECT
 public:
-    explicit RepeatGraphicsItem(Token repeatToken, QGraphicsWidget *childWidget = 0, QGraphicsItem *parent = 0);
+    explicit RepeatGraphicsItem(Token *token, int tokenPos, QGraphicsWidget *childWidget = 0, QGraphicsItem *parent = 0);
 
     void setWidget(QGraphicsWidget *widget);
 

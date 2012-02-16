@@ -21,12 +21,12 @@
  */
 #include "specialchargraphicsitem.hpp"
 
-SpecialCharGraphicsItem::SpecialCharGraphicsItem(Token token, QGraphicsItem *parent)
-    : QGraphicsWidget(parent)
+SpecialCharGraphicsItem::SpecialCharGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent)
+    : RegexGraphicsItem(token, tokenPos, parent)
 {
     _text = new QGraphicsTextItem(this);
 
-    switch(token.type())
+    switch(token->type())
     {
     case T_ANY_CHARACTER:
         _text->setHtml("<center>Any<br>Character");
@@ -78,7 +78,7 @@ SpecialCharGraphicsItem::SpecialCharGraphicsItem(Token token, QGraphicsItem *par
         QString msg;
 
 #ifndef NO_ICU
-        QString name = token.value().mid(3, token.value().length() - 4);
+        QString name = token->value().mid(3, token->value().length() - 4);
 
         //UnicodeString unicodeName(name.toStdString().c_str());
         UnicodeString unicodeChar;

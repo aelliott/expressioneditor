@@ -1,7 +1,7 @@
 /*!
  * \file
  *
- * Copyright (c) 2011 Alex Elliott <alex@alex-elliott.co.uk>
+ * Copyright (c) 2012 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
@@ -19,24 +19,35 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef COMMENTGRAPHICSITEM_HPP
-#define COMMENTGRAPHICSITEM_HPP
+#ifndef REGEXGRAPHICSITEM_HPP
+#define REGEXGRAPHICSITEM_HPP
 
-#include "GraphicsItems/regexgraphicsitem.hpp"
+#include <QGraphicsWidget>
+#include <QPainter>
+#include <QSettings>
 
-class CommentGraphicsItem : public RegexGraphicsItem
+#include "RegexModules/token.hpp"
+
+class RegexGraphicsItem : public QGraphicsWidget
 {
     Q_OBJECT
 public:
-    explicit CommentGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent = 0);
+    explicit RegexGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent = 0);
 
-    QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    Token *token() const;
+    int tokenPos() const;
+    int endPos() const;
 
-    QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraint) const;
+    void setEndPos(int endPos);
 
-private:
-    QGraphicsTextItem *_text;
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+
+    Token *_token;
+    int _tokenPos;
+    int _endPos;
 };
 
-#endif // COMMENTGRAPHICSITEM_HPP
+#endif // REGEXGRAPHICSITEM_HPP

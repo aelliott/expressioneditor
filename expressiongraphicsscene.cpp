@@ -1,7 +1,7 @@
 /*!
  * \file
  *
- * Copyright (c) 2011 Alex Elliott <alex@alex-elliott.co.uk>
+ * Copyright (c) 2012 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor
@@ -19,24 +19,9 @@
  * You should have received a copy of the GNU General Public License
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef COMMENTGRAPHICSITEM_HPP
-#define COMMENTGRAPHICSITEM_HPP
+#include "expressiongraphicsscene.hpp"
 
-#include "GraphicsItems/regexgraphicsitem.hpp"
-
-class CommentGraphicsItem : public RegexGraphicsItem
+ExpressionGraphicsScene::ExpressionGraphicsScene(QObject *parent) :
+    QGraphicsScene(parent)
 {
-    Q_OBJECT
-public:
-    explicit CommentGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent = 0);
-
-    QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-
-    QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraint) const;
-
-private:
-    QGraphicsTextItem *_text;
-};
-
-#endif // COMMENTGRAPHICSITEM_HPP
+}

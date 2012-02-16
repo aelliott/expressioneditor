@@ -50,7 +50,9 @@ SOURCES += main.cpp\
     RegexModules/cppposixparser.cpp \
     RegexModules/cppawkparser.cpp \
     RegexModules/cppgrepparser.cpp \
-    GraphicsItems/specialchargraphicsitem.cpp
+    GraphicsItems/specialchargraphicsitem.cpp \
+    expressiongraphicsscene.cpp \
+    GraphicsItems/regexgraphicsitem.cpp
 
 HEADERS  += mainwindow.hpp \
     RegexModules/regexbase.hpp \
@@ -92,7 +94,9 @@ HEADERS  += mainwindow.hpp \
     RegexModules/cppposixparser.hpp \
     RegexModules/cppawkparser.hpp \
     RegexModules/cppgrepparser.hpp \
-    GraphicsItems/specialchargraphicsitem.hpp
+    GraphicsItems/specialchargraphicsitem.hpp \
+    expressiongraphicsscene.hpp \
+    GraphicsItems/regexgraphicsitem.hpp
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui \

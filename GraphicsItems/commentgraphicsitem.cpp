@@ -21,9 +21,11 @@
  */
 #include "commentgraphicsitem.hpp"
 
-CommentGraphicsItem::CommentGraphicsItem(QString text, QGraphicsItem *parent)
-    : QGraphicsWidget(parent)
+CommentGraphicsItem::CommentGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent)
+    : RegexGraphicsItem(token, tokenPos, parent)
 {
+    // (#...)
+    QString text = token->value().mid(2, token->value().length()-3);
     _text = new QGraphicsTextItem(text, this);
 }
 

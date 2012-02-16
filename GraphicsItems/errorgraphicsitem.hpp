@@ -22,15 +22,13 @@
 #ifndef ERRORGRAPHICSITEM_HPP
 #define ERRORGRAPHICSITEM_HPP
 
-#include <QGraphicsWidget>
-#include <QSettings>
-#include <QPainter>
+#include "GraphicsItems/regexgraphicsitem.hpp"
 
-class ErrorGraphicsItem : public QGraphicsWidget
+class ErrorGraphicsItem : public RegexGraphicsItem
 {
     Q_OBJECT
 public:
-    explicit ErrorGraphicsItem(QString text, QGraphicsItem *parent = 0);
+    explicit ErrorGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent = 0);
 
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
