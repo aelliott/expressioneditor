@@ -85,6 +85,8 @@ QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphic
         // This is a bit nasty, but it works
         int start = static_cast<RegexGraphicsItem *>(currentLayout->itemAt(0))->tokenPos();
         AlternationGraphicsItem *alternation = new AlternationGraphicsItem(currentLayout, *_iter, start);
+        currentLayout->insertStretch(0);
+        currentLayout->addStretch();
         currentLayout = new QGraphicsLinearLayout(Qt::Horizontal);
         currentLayout->setSpacing(_itemSpacing);
         currentLayout->addItem(alternation);
@@ -110,6 +112,7 @@ QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphic
                 _incremented = true;
             }
         }
+        alternation->linearLayout()->addStretch();
         alternation->setEndPos(_pos-1);
         _lastItem = alternation;
     }
@@ -261,7 +264,7 @@ QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphic
     }
 
     _lastItem->setGeometry(_lastItem->boundingRect());
-    currentLayout->setAlignment(_lastItem, Qt::AlignVCenter | Qt::AlignLeft);
+    currentLayout->setAlignment(_lastItem, Qt::AlignCenter);
     currentLayout->setGeometry(QRectF(0, 0, currentLayout->sizeHint(Qt::PreferredSize).width(),
                                currentLayout->sizeHint(Qt::PreferredSize).height()));
 

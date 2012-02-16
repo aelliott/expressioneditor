@@ -30,7 +30,7 @@ RepeatGraphicsItem::RepeatGraphicsItem(Token *token, int tokenPos, QGraphicsWidg
 
     parseToken(*token);
 
-    _layout = new QGraphicsLinearLayout(Qt::Vertical);
+    _layout = new QGraphicsLinearLayout(Qt::Horizontal);
     _layout->setContentsMargins(horizontalPadding, 2*verticalPadding + _metrics.height(), horizontalPadding, verticalPadding);
     setLayout(_layout);
     _layout->setGeometry(boundingRect());
@@ -39,7 +39,9 @@ RepeatGraphicsItem::RepeatGraphicsItem(Token *token, int tokenPos, QGraphicsWidg
         _child = new QGraphicsWidget(this);
     else
         _child = childWidget;
+    _layout->addStretch();
     _layout->addItem(_child);
+    _layout->addStretch();
     _layout->setAlignment(_child, Qt::AlignTop | Qt::AlignHCenter);
 }
 
@@ -48,7 +50,11 @@ void RepeatGraphicsItem::setWidget(QGraphicsWidget *widget)
     _layout->removeItem(_child);
     delete _child;
     _child = widget;
+    for(int i = 0; i < _layout->count(); ++i)
+        _layout->removeAt(0);
+    _layout->addStretch();
     _layout->addItem(_child);
+    _layout->addStretch();
     _layout->setAlignment(_child, Qt::AlignBottom | Qt::AlignHCenter);
 }
 

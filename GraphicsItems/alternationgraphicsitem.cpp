@@ -23,6 +23,7 @@
 
 AlternationGraphicsItem::AlternationGraphicsItem(QGraphicsLinearLayout *initialLayout, Token *token, int tokenPos, QGraphicsItem *parent)
     : RegexGraphicsItem(token, tokenPos, parent)
+    , _currentLayout(0)
 {
     QSettings settings;
     double itemSpacing       = settings.value("Visualisation/VerticalSpacing", 12.0).toDouble();
@@ -43,7 +44,10 @@ AlternationGraphicsItem::AlternationGraphicsItem(QGraphicsLinearLayout *initialL
 
 void AlternationGraphicsItem::newBranch()
 {
+    if(_currentLayout != 0)
+        _currentLayout->addStretch();
     _currentLayout = new QGraphicsLinearLayout(Qt::Horizontal);
+    _currentLayout->insertStretch(0);
     _mainLayout->addItem(_currentLayout);
     _mainLayout->setAlignment(_currentLayout, Qt::AlignTop | Qt::AlignHCenter);
 }

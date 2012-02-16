@@ -48,6 +48,7 @@ void ExpressionGraphicsScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
         QGraphicsItem *item = itemList.at(i);
         QPointF itemPos = item->scenePos();
         QRectF bounds = item->boundingRect();
+        qDebug() << bounds;
 
         QColor dropZoneColour(210, 210, 255, 80);
         QBrush brush(dropZoneColour);
