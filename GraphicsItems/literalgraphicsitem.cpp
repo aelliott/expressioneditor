@@ -44,7 +44,7 @@ QRectF LiteralGraphicsItem::boundingRect() const
     double horizontalPadding = settings.value("Visualisation/Literal/HorizontalPadding", 6.0).toDouble();
     double verticalPadding   = settings.value("Visualisation/Literal/VerticalPadding", 5.0).toDouble();
 
-    return QRectF(0, 0, _metrics.width(_text) + 2*horizontalPadding, _metrics.height() + 2*verticalPadding);
+    return QRectF(0, 0, _metrics.width(_text) + 2*horizontalPadding + 1, _metrics.height() + 2*verticalPadding);
 }
 
 void LiteralGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -53,6 +53,7 @@ void LiteralGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     Q_UNUSED(widget)
 
     QSettings settings;
+    _font = settings.value("Visualisation/Font", QFont("sans-serif", 10)).value<QFont>();
     double horizontalPadding = settings.value("Visualisation/Literal/HorizontalPadding", 6.0).toDouble();
     double verticalPadding   = settings.value("Visualisation/Literal/VerticalPadding", 5.0).toDouble();
     double cornerRadius   = settings.value("Visualisation/Literal/CornerRadius", 5.0).toDouble();
@@ -76,12 +77,13 @@ void LiteralGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     }
     painter->drawRoundedRect(drawRect, cornerRadius, cornerRadius);
 
-    QRectF textRect = QRectF(drawRect.x() + horizontalPadding,
-                             drawRect.y() + verticalPadding,
-                             drawRect.width() - 2*horizontalPadding,
-                             drawRect.height() - 2*verticalPadding);
-
-    painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignHCenter, _text);
+    painter->drawText(QRectF(
+                          horizontalPadding,
+                          verticalPadding,
+                          drawRect.width() - 2*horizontalPadding,
+                          drawRect.height() - 2*verticalPadding),
+                      Qt::AlignCenter,
+                      _text);
 }
 
 QSizeF LiteralGraphicsItem::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const

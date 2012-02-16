@@ -36,7 +36,7 @@ GroupingGraphicsItem::GroupingGraphicsItem(Token *token, int tokenPos, bool defa
         if(rx.indexIn(token->value()) != -1)
         {
             _name = rx.cap(1);
-            _title = new QGraphicsTextItem(QString("Grouping \"") + _name + "\"", this);
+            _title = tr("Grouping \"") + _name + "\"";
         }
     }
 
@@ -72,7 +72,7 @@ void GroupingGraphicsItem::setLinearLayout(QGraphicsLinearLayout *layout)
     }
 
     if(!_name.isEmpty() && (displayOptions & DisplayNamed))
-        _layout->setContentsMargins(horizontalPadding, 2*verticalPadding + _title->boundingRect().height(), horizontalPadding, verticalPadding);
+        _layout->setContentsMargins(horizontalPadding, 2*verticalPadding + _metrics.height(), horizontalPadding, verticalPadding);
     else
         _layout->setContentsMargins(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding);
 
@@ -96,7 +96,7 @@ QRectF GroupingGraphicsItem::boundingRect() const
         verticalPadding   = settings.value("Visualisation/Grouping/VerticalPadding", 6.0).toDouble();
     }
     if(!_name.isEmpty() && (displayOptions & DisplayNamed))
-        _layout->setContentsMargins(horizontalPadding, 2*verticalPadding + _title->boundingRect().height(), horizontalPadding, verticalPadding);
+        _layout->setContentsMargins(horizontalPadding, 2*verticalPadding + _metrics.height(), horizontalPadding, verticalPadding);
     else
         _layout->setContentsMargins(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding);
     QSizeF childrenRect = _layout->sizeHint(Qt::PreferredSize);
@@ -104,8 +104,8 @@ QRectF GroupingGraphicsItem::boundingRect() const
     if(!_name.isEmpty() && (displayOptions & DisplayNamed))
         return QRectF(0,
                       0,
-                      qMax(childrenRect.width(), _title->boundingRect().width() + 2*horizontalPadding),
-                      qMax(childrenRect.height(), _title->boundingRect().height() + 2*verticalPadding));
+                      qMax(childrenRect.width(), _metrics.width(_title) + 2*horizontalPadding),
+                      qMax(childrenRect.height(), _metrics.height() + 2*verticalPadding));
     else
         return QRectF(0, 0, childrenRect.width(), childrenRect.height());
 }
@@ -116,23 +116,22 @@ void GroupingGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
     Q_UNUSED(widget)
 
     QSettings settings;
+    _font = settings.value("Visualisation/Font", QFont("sans-serif", 10)).value<QFont>();
     int displayOptions = settings.value("Visualisation/Grouping/DisplayOptions", (DisplayCapturing | DisplayNamed)).toInt();
     double horizontalPadding = settings.value("Visualisation/Grouping/HorizontalPadding", 8.0).toDouble();
     double verticalPadding   = settings.value("Visualisation/Grouping/VerticalPadding", 6.0).toDouble();
     double cornerRadius   = settings.value("Visualisation/Grouping/CornerRadius", 5.0).toDouble();
     QColor bgColor = settings.value("Visualisation/Grouping/Color", QColor(245,245,245)).value<QColor>();
 
+    painter->setFont(_font);
     painter->setBrush(bgColor);
     painter->setPen(Qt::black);
 
     if((_capturing && (displayOptions & DisplayCapturing))
             || (!_capturing && (displayOptions & DisplayNonCapturing))
-            || (!_name.isEmpty() && (displayOptions & DisplayCapturing))
+            || (!_name.isEmpty() && (displayOptions & DisplayNamed))
             )
     {
-        if(!_name.isEmpty())
-            _title->setPos(horizontalPadding, verticalPadding);
-
         QRectF drawRect = boundingRect();
         // Align the rect to the pixel grid
         if(qRound(scenePos().x()) == scenePos().x())
@@ -146,6 +145,15 @@ void GroupingGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIt
             drawRect.setY(0.5);
         }
         painter->drawRoundedRect(drawRect, cornerRadius, cornerRadius);
+
+        if(!_name.isEmpty())
+            painter->drawText(QRectF(
+                                  horizontalPadding,
+                                  verticalPadding,
+                                  _metrics.width(_title),
+                                  _metrics.height()),
+                              Qt::AlignCenter,
+                              _title);
     }
 }
 

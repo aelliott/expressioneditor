@@ -36,7 +36,7 @@ public:
     QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraint) const;
 
 private:
-    QGraphicsTextItem *_text;
+    QString _text;
 };
 
 #endif // CHARACTERCLASS_HPP

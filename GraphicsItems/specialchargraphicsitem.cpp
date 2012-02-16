@@ -24,54 +24,54 @@
 SpecialCharGraphicsItem::SpecialCharGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent)
     : RegexGraphicsItem(token, tokenPos, parent)
 {
-    _text = new QGraphicsTextItem(this);
+    _text = "";
 
     switch(token->type())
     {
     case T_ANY_CHARACTER:
-        _text->setHtml("<center>Any<br>Character");
+        _text = tr("Any\nCharacter");
         break;
     case T_BELL:
-        _text->setHtml("<center>Bell<br>Character");
+        _text = tr("Bell\nCharacter");
         break;
     case T_BACKSPACE:
-        _text->setHtml("<center>Bell<br>Character");
+        _text = tr("Backspace\nCharacter");
         break;
     case T_ESCAPE:
-        _text->setHtml("<center>Bell<br>Character");
+        _text = tr("Escape\nCharacter");
         break;
     case T_FORM_FEED:
-        _text->setHtml("<center>Bell<br>Character");
+        _text = tr("Form\nFeed");
         break;
     case T_LINE_FEED:
-        _text->setHtml("<center>Bell<br>Character");
+        _text = tr("Line\nFeed");
         break;
     case T_CARRIAGE_RETURN:
-        _text->setHtml("<center>Bell<br>Character");
+        _text = tr("Carriage\nReturn");
         break;
     case T_HORIZONTAL_TAB:
-        _text->setHtml("<center>Bell<br>Character");
+        _text = tr("Horizonal\nTab");
         break;
     case T_VERTICAL_TAB:
-        _text->setHtml("<center>Bell<br>Character");
+        _text = tr("Vertical\nTab");
         break;
     case T_ASCII_CONTROL_CHAR:
-        _text->setHtml("<center>ASCII Control<br>Character");
+        _text = tr("ASCII Control\nCharacter");
         break;
     case T_UNICODE_NEWLINE:
-        _text->setHtml("<center>Unicode<br>Newline");
+        _text = tr("Unicode\nNewline");
         break;
     case T_BYTE:
-        _text->setHtml("<center>Byte");
+        _text = tr("Any\nByte");
         break;
     case T_OCTAL_CHAR:
-        _text->setHtml("<center>Octal<br>Character");
+        _text = tr("Octal\nCharacter");
         break;
     case T_HEXADECIMAL_CHAR:
-        _text->setHtml("<center>Hexadecimal<br>Character");
+        _text = tr("Hexadecimal\nCharacter");
         break;
     case T_UNICODE_CHAR:
-        _text->setHtml("<center>Unicode<br>Character");
+        _text = tr("Unicode\nCharacter");
         break;
     case T_UNICODE_NAMED_CHAR:
     {
@@ -94,23 +94,19 @@ SpecialCharGraphicsItem::SpecialCharGraphicsItem(Token *token, int tokenPos, QGr
         int32_t targetsize = unicodeChar.extract(dest, 8, conv, status);
         dest[targetsize] = 0;
 
-        msg = "<center>Unicode Named<br>Character \"%1\"";
-        msg = msg.arg(QString(dest));
+        _text = tr("Unicode Named\nCharacter \"%1\"");
+        _text = _text.arg(QString(dest));
 #else
-        msg = "<center>Unicode Named<br>Character";
+        _text = tr("Unicode Named\nCharacter");
 #endif // NO_ICU
-
-        _text->setHtml(msg);
     }
         break;
     case T_GRAPHEME_CLUSTER:
-        _text->setHtml("<center>Grapheme<br>Cluster");
+        _text = tr("Grapheme\nCluster");
         break;
     default:
-        _text->setHtml("Unhandled token");
+        _text = tr("Unhandled token");
     }
-
-    _text->setTextWidth(_text->boundingRect().width());
 }
 
 QRectF SpecialCharGraphicsItem::boundingRect() const
@@ -119,9 +115,16 @@ QRectF SpecialCharGraphicsItem::boundingRect() const
     double horizontalPadding = settings.value("Visualisation/SpecialCharacter/HorizontalPadding", 6.0).toDouble();
     double verticalPadding   = settings.value("Visualisation/SpecialCharacter/VerticalPadding", 5.0).toDouble();
 
-    QRectF textRect = _text->boundingRect();
+    int lines = _text.count("\n")+1;
+    double textWidth = 0.0;
+    QStringList words = _text.split("\n");
+    for(int i = 0; i < words.size(); ++i)
+        if(_metrics.width(words.at(i)) > textWidth)
+            textWidth = _metrics.width(words.at(i));
+    // To prevent a rounding error causing a cut-off later, just add an extra pixel now
+    textWidth++;
 
-    return QRectF(0, 0, textRect.width() + 2*horizontalPadding, textRect.height() + 2*verticalPadding);
+    return QRectF(0, 0, textWidth + 2*horizontalPadding, lines*_metrics.height() + 2*verticalPadding);
 }
 
 void SpecialCharGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -130,11 +133,13 @@ void SpecialCharGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphic
     Q_UNUSED(widget)
 
     QSettings settings;
+    _font = settings.value("Visualisation/Font", QFont("sans-serif", 10)).value<QFont>();
     double horizontalPadding = settings.value("Visualisation/SpecialCharacter/HorizontalPadding", 6.0).toDouble();
     double verticalPadding   = settings.value("Visualisation/SpecialCharacter/VerticalPadding", 5.0).toDouble();
     double cornerRadius   = settings.value("Visualisation/SpecialCharacter/CornerRadius", 5.0).toDouble();
     QColor bgColor = settings.value("Visualisation/SpecialCharacter/Color", QColor(220,255,255)).value<QColor>();
 
+    painter->setFont(_font);
     painter->setBrush(bgColor);
     painter->setPen(Qt::black);
 
@@ -152,7 +157,13 @@ void SpecialCharGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphic
     }
     painter->drawRoundedRect(drawRect, cornerRadius, cornerRadius);
 
-    _text->setPos(horizontalPadding, verticalPadding);
+    painter->drawText(QRectF(
+                          horizontalPadding,
+                          verticalPadding,
+                          drawRect.width() - 2*horizontalPadding,
+                          drawRect.height() - 2*verticalPadding),
+                      Qt::AlignCenter | Qt::TextWordWrap,
+                      _text);
 }
 
 QSizeF SpecialCharGraphicsItem::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const

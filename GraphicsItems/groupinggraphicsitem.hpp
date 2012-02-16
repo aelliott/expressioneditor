@@ -54,7 +54,7 @@ private:
     bool _capturing;
     bool _defaultCapturing;
     QString _name;
-    QGraphicsTextItem *_title;
+    QString _title;
 };
 
 #endif // GROUPINGGRAPHICSITEM_HPP

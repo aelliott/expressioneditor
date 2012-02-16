@@ -24,31 +24,31 @@
 CharacterClassItem::CharacterClassItem(Token *token, int tokenPos, QGraphicsItem *parent)
     : RegexGraphicsItem(token, tokenPos, parent)
 {
-    _text = new QGraphicsTextItem(this);
+    _text = "";
 
     switch(token->type())
     {
     case T_WORD:
-        _text->setHtml("<center>Word<br>Character");
+        _text = tr("Word\nCharacter");
         break;
     case T_NOT_WORD:
-        _text->setHtml("<center>Non-word<br>Character");
+        _text = tr("Non-word\nCharacter");
         break;
     case T_DIGIT:
-        _text->setHtml("<center>Digit<br>Character");
+        _text = tr("Digit\nCharacter");
         break;
     case T_NOT_DIGIT:
-        _text->setHtml("<center>Non-digit<br>Character");
+        _text = tr("Non-digit\nCharacter");
         break;
     case T_SPACE:
-        _text->setHtml("<center>Space<br>Character");
+        _text = tr("Space\nCharacter");
         break;
     case T_NOT_SPACE:
-        _text->setHtml("<center>Non-space<br>Character");
+        _text = tr("Non-space\nCharacter");
         break;
+    default:
+        _text = tr("Unhandled\nToken");
     }
-
-    _text->setTextWidth(_text->boundingRect().width());
 }
 
 QRectF CharacterClassItem::boundingRect() const
@@ -57,9 +57,16 @@ QRectF CharacterClassItem::boundingRect() const
     double horizontalPadding = settings.value("Visualisation/CharacterClass/HorizontalPadding", 6.0).toDouble();
     double verticalPadding   = settings.value("Visualisation/CharacterClass/VerticalPadding", 5.0).toDouble();
 
-    QRectF textRect = _text->boundingRect();
+    int lines = _text.count("\n")+1;
+    double textWidth = 0.0;
+    QStringList words = _text.split("\n");
+    for(int i = 0; i < words.size(); ++i)
+        if(_metrics.width(words.at(i)) > textWidth)
+            textWidth = _metrics.width(words.at(i));
+    // To prevent a rounding error causing a cut-off later, just add an extra pixel now
+    textWidth++;
 
-    return QRectF(0, 0, textRect.width() + 2*horizontalPadding, textRect.height() + 2*verticalPadding);
+    return QRectF(0, 0, textWidth + 2*horizontalPadding, lines*_metrics.height() + 2*verticalPadding);
 }
 
 void CharacterClassItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -68,11 +75,13 @@ void CharacterClassItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
     Q_UNUSED(widget)
 
     QSettings settings;
+    _font = settings.value("Visualisation/Font", QFont("sans-serif", 10)).value<QFont>();
     double horizontalPadding = settings.value("Visualisation/CharacterClass/HorizontalPadding", 6.0).toDouble();
     double verticalPadding   = settings.value("Visualisation/CharacterClass/VerticalPadding", 5.0).toDouble();
     double cornerRadius   = settings.value("Visualisation/CharacterClass/CornerRadius", 5.0).toDouble();
     QColor bgColor = settings.value("Visualisation/CharacterClass/Color", QColor(255,220,255)).value<QColor>();
 
+    painter->setFont(_font);
     painter->setBrush(bgColor);
     painter->setPen(Qt::black);
 
@@ -90,7 +99,13 @@ void CharacterClassItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
     }
     painter->drawRoundedRect(drawRect, cornerRadius, cornerRadius);
 
-    _text->setPos(horizontalPadding, verticalPadding);
+    painter->drawText(QRectF(
+                          horizontalPadding,
+                          verticalPadding,
+                          drawRect.width() - 2*horizontalPadding,
+                          drawRect.height() - 2*verticalPadding),
+                      Qt::AlignCenter | Qt::TextWordWrap,
+                      _text);
 }
 
 QSizeF CharacterClassItem::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const

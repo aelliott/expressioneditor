@@ -24,8 +24,7 @@
 ErrorGraphicsItem::ErrorGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent)
     : RegexGraphicsItem(token, tokenPos, parent)
 {
-    QString text = token->value();
-    _text = new QGraphicsTextItem(text, this);
+    _text = token->value();
 }
 
 QRectF ErrorGraphicsItem::boundingRect() const
@@ -34,9 +33,7 @@ QRectF ErrorGraphicsItem::boundingRect() const
     double horizontalPadding = settings.value("Visualisation/Error/HorizontalPadding", 6.0).toDouble();
     double verticalPadding   = settings.value("Visualisation/Error/VerticalPadding", 5.0).toDouble();
 
-    QRectF textRect = _text->boundingRect();
-
-    return QRectF(0, 0, textRect.width() + 2*horizontalPadding, textRect.height() + 2*verticalPadding);
+    return QRectF(0, 0, _metrics.width(_text) + 2*horizontalPadding + 1, _metrics.height() + 2*verticalPadding);
 }
 
 void ErrorGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -45,11 +42,13 @@ void ErrorGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(widget)
 
     QSettings settings;
+    _font = settings.value("Visualisation/Font", QFont("sans-serif", 10)).value<QFont>();
     double horizontalPadding = settings.value("Visualisation/Error/HorizontalPadding", 6.0).toDouble();
     double verticalPadding   = settings.value("Visualisation/Error/VerticalPadding", 5.0).toDouble();
     double cornerRadius   = settings.value("Visualisation/Error/CornerRadius", 5.0).toDouble();
     QColor bgColor = settings.value("Visualisation/Error/Color", QColor(255,220,220)).value<QColor>();
 
+    painter->setFont(_font);
     painter->setBrush(bgColor);
     painter->setPen(Qt::black);
 
@@ -67,7 +66,13 @@ void ErrorGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     }
     painter->drawRoundedRect(drawRect, cornerRadius, cornerRadius);
 
-    _text->setPos(horizontalPadding, verticalPadding);
+    painter->drawText(QRectF(
+                          drawRect.x() + horizontalPadding,
+                          drawRect.y() + verticalPadding,
+                          drawRect.width() - 2*horizontalPadding,
+                          drawRect.height() - 2*verticalPadding),
+                      Qt::AlignCenter,
+                      _text);
 }
 
 QSizeF ErrorGraphicsItem::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const

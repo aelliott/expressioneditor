@@ -42,7 +42,7 @@ private:
     void parseToken(Token repeatToken);
 
     QGraphicsLinearLayout *_layout;
-    QGraphicsTextItem *_title;
+    QString _title;
     QGraphicsWidget *_child;
 };
 

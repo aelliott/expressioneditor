@@ -49,6 +49,8 @@ QRectF AnchorGraphicsItem::boundingRect() const
     for(int i = 0; i < words.size(); ++i)
         if(_metrics.width(words.at(i)) > textWidth)
             textWidth = _metrics.width(words.at(i));
+    // To prevent a rounding error causing a cut-off later, just add an extra pixel now
+    textWidth++;
 
     return QRectF(0, 0, textWidth + 2*horizontalPadding, lines*_metrics.height() + 2*verticalPadding);
 }
@@ -83,18 +85,11 @@ void AnchorGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
     }
     painter->drawRoundedRect(drawRect, cornerRadius, cornerRadius);
 
-    int lines = _text.count("\n")+1;
-    double textWidth = 0.0;
-    QStringList words = _text.split("\n");
-    for(int i = 0; i < words.size(); ++i)
-        if(_metrics.width(words.at(i)) > textWidth)
-            textWidth = _metrics.width(words.at(i));
-
     painter->drawText(QRectF(
                           horizontalPadding,
                           verticalPadding,
-                          textWidth,
-                          lines*_metrics.height()),
+                          drawRect.width() - 2*horizontalPadding,
+                          drawRect.height() - 2*verticalPadding),
                       Qt::AlignCenter | Qt::TextWordWrap,
                       _text);
 }

@@ -28,12 +28,10 @@ RepeatGraphicsItem::RepeatGraphicsItem(Token *token, int tokenPos, QGraphicsWidg
     double horizontalPadding = settings.value("Visualisation/Repeat/HorizontalPadding", 8.0).toDouble();
     double verticalPadding   = settings.value("Visualisation/Repeat/VerticalPadding", 6.0).toDouble();
 
-    _title = new QGraphicsTextItem("Repeat", this);
-    _title->setPos(horizontalPadding, verticalPadding);
     parseToken(*token);
 
     _layout = new QGraphicsLinearLayout(Qt::Vertical);
-    _layout->setContentsMargins(horizontalPadding, 2*verticalPadding + _title->boundingRect().height(), horizontalPadding, verticalPadding);
+    _layout->setContentsMargins(horizontalPadding, 2*verticalPadding + _metrics.height(), horizontalPadding, verticalPadding);
     setLayout(_layout);
     _layout->setGeometry(boundingRect());
 
@@ -60,7 +58,7 @@ QRectF RepeatGraphicsItem::boundingRect() const
     double horizontalPadding = settings.value("Visualisation/Repeat/HorizontalPadding", 8.0).toDouble();
     QSizeF childrenRect = _layout->sizeHint(Qt::PreferredSize);
 
-    return QRectF(0, 0, qMax(childrenRect.width(), 2*horizontalPadding + _title->boundingRect().width()), childrenRect.height());
+    return QRectF(0, 0, qMax(childrenRect.width(), 2*horizontalPadding + _metrics.width(_title)), childrenRect.height());
 }
 
 void RepeatGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -69,9 +67,13 @@ void RepeatGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
     Q_UNUSED(widget)
 
     QSettings settings;
-    double cornerRadius   = settings.value("Visualisation/Repeat/CornerRadius", 5.0).toDouble();
+    _font = settings.value("Visualisation/Font", QFont("sans-serif", 10)).value<QFont>();
+    double horizontalPadding = settings.value("Visualisation/Repeat/HorizontalPadding", 8.0).toDouble();
+    double verticalPadding   = settings.value("Visualisation/Repeat/VerticalPadding", 6.0).toDouble();
+    double cornerRadius = settings.value("Visualisation/Repeat/CornerRadius", 5.0).toDouble();
     QColor bgColor = settings.value("Visualisation/Repeat/Color", QColor(255,255,225)).value<QColor>();
 
+    painter->setFont(_font);
     painter->setBrush(bgColor);
     painter->setPen(Qt::black);
 
@@ -88,6 +90,14 @@ void RepeatGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
         drawRect.setY(0.5);
     }
     painter->drawRoundedRect(drawRect, cornerRadius, cornerRadius);
+
+    painter->drawText(QRectF(
+                          horizontalPadding,
+                          verticalPadding,
+                          drawRect.width() - 2*horizontalPadding,
+                          _metrics.height()),
+                      Qt::AlignVCenter | Qt::AlignLeft,
+                      _title);
 }
 
 QSizeF RepeatGraphicsItem::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const
@@ -109,25 +119,25 @@ void RepeatGraphicsItem::parseToken(Token repeatToken)
     switch(repeatToken.type())
     {
     case T_REPEAT_ZERO_OR_ONE:
-        _title->setHtml("Repeat 0 or 1 Time(s)");
+        _title = tr("Repeat 0 or 1 Time(s)");
         break;
     case T_REPEAT_ANY_NUMBER:
-        _title->setHtml("Repeat 0+ Time(s)");
+        _title = tr("Repeat 0+ Time(s)");
         break;
     case T_REPEAT_ONE_OR_MORE:
-        _title->setHtml("Repeat 1+ Time(s)");
+        _title = tr("Repeat 1+ Time(s)");
         break;
     case T_REPEAT_SPECIFIED:
         if(fixed.exactMatch(repeatToken.value()))
-            _title->setHtml(QString("Repeat ") + fixed.cap(1) + " Time(s)");
+            _title = tr("Repeat ") + fixed.cap(1) + tr(" Time(s)");
         else if(lowerLimit.exactMatch(repeatToken.value()))
-            _title->setHtml(QString("Repeat ") + lowerLimit.cap(1) + "+ Time(s)");
+            _title = tr("Repeat ") + lowerLimit.cap(1) + tr("+ Time(s)");
         else if(upperLimit.exactMatch(repeatToken.value()))
-            _title->setHtml(QString("Repeat Up To ") + upperLimit.cap(1) + " Time(s)");
+            _title = tr("Repeat Up To ") + upperLimit.cap(1) + tr(" Time(s)");
         else if(limits.exactMatch(repeatToken.value()))
-            _title->setHtml(QString("Repeat Between ") + limits.cap(1) + " and " + limits.cap(2) + " Time(s)");
+            _title = tr("Repeat Between ") + limits.cap(1) + tr(" and ") + limits.cap(2) + tr(" Time(s)");
         break;
     default:
-        _title->setHtml("Unknown Repeat Syntax");
+        _title = tr("Unknown Repeat Syntax");
     }
 }

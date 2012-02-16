@@ -24,9 +24,6 @@
 CommentGraphicsItem::CommentGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent)
     : RegexGraphicsItem(token, tokenPos, parent)
 {
-    // (#...)
-    QString text = token->value().mid(2, token->value().length()-3);
-    _text = new QGraphicsTextItem(text, this);
 }
 
 QRectF CommentGraphicsItem::boundingRect() const
@@ -35,9 +32,7 @@ QRectF CommentGraphicsItem::boundingRect() const
     double horizontalPadding = settings.value("Visualisation/Comment/HorizontalPadding", 6.0).toDouble();
     double verticalPadding   = settings.value("Visualisation/Comment/VerticalPadding", 5.0).toDouble();
 
-    QRectF textRect = _text->boundingRect();
-
-    return QRectF(0, 0, textRect.width() + 2*horizontalPadding, textRect.height() + 2*verticalPadding);
+    return QRectF(0, 0, _metrics.width(_text) + 2*horizontalPadding + 1, _metrics.height() + 2*verticalPadding);
 }
 
 void CommentGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -46,11 +41,13 @@ void CommentGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     Q_UNUSED(widget)
 
     QSettings settings;
+    _font = settings.value("Visualisation/Font", QFont("sans-serif", 10)).value<QFont>();
     double horizontalPadding = settings.value("Visualisation/Comment/HorizontalPadding", 6.0).toDouble();
     double verticalPadding   = settings.value("Visualisation/Comment/VerticalPadding", 5.0).toDouble();
     double cornerRadius   = settings.value("Visualisation/Comment/CornerRadius", 5.0).toDouble();
     QColor bgColor = settings.value("Visualisation/Comment/Color", QColor(225,225,225)).value<QColor>();
 
+    painter->setFont(_font);
     painter->setBrush(bgColor);
     painter->setPen(Qt::black);
 
@@ -68,7 +65,13 @@ void CommentGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     }
     painter->drawRoundedRect(drawRect, cornerRadius, cornerRadius);
 
-    _text->setPos(horizontalPadding, verticalPadding);
+    painter->drawText(QRectF(
+                          drawRect.x() + horizontalPadding,
+                          drawRect.y() + verticalPadding,
+                          drawRect.width() - 2*horizontalPadding,
+                          drawRect.height() - 2*verticalPadding),
+                      Qt::AlignCenter,
+                      _text);
 }
 
 QSizeF CommentGraphicsItem::sizeHint(Qt::SizeHint which, const QSizeF &constraint) const
@@ -78,4 +81,9 @@ QSizeF CommentGraphicsItem::sizeHint(Qt::SizeHint which, const QSizeF &constrain
 
     QRectF rect = boundingRect();
     return QSizeF(rect.width(), rect.height());
+}
+
+void CommentGraphicsItem::setText(QString text)
+{
+    _text = text;
 }

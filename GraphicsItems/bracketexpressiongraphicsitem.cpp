@@ -135,7 +135,8 @@ QRectF BracketExpressionGraphicsItem::boundingRect() const
     for(int i = 0; i < words.size(); ++i)
         if(_metrics.width(words.at(i)) > textWidth)
             textWidth = _metrics.width(words.at(i));
-    textWidth = qMax(textWidth, static_cast<double>(_metrics.width(_heading)));
+    // To prevent a rounding error causing a cut-off later, just add an extra pixel now
+    textWidth = qMax(textWidth, static_cast<double>(_metrics.width(_heading))) + 1;
 
     return QRectF(0, 0, textWidth + 2*horizontalPadding, lines*_metrics.height() + 3*verticalPadding);
 }
@@ -171,17 +172,11 @@ void BracketExpressionGraphicsItem::paint(QPainter *painter, const QStyleOptionG
     painter->drawRoundedRect(drawRect, cornerRadius, cornerRadius);
 
     int lines = _text.count("\n")+1;
-    double textWidth = 0.0;
-    QStringList words = _text.split("\n");
-    for(int i = 0; i < words.size(); ++i)
-        if(_metrics.width(words.at(i)) > textWidth)
-            textWidth = _metrics.width(words.at(i));
-    textWidth = qMax(textWidth, static_cast<double>(_metrics.width(_heading)));
 
     painter->drawText(QRectF(
                           horizontalPadding,
                           verticalPadding,
-                          textWidth,
+                          drawRect.width() - 2*horizontalPadding,
                           _metrics.height()),
                       Qt::AlignCenter,
                       _heading);
@@ -189,7 +184,7 @@ void BracketExpressionGraphicsItem::paint(QPainter *painter, const QStyleOptionG
     painter->drawText(QRectF(
                           horizontalPadding,
                           _metrics.height() + 2*verticalPadding,
-                          textWidth,
+                          drawRect.width() - 2*horizontalPadding,
                           lines*_metrics.height()),
                       Qt::AlignVCenter | Qt::AlignLeft | Qt::TextWordWrap,
                       _text);

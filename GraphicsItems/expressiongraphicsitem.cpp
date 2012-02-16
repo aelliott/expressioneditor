@@ -225,14 +225,16 @@ QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphic
         _lastItem = repeat;
         break;
     case T_COMMENT_OPEN:
-        newItem = new CommentGraphicsItem(*_iter, _pos);
+    {
+        CommentGraphicsItem *comment = new CommentGraphicsItem(*_iter, _pos);
         ++_iter;
         ++_pos;
         _incremented = true;
 
         if(_iter != _tokens.end() && (*_iter)->type() == T_LITERAL)
         {
-            currentLayout->addItem(newItem);
+            currentLayout->addItem(comment);
+            comment->setText((*_iter)->value());
             ++_iter;
             ++_pos;
             if(_iter != _tokens.end() && (*_iter)->type() == T_COMMENT_CLOSE)
@@ -243,12 +245,13 @@ QGraphicsLinearLayout *ExpressionGraphicsItem::handleToken(Token token, QGraphic
         }
         else if(_iter != _tokens.end() && (*_iter)->type() == T_COMMENT_CLOSE)
         {
-            currentLayout->addItem(newItem);
+            currentLayout->addItem(comment);
             ++_iter;
             ++_pos;
         }
-        newItem->setEndPos(_pos-1);
-        _lastItem = newItem;
+        comment->setEndPos(_pos-1);
+        _lastItem = comment;
+    }
         break;
     default:
         newItem = new ErrorGraphicsItem(*_iter, _pos);
