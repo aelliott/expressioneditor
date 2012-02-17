@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     , _filePath("")
     , _expression("")
     , _edited(false)
+    , _visualisation(0)
 {
     QSettings settings;
     _ui->setupUi(this);
@@ -63,8 +64,6 @@ MainWindow::MainWindow(QWidget *parent)
     updateRegexpFormats();
 
     _factory = new RegexFactory(RegexFactory::Qt);
-
-    _visualisation = new ExpressionGraphicsItem("", RegexFactory::Qt);
 
     ExpressionGraphicsScene *scene = new ExpressionGraphicsScene();
     _ui->expressionView->setScene(scene);
@@ -198,6 +197,8 @@ void MainWindow::setRegexpFormat(int format)
         break;
 #endif // NO_CPP11
     }
+
+    updateExpression(_expression);
 }
 
 void MainWindow::showPreferences()
@@ -249,8 +250,11 @@ void MainWindow::updateExpression(QString expression)
     parser->parse(expression);
 
     QGraphicsScene *scene = _ui->expressionView->scene();
-    scene->removeItem(_visualisation);
-    delete _visualisation;
+    if(_visualisation != 0)
+    {
+        scene->removeItem(_visualisation);
+        delete _visualisation;
+    }
     _visualisation = new ExpressionGraphicsItem(_expression, _factory->format());
     scene->addItem(_visualisation);
     scene->setSceneRect(scene->itemsBoundingRect());

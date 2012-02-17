@@ -21,6 +21,7 @@
  */
 #include "expressiongraphicsscene.hpp"
 
+#include <QGraphicsView>
 #include <QGraphicsSceneDragDropEvent>
 #include <QMimeData>
 #include <QSettings>
@@ -43,12 +44,19 @@ void ExpressionGraphicsScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
     }
 
     QList<QGraphicsItem *> itemList = items();
+
+    if(itemList.size() < 2)
+    {
+        setBackgroundBrush(Qt::BDiagPattern);
+        event->accept();
+        return;
+    }
+
     for(int i = 0; i < itemList.size()-1; ++i)
     {
         QGraphicsItem *item = itemList.at(i);
         QPointF itemPos = item->scenePos();
         QRectF bounds = item->boundingRect();
-        qDebug() << bounds;
 
         QColor dropZoneColour(210, 210, 255, 80);
         QBrush brush(dropZoneColour);
@@ -105,6 +113,7 @@ void ExpressionGraphicsScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 
 void ExpressionGraphicsScene::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 {
+    setBackgroundBrush(Qt::white);
     while(_dropZoneLabels.size() > 0)
     {
         removeItem(_dropZoneLabels.at(0));
@@ -116,6 +125,7 @@ void ExpressionGraphicsScene::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 
 void ExpressionGraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
+    setBackgroundBrush(Qt::white);
     while(_dropZoneLabels.size() > 0)
     {
         removeItem(_dropZoneLabels.at(0));
