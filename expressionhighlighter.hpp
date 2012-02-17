@@ -23,13 +23,10 @@
 #define EXPRESSIONHIGHLIGHTER_HPP
 
 #include <QSyntaxHighlighter>
-#include <QStringList>
-#include <QString>
-#include <QRegExp>
 #include <QTextCharFormat>
-#include <QVector>
 #include <QFont>
-#include <QDebug>
+
+#include "regexfactory.hpp"
 
 /*!
  * \brief   ExpressionHighlighter provides syntax highlighting for
@@ -43,15 +40,11 @@ class ExpressionHighlighter : public QSyntaxHighlighter
     Q_OBJECT
 
 public:
-    explicit ExpressionHighlighter(QTextEdit *parent = 0);
+    explicit ExpressionHighlighter(RegexFactory *factory = 0, QTextEdit *parent = 0);
     void highlightBlock(const QString &text);
 
 private:
-    //! Vector keeping track of all escaped characters (such as "\.")
-    QVector<int> _escapedChars;
-
-    //! Vector keeping track of all character ranges
-    QVector<int> _characterRanges;
+    RegexFactory *_factory;
 };
 
 #endif // EXPRESSIONHIGHLIGHTER_HPP

@@ -26,8 +26,9 @@
  *
  * \param   parent  The QTextEdit to highlight
  */
-ExpressionHighlighter::ExpressionHighlighter(QTextEdit *parent)
+ExpressionHighlighter::ExpressionHighlighter(RegexFactory *factory, QTextEdit *parent)
     : QSyntaxHighlighter(parent)
+    , _factory(factory)
 {
 }
 
@@ -38,215 +39,110 @@ ExpressionHighlighter::ExpressionHighlighter(QTextEdit *parent)
  */
 void ExpressionHighlighter::highlightBlock(const QString &text)
 {
-    // Set the general format, monospace in black.
-    //QFont highlightedFont("Liberation Mono", 9);
-
+    // Set the general format
     QTextCharFormat normal;
     normal.setForeground(Qt::black);
-    //normal.setFont(highlightedFont);
-    setFormat(0, text.size(), normal);
+    setFormat(0, text.length(), normal);
 
-    // A format for errors found
-    QTextCharFormat errorFormat;
-    errorFormat.setForeground(Qt::red);
-    //errorFormat.setFont(highlightedFont);
+    if(_factory == 0)
+        return;
 
-    // Clear vectors
-    _escapedChars.clear();
-    _characterRanges.clear();
+    Parser *parser = _factory->regexpParser();
+    parser->parse(text);
 
-    // So, the idea is we collect all of the characters that are
-    // escaped with a \ and keep track of the indexes which are
-    // because of that not special characters, we can then check
-    // other characters to see if they are escaped, and if not
-    // parse them normally.
-    QStringList specialchars;
-    specialchars << "\\" << "[" << "]" << "(" << ")" << "*" << "^" << "$" << "." << "|" << "?" << "+" << "{" << "}";
-
+    // Escaped characters
     QTextCharFormat escapedFormat;
     escapedFormat.setForeground(Qt::darkGray);
-    //escapedFormat.setFont(highlightedFont);
     escapedFormat.setFontWeight(QFont::Bold);
-
-    QString pattern = QString("(\\\\\\") + specialchars.join("|\\\\\\");
-    pattern += "|\\\\[bBwWdDsSntafrv]|\\\\x[0-9a-fA-F]{2,4}|\\\\0?[0-3][0-7]{2}|\\\\[1-9][0-9]*)";
-    QRegExp escaped(pattern);
-
-    int startOffset = text.indexOf(escaped);
-    while(startOffset >= 0)
-    {
-        setFormat(startOffset, escaped.cap(0).length(), escapedFormat);
-        _escapedChars.push_back(startOffset);
-        _escapedChars.push_back(++startOffset);
-        startOffset = text.indexOf(escaped, ++startOffset);
-    }
-
-    // Now that we have identified the escaped characters, we
-    // should identify character ranges since other characters
-    // inside those are also not special.
-    QTextCharFormat braceFormat;
-    braceFormat.setForeground(Qt::darkGreen);
-    //braceFormat.setFont(highlightedFont);
-    //braceFormat.setFontWeight(QFont::Bold);
-
-    QRegExp bracePattern("\\[|\\]");
-    int openingSquareBraces = 0;
-    int closingSquareBraces = 0;
-    int lastOpeningBrace = -1;
-    setCurrentBlockState(0);
-    startOffset = text.indexOf(bracePattern, 0);
-    while(startOffset >= 0)
-    {
-        if(!_escapedChars.contains(startOffset) && !_characterRanges.contains(startOffset))
-        {
-            if(QString(text.at(startOffset)) == "[")
-            {
-                // Check if this is the start of a character range
-                if(currentBlockState() == 0)
-                {
-                    ++openingSquareBraces;
-                    lastOpeningBrace = startOffset;
-                    // Indicate we are within a character range now
-                    setCurrentBlockState(1);
-                    setFormat(startOffset, 1, braceFormat);
-                }
-                // if the block state was 1 then it's a literal [ and we need
-                // not do anything
-            }
-
-            // Check if the character is a ] and that it was not preceded by
-            // just [^
-            if(QString(text.at(startOffset)) == "]" && startOffset > 1
-               && (QString(text.at(startOffset-1)) != "^" || startOffset-2 != lastOpeningBrace))
-            {
-                if(currentBlockState() == 1)
-                {
-                    ++closingSquareBraces;
-                    // we can set the range of the character set
-                    // here from lastOpeningBrace to startOffset.
-                    for(int i = lastOpeningBrace; i <= startOffset; ++i)
-                        _characterRanges.push_back(i);
-                    setCurrentBlockState(0);
-                    setFormat(startOffset, 1, braceFormat);
-                }
-//                NOTE: this is not an error in PCRE, but is in Qt
-//                else if(currentBlockState() == 0)
-//                {
-//                    // Unmatched closing brace
-//                    setFormat(startOffset, 1, errorFormat);
-//                }
-            }
-        }
-        startOffset = text.indexOf(bracePattern, ++startOffset);
-    }
-
-    // Follow default format (PCRE) rules and highlight on an
-    // unmatched opening brace only.
-    if(openingSquareBraces > closingSquareBraces)
-    {
-        // Unmatched opening brace
-        setFormat(lastOpeningBrace, 1, errorFormat);
-    }
-
-    // Next lets find the parentheses in the pattern
-    QTextCharFormat parenFormat;
-    parenFormat.setForeground(Qt::darkYellow);
-    //parenFormat.setFont(highlightedFont);
-    //parenFormat.setFontWeight(QFont::Bold);
-
-    QRegExp parenPattern("\\(|\\)");
-    int openingParens = 0;
-    int closingParens = 0;
-    int firstOpeningParen = -1;
-    setCurrentBlockState(0);
-    startOffset = text.indexOf(parenPattern, 0);
-    while(startOffset >= 0)
-    {
-        if(!_escapedChars.contains(startOffset))
-        {
-            if(QString(text.at(startOffset)) == "(")
-            {
-                ++openingParens;
-                if(firstOpeningParen == -1)
-                    firstOpeningParen = startOffset;
-                setCurrentBlockState(currentBlockState()+1);
-                setFormat(startOffset, 1, parenFormat);
-            }
-            if(QString(text.at(startOffset)) == ")")
-            {
-                if(currentBlockState() > 0)
-                {
-                    ++closingParens;
-                    if(openingParens == closingParens)
-                        firstOpeningParen = -1;
-                    setCurrentBlockState(currentBlockState()-1);
-                    setFormat(startOffset, 1, parenFormat);
-                }
-                else if(currentBlockState() == 0)
-                {
-                    // Unmatched closing parenthesis
-                    setFormat(startOffset, 1, errorFormat);
-                }
-            }
-        }
-        startOffset = text.indexOf(parenPattern, ++startOffset);
-    }
-
-    if(openingParens != closingParens)
-    {
-        // Unmatched opening parenthesis
-        setFormat(firstOpeningParen, 1, errorFormat);
-    }
-
-    // Highlight the specified number of repeats {n} and {n,n}
-    QTextCharFormat repeatFormat;
-    repeatFormat.setForeground(Qt::darkMagenta);
-    //repeatFormat.setFont(highlightedFont);
-
-    QRegExp repeatPattern("\\{|\\}");
-    startOffset = text.indexOf(repeatPattern, 0);
-    while(startOffset >= 0)
-    {
-        if(!_escapedChars.contains(startOffset) && !_characterRanges.contains(startOffset))
-        {
-            if(QString(text.at(startOffset)) == "{")
-            {
-                QRegExp rx("\\{(\\d+)?,?(\\d+)?\\}");
-                if(text.indexOf(rx, startOffset-1) == startOffset)
-                {
-                    setFormat(startOffset, 1, repeatFormat);
-                    if(text.indexOf(",", startOffset+1) != -1 && text.indexOf(",", startOffset+1) < text.indexOf("}", startOffset+1))
-                    {
-                        startOffset = text.indexOf(",", ++startOffset);
-                        setFormat(startOffset, 1, repeatFormat);
-                    }
-                    startOffset = text.indexOf("}", ++startOffset);
-                    setFormat(startOffset, 1, repeatFormat);
-                }
-                //              NOTE: literal { characters are permitted in PCRE
-//                else
-//                    setFormat(startOffset, 1, errorFormat);
-            }
-//            else
-//                setFormat(startOffset, 1, errorFormat);
-        }
-        startOffset = text.indexOf(repeatPattern, ++startOffset);
-    }
-
-    // Locate the remaining special characters and bold them
+    // Errors (T_ERROR)
+    QTextCharFormat errorFormat;
+    errorFormat.setForeground(Qt::red);
+    // Special characters
     QTextCharFormat specialFormat;
     specialFormat.setForeground(Qt::blue);
-    //specialFormat.setFont(highlightedFont);
+    // Curly braces and bracket expressions
+    QTextCharFormat braceFormat;
+    braceFormat.setForeground(Qt::darkGreen);
+    // Parentheses
+    QTextCharFormat parenFormat;
+    parenFormat.setForeground(Qt::darkYellow);
+    // Repeat format
+    QTextCharFormat repeatFormat;
+    repeatFormat.setForeground(Qt::darkMagenta);
 
-    QStringList remaining;
-    remaining << "*" << "^" << "$" << "." << "|" << "?" << "+";
-    pattern = QString("\\") + remaining.join("|\\");
-    QRegExp remainingPattern(pattern);
-    startOffset = text.indexOf(remainingPattern, 0);
-    while(startOffset >= 0)
+    std::vector<Token *> tokens = parser->tokens();
+    std::vector<Token *>::iterator iter;
+    int pos = 0;
+    for(iter = tokens.begin(); iter != tokens.end(); ++iter)
     {
-        if(!_escapedChars.contains(startOffset) && !_characterRanges.contains(startOffset))
-            setFormat(startOffset, 1, specialFormat);
-        startOffset = text.indexOf(remainingPattern, ++startOffset);
+        Token *token = *iter;
+        QString value = token->value();
+        Q_ASSERT((pos + value.length()) <= text.length());
+        switch(token->type())
+        {
+        case T_WORD:
+        case T_NOT_WORD:
+        case T_DIGIT:
+        case T_NOT_DIGIT:
+        case T_SPACE:
+        case T_NOT_SPACE:
+            setFormat(pos, value.length(), escapedFormat);
+            break;
+        case T_STARTING_POSITION:
+        case T_ENDING_POSITION:
+        case T_ANY_CHARACTER:
+        case T_BELL:
+        case T_BACKSPACE:
+        case T_ESCAPE:
+        case T_FORM_FEED:
+        case T_LINE_FEED:
+        case T_CARRIAGE_RETURN:
+        case T_HORIZONTAL_TAB:
+        case T_VERTICAL_TAB:
+        case T_ASCII_CONTROL_CHAR:
+        case T_UNICODE_NEWLINE:
+        case T_BYTE:
+        case T_OCTAL_CHAR:
+        case T_HEXADECIMAL_CHAR:
+        case T_UNICODE_CHAR:
+        case T_UNICODE_NAMED_CHAR:
+        case T_GRAPHEME_CLUSTER:
+            setFormat(pos, value.length(), specialFormat);
+            break;
+        case T_BRACKET_EXPRESSION_OPEN:
+        case T_NEGATED_BRACKET_EXPRESSION_OPEN:
+        case T_BRACKET_EXPRESSION_CLOSE:
+            setFormat(pos, value.length(), braceFormat);
+            break;
+        case T_GROUPING_OPEN:
+        case T_REVERSED_CAPTURING_GROUPING_OPEN:
+        case T_GROUPING_CLOSE:
+            setFormat(pos, value.length(), parenFormat);
+            break;
+        case T_REPEAT_ZERO_OR_ONE:
+        case T_REPEAT_ANY_NUMBER:
+        case T_REPEAT_ONE_OR_MORE:
+        case T_REPEAT_ZERO_OR_ONE_NONGREEDY:
+        case T_REPEAT_ANY_NUMBER_NONGREEDY:
+        case T_REPEAT_ONE_OR_MORE_NONGREEDY:
+        case T_REPEAT_ZERO_OR_ONE_POSSESSIVE:
+        case T_REPEAT_ANY_NUMBER_POSSESSIVE:
+        case T_REPEAT_ONE_OR_MORE_POSSESSIVE:
+            setFormat(pos, value.length(), repeatFormat);
+            break;
+        case T_REPEAT_SPECIFIED:
+        case T_REPEAT_SPECIFIED_NONGREEDY:
+        case T_REPEAT_SPECIFIED_POSSESSIVE:
+            setFormat(pos, 1, braceFormat);
+            setFormat(pos + value.length() - 1, 1, braceFormat);
+            break;
+        case T_ERROR:
+        default:
+            setFormat(pos, value.length(), normal);
+        }
+
+        pos += value.length();
     }
+
+    delete parser;
 }

@@ -47,7 +47,7 @@ public slots:
 
 private:
     RegexFactory *_factory;
-    QString _expression;
+    QString _pattern;
 };
 
 #endif // BLOCKHIGHLIGHTER_HPP

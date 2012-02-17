@@ -39,12 +39,15 @@ public:
     void keyPressEvent(QKeyEvent *e);
     void keyReleaseEvent(QKeyEvent *e);
 
+    void setRegexFactory(RegexFactory *factory);
+
 public slots:
     void rehash();
     void recalculateHeight();
 
 private:
     bool _highlighting;
+    RegexFactory *_factory;
     ExpressionHighlighter *_highlighter;
 };
 

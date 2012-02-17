@@ -69,10 +69,10 @@ MainWindow::MainWindow(QWidget *parent)
     _ui->expressionView->setScene(scene);
     _ui->expressionView->setRenderHint(QPainter::Antialiasing, true);
     _ui->expressionView->setRenderHint(QPainter::SmoothPixmapTransform, true);
-    scene->addItem(_visualisation);
     scene->setSceneRect(scene->itemsBoundingRect());
     _ui->expressionView->setSceneRect(scene->itemsBoundingRect());
 
+    _ui->expressionEdit->setRegexFactory(_factory);
     _ui->testInputsTable->setRegexFactory(_factory);
     _ui->textBlockEdit->setRegexFactory(_factory);
 

@@ -30,7 +30,7 @@
 BlockHighlighter::BlockHighlighter(RegexFactory *factory, QTextEdit *parent)
     : QSyntaxHighlighter(parent)
     , _factory(factory)
-    , _expression(QString())
+    , _pattern("")
 {
 }
 
@@ -57,7 +57,10 @@ BlockHighlighter::~BlockHighlighter()
  */
 void BlockHighlighter::highlightBlock(const QString &text)
 {
-    RegexBase *rx = _factory->regexpEngine(_expression);
+    if(_pattern.isEmpty())
+        return;
+
+    RegexBase *rx = _factory->regexpEngine(_pattern);
 
     // If it's invalid we have nothing to do
     if(!rx->isValid())
@@ -98,6 +101,6 @@ void BlockHighlighter::highlightBlock(const QString &text)
  */
 void BlockHighlighter::updateExpression(QString exp)
 {
-    _expression = exp;
+    _pattern = exp;
     rehighlight();
 }

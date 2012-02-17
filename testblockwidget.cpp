@@ -40,5 +40,7 @@ void TestBlockWidget::setRegexFactory(RegexFactory *factory)
 
 void TestBlockWidget::updateExpression(QString expression)
 {
+    if(_blockHighlighter == 0)
+        return;
     _blockHighlighter->updateExpression(expression);
 }

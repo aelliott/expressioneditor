@@ -23,6 +23,7 @@
 
 ExpressionEdit::ExpressionEdit(QWidget *parent)
     : QTextEdit(parent)
+    , _factory(0)
 {
     QSettings settings;
     _highlighting = settings.value("Editor/Highlighting", true).toBool();
@@ -31,12 +32,12 @@ ExpressionEdit::ExpressionEdit(QWidget *parent)
     connect(this, SIGNAL(textChanged()), this, SLOT(recalculateHeight()));
 
     if(_highlighting)
-        _highlighter = new ExpressionHighlighter(this);
+        _highlighter = new ExpressionHighlighter(_factory, this);
 }
 
 ExpressionEdit::~ExpressionEdit()
 {
-    if(_highlighting)
+    if(_highlighter != 0)
         delete _highlighter;
 }
 
@@ -76,6 +77,15 @@ void ExpressionEdit::keyReleaseEvent(QKeyEvent *e)
     }
 }
 
+void ExpressionEdit::setRegexFactory(RegexFactory *factory)
+{
+    _factory = factory;
+    if(_highlighter != 0)
+        delete _highlighter;
+
+    _highlighter = new ExpressionHighlighter(_factory, this);
+}
+
 void ExpressionEdit::rehash()
 {
     QSettings settings;
@@ -85,12 +95,13 @@ void ExpressionEdit::rehash()
     if(previous && !_highlighting)
     {
         // Stop highlighting
-        delete _highlighter;
+        if(_highlighter != 0)
+            delete _highlighter;
     }
     else if(!previous && _highlighting)
     {
         // Start highlighting
-        _highlighter = new ExpressionHighlighter(this);
+        _highlighter = new ExpressionHighlighter(_factory, this);
     }
 }
 
