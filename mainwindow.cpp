@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     , _expression("")
     , _edited(false)
     , _visualisation(0)
+    , _placeholder(0)
 {
     QSettings settings;
     _ui->setupUi(this);
@@ -65,10 +66,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     _factory = new RegexFactory(RegexFactory::Qt);
 
+    _placeholder = new PlaceholderGraphicsItem();
+
     ExpressionGraphicsScene *scene = new ExpressionGraphicsScene();
     _ui->expressionView->setScene(scene);
     _ui->expressionView->setRenderHint(QPainter::Antialiasing, true);
     _ui->expressionView->setRenderHint(QPainter::SmoothPixmapTransform, true);
+    scene->addItem(_placeholder);
     scene->setSceneRect(scene->itemsBoundingRect());
     _ui->expressionView->setSceneRect(scene->itemsBoundingRect());
 
@@ -254,9 +258,26 @@ void MainWindow::updateExpression(QString expression)
     {
         scene->removeItem(_visualisation);
         delete _visualisation;
+        _visualisation = 0;
     }
-    _visualisation = new ExpressionGraphicsItem(_expression, _factory->format());
-    scene->addItem(_visualisation);
+    if(_placeholder != 0)
+    {
+        scene->removeItem(_placeholder);
+        delete _placeholder;
+        _placeholder = 0;
+    }
+
+    if(!_expression.isEmpty())
+    {
+        _visualisation = new ExpressionGraphicsItem(_expression, _factory->format());
+        scene->addItem(_visualisation);
+    }
+    else
+    {
+        _placeholder = new PlaceholderGraphicsItem();
+        scene->addItem(_placeholder);
+    }
+
     scene->setSceneRect(scene->itemsBoundingRect());
     _ui->expressionView->setSceneRect(scene->itemsBoundingRect());
 

@@ -1,7 +1,7 @@
 /*!
  * \file
  *
- * Copyright (c) 2009,2010,2011 Alex Elliott <alex@alex-elliott.co.uk>
+ * Copyright (c) 2009-2012 Alex Elliott <alex@alex-elliott.co.uk>
  *
  * \section LICENSE
  * This file is part of Expression editor

@@ -33,6 +33,7 @@
 
 #include "regexfactory.hpp"
 #include "GraphicsItems/expressiongraphicsitem.hpp"
+#include "GraphicsItems/placeholdergraphicsitem.hpp"
 #include "expressiongraphicsscene.hpp"
 
 #include "settingsdialog.hpp"
@@ -88,6 +89,7 @@ private:
     bool _edited;
     RegexFactory *_factory;
     ExpressionGraphicsItem *_visualisation;
+    PlaceholderGraphicsItem *_placeholder;
 };
 
 #endif // MAINWINDOW_HPP

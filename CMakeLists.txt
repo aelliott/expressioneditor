@@ -94,6 +94,7 @@ SET(expressioneditor_CPP_SRCS
     GraphicsItems/expressiongraphicsitem.cpp
     GraphicsItems/groupinggraphicsitem.cpp
     GraphicsItems/literalgraphicsitem.cpp
+    GraphicsItems/placeholdergraphicsitem.cpp
     GraphicsItems/regexgraphicsitem.cpp
     GraphicsItems/repeatgraphicsitem.cpp
     GraphicsItems/specialchargraphicsitem.cpp

@@ -52,7 +52,8 @@ SOURCES += main.cpp\
     RegexModules/cppgrepparser.cpp \
     GraphicsItems/specialchargraphicsitem.cpp \
     expressiongraphicsscene.cpp \
-    GraphicsItems/regexgraphicsitem.cpp
+    GraphicsItems/regexgraphicsitem.cpp \
+    GraphicsItems/placeholdergraphicsitem.cpp
 
 HEADERS  += mainwindow.hpp \
     RegexModules/regexbase.hpp \
@@ -96,7 +97,8 @@ HEADERS  += mainwindow.hpp \
     RegexModules/cppgrepparser.hpp \
     GraphicsItems/specialchargraphicsitem.hpp \
     expressiongraphicsscene.hpp \
-    GraphicsItems/regexgraphicsitem.hpp
+    GraphicsItems/regexgraphicsitem.hpp \
+    GraphicsItems/placeholdergraphicsitem.hpp
 
 FORMS    += mainwindow.ui \
     settingsdialog.ui \
