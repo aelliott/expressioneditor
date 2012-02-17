@@ -88,6 +88,7 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
         case T_NOT_SPACE:
             setFormat(pos, value.length(), escapedFormat);
             break;
+        case T_ALTERNATION:
         case T_STARTING_POSITION:
         case T_ENDING_POSITION:
         case T_ANY_CHARACTER:
@@ -137,6 +138,8 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
             setFormat(pos + value.length() - 1, 1, braceFormat);
             break;
         case T_ERROR:
+            setFormat(pos, value.length(), errorFormat);
+            break;
         default:
             setFormat(pos, value.length(), normal);
         }
