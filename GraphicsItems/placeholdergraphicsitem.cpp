@@ -61,8 +61,8 @@ void PlaceholderGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphic
     QSettings settings;
     QFont font = settings.value("Visualisation/Font", QFont("sans-serif", 10)).value<QFont>();
     font.setPointSize(font.pointSize()+1);
-    double horizontalPadding = 6.0;
-    double verticalPadding = 5.0;
+    double horizontalPadding = 12.0;
+    double verticalPadding   = 10.0;
     double cornerRadius = 5.0;
 
     painter->setFont(font);

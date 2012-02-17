@@ -62,16 +62,239 @@
                 </widget>
                </item>
                <item>
-                <widget class="QListWidget" name="listWidget">
+                <widget class="QTreeWidget" name="treeWidget">
                  <property name="dragEnabled">
                   <bool>true</bool>
                  </property>
                  <property name="dragDropMode">
                   <enum>QAbstractItemView::DragOnly</enum>
                  </property>
+                 <attribute name="headerVisible">
+                  <bool>false</bool>
+                 </attribute>
+                 <column>
+                  <property name="text">
+                   <string>1</string>
+                  </property>
+                 </column>
                  <item>
                   <property name="text">
-                   <string>Literal String</string>
+                   <string>Common</string>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Literal String</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Capture Group</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Bracket Expression</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Negated Bracket Expression</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Backreference</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Named Backreference</string>
+                   </property>
+                  </item>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Character Classes</string>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Any Character</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Word Character</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Digit Character</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Space Character</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Word Boundary</string>
+                   </property>
+                  </item>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Special Characters</string>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Bell</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Backspace</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Escape</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Form Feed</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Line Feed</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Carriage Return</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Horizontal Tab</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Vertical Tab</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>ASCII Control Character</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Unicode Newline</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Byte</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Octal Character</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Hexadecimal Character</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Unicode Character</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Unicode Named Character</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Grapheme Cluster</string>
+                   </property>
+                  </item>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Repeat Items</string>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Zero or One Time</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Any Number of Times</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>One or More Times</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Specified Number of Times</string>
+                   </property>
+                  </item>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Anchors</string>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Start of String</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>End of String</string>
+                   </property>
+                  </item>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Assertions</string>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Positive Lookahead</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Positive Lookbehind</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Negative Lookahead</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Negative Lookbehind</string>
+                   </property>
+                  </item>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Behaviour Flags</string>
                   </property>
                  </item>
                 </widget>

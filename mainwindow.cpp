@@ -22,6 +22,9 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 
+#include <QFileDialog>
+#include <QPixmap>
+
 /*!
  * Create a new Expression Editor main window
  *
@@ -146,7 +149,22 @@ void MainWindow::quit()
 
 void MainWindow::exportAsImage()
 {
+    QPixmap image(
+                _ui->expressionView->scene()->width(),
+                _ui->expressionView->scene()->height());
+    QPainter painter(&image);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    _ui->expressionView->scene()->setBackgroundBrush(Qt::white);
+    _ui->expressionView->scene()->render(&painter);
 
+    QString fileName = QFileDialog::getSaveFileName(
+                this,
+                tr("Save Expression Visualisation"),
+                QDir::homePath(),
+                tr("PNG File (*.png)"));
+
+    if(!fileName.isEmpty())
+        image.save(fileName);
 }
 
 void MainWindow::setRegexpFormat(int format)
@@ -271,11 +289,13 @@ void MainWindow::updateExpression(QString expression)
     {
         _visualisation = new ExpressionGraphicsItem(_expression, _factory->format());
         scene->addItem(_visualisation);
+        _ui->actionExportAsImage->setEnabled(true);
     }
     else
     {
         _placeholder = new PlaceholderGraphicsItem();
         scene->addItem(_placeholder);
+        _ui->actionExportAsImage->setEnabled(false);
     }
 
     scene->setSceneRect(scene->itemsBoundingRect());
