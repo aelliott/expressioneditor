@@ -104,5 +104,5 @@ void RegexGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void RegexGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-
+    setCursor(Qt::OpenHandCursor);
 }

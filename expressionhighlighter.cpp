@@ -57,6 +57,7 @@ void ExpressionHighlighter::highlightBlock(const QString &text)
     // Errors (T_ERROR)
     QTextCharFormat errorFormat;
     errorFormat.setForeground(Qt::red);
+    errorFormat.setBackground(QColor(255, 0, 0, 50));
     // Special characters
     QTextCharFormat specialFormat;
     specialFormat.setForeground(Qt::blue);
