@@ -20,6 +20,16 @@
  * along with Expression editor.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "expressiongraphicsitem.hpp"
+#include "GraphicsItems/alternationgraphicsitem.hpp"
+#include "GraphicsItems/anchorgraphicsitem.hpp"
+#include "GraphicsItems/bracketexpressiongraphicsitem.hpp"
+#include "GraphicsItems/characterclassitem.hpp"
+#include "GraphicsItems/commentgraphicsitem.hpp"
+#include "GraphicsItems/errorgraphicsitem.hpp"
+#include "GraphicsItems/groupinggraphicsitem.hpp"
+#include "GraphicsItems/literalgraphicsitem.hpp"
+#include "GraphicsItems/repeatgraphicsitem.hpp"
+#include "GraphicsItems/specialchargraphicsitem.hpp"
 
 ExpressionGraphicsItem::ExpressionGraphicsItem(QString expression, RegexFactory::RegexFormat format, QGraphicsItem *parent)
     : QGraphicsWidget(parent)

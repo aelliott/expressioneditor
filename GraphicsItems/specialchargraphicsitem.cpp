@@ -21,6 +21,8 @@
  */
 #include "specialchargraphicsitem.hpp"
 
+#include "RegexModules/token.hpp"
+
 SpecialCharGraphicsItem::SpecialCharGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent)
     : RegexGraphicsItem(token, tokenPos, parent)
 {

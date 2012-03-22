@@ -24,8 +24,6 @@
 
 #include "GraphicsItems/regexgraphicsitem.hpp"
 
-#include "RegexModules/tokens.hpp"
-
 class AnchorGraphicsItem : public RegexGraphicsItem
 {
     Q_OBJECT

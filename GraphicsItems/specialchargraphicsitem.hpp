@@ -33,8 +33,6 @@
 #include <unicode/ucnv.h>
 #endif // NO_ICU
 
-#include "RegexModules/token.hpp"
-
 class SpecialCharGraphicsItem : public RegexGraphicsItem
 {
     Q_OBJECT

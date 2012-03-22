@@ -22,6 +22,9 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 
+#include "settingsdialog.hpp"
+#include "expressionedit.hpp"
+
 #include <QFileDialog>
 #include <QPixmap>
 

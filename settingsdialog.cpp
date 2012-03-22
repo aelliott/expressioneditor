@@ -22,6 +22,8 @@
 #include "settingsdialog.hpp"
 #include "ui_settingsdialog.h"
 
+#include "GraphicsItems/groupinggraphicsitem.hpp"
+
 #include <QFontDialog>
 
 SettingsDialog::SettingsDialog(QWidget *parent)

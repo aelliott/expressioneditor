@@ -36,9 +36,6 @@
 #include "GraphicsItems/placeholdergraphicsitem.hpp"
 #include "expressiongraphicsscene.hpp"
 
-#include "settingsdialog.hpp"
-#include "expressionedit.hpp"
-
 namespace Ui {
     class MainWindow;
 }

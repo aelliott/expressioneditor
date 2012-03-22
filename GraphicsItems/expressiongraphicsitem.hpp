@@ -29,16 +29,7 @@
 #include <QPainter>
 #include "regexfactory.hpp"
 
-#include "GraphicsItems/alternationgraphicsitem.hpp"
-#include "GraphicsItems/anchorgraphicsitem.hpp"
-#include "GraphicsItems/bracketexpressiongraphicsitem.hpp"
-#include "GraphicsItems/characterclassitem.hpp"
-#include "GraphicsItems/commentgraphicsitem.hpp"
-#include "GraphicsItems/errorgraphicsitem.hpp"
-#include "GraphicsItems/groupinggraphicsitem.hpp"
-#include "GraphicsItems/literalgraphicsitem.hpp"
-#include "GraphicsItems/repeatgraphicsitem.hpp"
-#include "GraphicsItems/specialchargraphicsitem.hpp"
+#include "GraphicsItems/regexgraphicsitem.hpp"
 
 class ExpressionGraphicsItem : public QGraphicsWidget
 {

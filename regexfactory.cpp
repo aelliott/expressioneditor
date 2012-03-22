@@ -21,6 +21,33 @@
  */
 #include "regexfactory.hpp"
 
+#include "RegexModules/qtparser.hpp"
+#include "RegexModules/qtregex.hpp"
+
+#ifndef NO_POSIX
+#include "RegexModules/posixparser.hpp"
+#include "RegexModules/posixregex.hpp"
+#endif
+
+#ifndef NO_PCRE
+#include "RegexModules/pcreparser.hpp"
+#include "RegexModules/pcreregex.hpp"
+#include "RegexModules/perlregex.hpp"
+#endif // NO_PCRE
+
+#ifndef NO_ICU
+#include "RegexModules/icuparser.hpp"
+#include "RegexModules/icuregex.hpp"
+#endif // NO_ICU
+
+#ifndef NO_CPP11
+#include "RegexModules/cppawkparser.hpp"
+#include "RegexModules/cppecmascriptparser.hpp"
+#include "RegexModules/cppgrepparser.hpp"
+#include "RegexModules/cppposixparser.hpp"
+#include "RegexModules/cpp11regex.hpp"
+#endif // NO_CPP11
+
 /*!
  * Create a new RegexFactory
  *

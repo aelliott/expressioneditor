@@ -220,14 +220,12 @@ else()
     message("## NOT Building ICU Support    ##")
 endif(NOT NO_ICU)
 
-# Disabled for now, if this becomes available the application is ready for it
-# but it will require some testing because as of now the implementation for
-# GCC is incomplete meaning no code could be tested.
-# Add C++11 if requested
+# Add C++11 if available
 if(NOT NO_CPP11)
     message("## -- Building C++11 Support   ##")
     LIST(APPEND expressioneditor_HPP_SRCS RegexModules/cpp11regex.hpp)
     LIST(APPEND expressioneditor_CPP_SRCS RegexModules/cpp11regex.cpp)
+    # This needs to be made more cross-platform with compiler checks
     LIST(APPEND CMAKE_CXX_FLAGS "--std=c++0x")
 else()
     message("## NOT Building C++11 Support  ##")

@@ -21,6 +21,8 @@
  */
 #include "anchorgraphicsitem.hpp"
 
+#include "RegexModules/tokens.hpp"
+
 AnchorGraphicsItem::AnchorGraphicsItem(Token *token, int tokenPos, QGraphicsItem *parent)
     : RegexGraphicsItem(token, tokenPos, parent)
 {
