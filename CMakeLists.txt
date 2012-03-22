@@ -57,6 +57,17 @@ else()
     message(STATUS "[Optional] Building PCRE support")
 endif(NOT HAVE_PCRE OR NOT HAVE_PCRECPP)
 
+# Check for C++11 Support
+if(CMAKE_COMPILER_IS_GNUCC)
+    execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion
+                    OUTPUT_VARIABLE GCC_VERSION)
+    if(GCC_VERSION VERSION_GREATER 4.3 OR GCC_VERSION VERSION_EQUAL 4.3)
+        message(STATUS "GCC 4.6+ Detected")
+    else()
+        set(NO_CPP11 true)
+    endif(GCC_VERSION VERSION_GREATER 4.3 OR GCC_VERSION VERSION_EQUAL 4.3)
+endif(CMAKE_COMPILER_IS_GNUCC)
+
 SET(QT_MIN_VERSION "4.6.0")
 #INCLUDE(FindQt4)
 
