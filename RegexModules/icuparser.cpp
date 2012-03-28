@@ -198,7 +198,7 @@ void IcuParser::handleToken(RegexpToken token)
 {
     QRegExp rx;
     QRegExp characterClass;
-    QRegExp bracketExpressionLiteral("[^\\\\[\\]\.]|\\\\[^a-zA-Z0-9]");
+    QRegExp bracketExpressionLiteral("[^\\\\[\\]\\.]|\\\\[^a-zA-Z0-9]");
     QRegExp bracketExpressionRange(_syntax[T_BRACKET_EXPRESSION_RANGE]);
     QRegExp flagClose;
     Token *openingToken;
