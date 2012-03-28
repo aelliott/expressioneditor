@@ -91,7 +91,7 @@ void QtParser::handleToken(RegexpToken token)
 {
     QRegExp groupingClose(_syntax[T_GROUPING_CLOSE]);
     QRegExp assertionClose(_syntax[T_ASSERTION_CLOSE]);
-    QRegExp bracketExpressionLiteral("[^\\\\[\\]()|?*+{}\\.^$]|\\\\[^a-zA-Z0-9]");
+    QRegExp bracketExpressionLiteral("[^\\\\[\\]\.]|\\\\[^a-zA-Z0-9]");
     QRegExp bracketExpressionRange(_syntax[T_BRACKET_EXPRESSION_RANGE]);
     QRegExp bracketExpressionClose(_syntax[T_BRACKET_EXPRESSION_CLOSE]);
     QRegExp characterClass("");

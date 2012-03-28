@@ -194,7 +194,7 @@ void PcreParser::handleToken(RegexpToken token)
 {
     QRegExp rx;
     QRegExp characterClass;
-    QRegExp bracketExpressionLiteral("[^\\\\[\\]()|?*+{}\\.$]|\\\\[^a-zA-Z0-9]");
+    QRegExp bracketExpressionLiteral("[^\\\\[\\]\.]|\\\\[^a-zA-Z0-9]");
     QRegExp bracketExpressionRange(_syntax[T_BRACKET_EXPRESSION_RANGE]);
     QRegExp flagClose;
     Token *openingToken;
@@ -360,6 +360,54 @@ void PcreParser::handleToken(RegexpToken token)
             {
                 matched = true;
                 _tokens.push_back(new Token(T_NOT_WORD_BOUNDARY, _expression.mid(_pos, characterClass.matchedLength())));
+                _pos += characterClass.matchedLength();
+            }
+
+            characterClass.setPattern(_syntax[T_BELL]);
+            if(matched == false && characterClass.indexIn(_expression, _pos) == _pos)
+            {
+                matched = true;
+                _tokens.push_back(new Token(T_BELL, _expression.mid(_pos, characterClass.matchedLength())));
+                _pos += characterClass.matchedLength();
+            }
+
+            characterClass.setPattern(_syntax[T_ESCAPE]);
+            if(matched == false && characterClass.indexIn(_expression, _pos) == _pos)
+            {
+                matched = true;
+                _tokens.push_back(new Token(T_ESCAPE, _expression.mid(_pos, characterClass.matchedLength())));
+                _pos += characterClass.matchedLength();
+            }
+
+            characterClass.setPattern(_syntax[T_FORM_FEED]);
+            if(matched == false && characterClass.indexIn(_expression, _pos) == _pos)
+            {
+                matched = true;
+                _tokens.push_back(new Token(T_FORM_FEED, _expression.mid(_pos, characterClass.matchedLength())));
+                _pos += characterClass.matchedLength();
+            }
+
+            characterClass.setPattern(_syntax[T_LINE_FEED]);
+            if(matched == false && characterClass.indexIn(_expression, _pos) == _pos)
+            {
+                matched = true;
+                _tokens.push_back(new Token(T_LINE_FEED, _expression.mid(_pos, characterClass.matchedLength())));
+                _pos += characterClass.matchedLength();
+            }
+
+            characterClass.setPattern(_syntax[T_HORIZONTAL_TAB]);
+            if(matched == false && characterClass.indexIn(_expression, _pos) == _pos)
+            {
+                matched = true;
+                _tokens.push_back(new Token(T_HORIZONTAL_TAB, _expression.mid(_pos, characterClass.matchedLength())));
+                _pos += characterClass.matchedLength();
+            }
+
+            characterClass.setPattern(_syntax[T_OCTAL_CHAR]);
+            if(matched == false && characterClass.indexIn(_expression, _pos) == _pos)
+            {
+                matched = true;
+                _tokens.push_back(new Token(T_OCTAL_CHAR, _expression.mid(_pos, characterClass.matchedLength())));
                 _pos += characterClass.matchedLength();
             }
 

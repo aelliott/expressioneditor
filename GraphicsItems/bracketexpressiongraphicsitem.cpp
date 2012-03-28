@@ -77,6 +77,24 @@ void BracketExpressionGraphicsItem::readTokens()
         case T_NOT_WORD_BOUNDARY:
             items.push_back(QString("Not Word Boundary"));
             break;
+        case T_BELL:
+            items.push_back(QString("Bell Character"));
+            break;
+        case T_ESCAPE:
+            items.push_back(QString("Escape Character"));
+            break;
+        case T_FORM_FEED:
+            items.push_back(QString("Form Feed"));
+            break;
+        case T_LINE_FEED:
+            items.push_back(QString("Line Feed"));
+            break;
+        case T_HORIZONTAL_TAB:
+            items.push_back(QString("Tab Character"));
+            break;
+        case T_OCTAL_CHAR:
+            items.push_back(QString("Octal Character"));
+            break;
         default:
             qDebug() << "Unhandled token in bracket expression: " << token->value();
         }
