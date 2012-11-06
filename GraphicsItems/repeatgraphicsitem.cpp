@@ -64,7 +64,7 @@ QRectF RepeatGraphicsItem::boundingRect() const
     double horizontalPadding = settings.value("Visualisation/Repeat/HorizontalPadding", 8.0).toDouble();
     QSizeF childrenRect = _layout->sizeHint(Qt::PreferredSize);
 
-    return QRectF(0, 0, qMax(childrenRect.width(), 2*horizontalPadding + _metrics.width(_title)), childrenRect.height());
+    return QRectF(0, 0, qMax(static_cast<double>(childrenRect.width()), 2*horizontalPadding + _metrics.width(_title)), childrenRect.height());
 }
 
 void RepeatGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

@@ -63,7 +63,7 @@ QRectF AlternationGraphicsItem::boundingRect() const
     double horizontalPadding = settings.value("Visualisation/Alternation/HorizontalPadding", 8.0).toDouble();
     QSizeF childrenRect = _mainLayout->sizeHint(Qt::PreferredSize);
 
-    return QRectF(0, 0, qMax(childrenRect.width(), 2*horizontalPadding + _metrics.width(tr("Alternation"))), childrenRect.height());
+    return QRectF(0, 0, qMax(static_cast<double>(childrenRect.width()), 2*horizontalPadding + _metrics.width(tr("Alternation"))), childrenRect.height());
 }
 
 void AlternationGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
