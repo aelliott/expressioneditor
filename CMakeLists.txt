@@ -68,6 +68,12 @@ if(CMAKE_COMPILER_IS_GNUCC)
     endif(GCC_VERSION VERSION_GREATER 4.6 OR GCC_VERSION VERSION_EQUAL 4.6)
 endif(CMAKE_COMPILER_IS_GNUCC)
 
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    # Unsure as to what versions would be safe here, but at least set the right
+    # flags for C++11 support
+    set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++")
+endif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+
 SET(QT_MIN_VERSION "4.6.0")
 #INCLUDE(FindQt4)
 
