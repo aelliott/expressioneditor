@@ -69,9 +69,8 @@ if(CMAKE_COMPILER_IS_GNUCC)
 endif(CMAKE_COMPILER_IS_GNUCC)
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    # Unsure as to what versions would be safe here, but at least set the right
-    # flags for C++11 support
-    set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++")
+    # Todo: Unsure as to what versions would be safe here
+    # Should revisit this later
 endif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 
 SET(QT_MIN_VERSION "4.6.0")
@@ -232,7 +231,14 @@ if(NOT NO_CPP11)
     LIST(APPEND expressioneditor_HPP_SRCS RegexModules/cpp11regex.hpp)
     LIST(APPEND expressioneditor_CPP_SRCS RegexModules/cpp11regex.cpp)
     # This needs to be made more cross-platform with compiler checks
-    LIST(APPEND CMAKE_CXX_FLAGS "--std=c++0x")
+    IF(APPLE)
+        LIST(APPEND CMAKE_CXX_FLAGS "-std=c++11" "-stdlib=libc++")
+    ELSEIF(UNIX AND NOT APPLE)
+        LIST(APPEND CMAKE_CXX_FLAGS "--std=c++0x")
+    ELSEIF(WIN32)
+        # I believe this is enabled by default?
+        # TODO: check that
+    ENDIF()
 else()
     message("## NOT Building C++11 Support  ##")
 endif(NOT NO_CPP11)
