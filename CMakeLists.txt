@@ -232,7 +232,7 @@ if(NOT NO_CPP11)
     LIST(APPEND expressioneditor_CPP_SRCS RegexModules/cpp11regex.cpp)
     # This needs to be made more cross-platform with compiler checks
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-        LIST(APPEND CMAKE_CXX_FLAGS "-std=c++11" "-stdlib=libc++")
+        LIST(APPEND CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libc++")
     elseif(CMAKE_COMPILER_IS_GNUCC)
         LIST(APPEND CMAKE_CXX_FLAGS "--std=c++0x")
     ELSEIF(MSVC)
